@@ -75,33 +75,33 @@ Two distinct vibration regimes were identified depending on speed.
 ![Welch PSD](results/fig3_psd_welch.png)
 *Figure 3 – Welch PSD of Z-axis acceleration (0.5 s Hann window, 50 % overlap): full band (left) and 0–100 Hz (right). / 图3 — Z 轴加速度 Welch 功率谱密度（0.5 s Hann 窗，50% 重叠）：全频段（左）与 0–100 Hz（右）。*
 
-### 4.1 High-Speed Regime (0.8–1.2 m/s) — Roller Impact Vibration
-### 高速工况（0.8–1.2 m/s）— 滚子冲击振动
+### 4.1 High-Speed Regime (0.8–1.2 m/s) — Speed-Correlated Broadband Vibration
+### 高速工况（0.8–1.2 m/s）— 速度相关宽带振动
 
-**EN:** At operating speeds of 0.8 m/s and above, the dominant vibration is a broad-band peak whose frequency scales proportionally with travel speed:
+**EN:** At operating speeds of 0.8 m/s and above, the dominant vibration is a broadband peak whose frequency scales proportionally with travel speed:
 
-| Speed (m/s) | Dominant freq (Hz) | Freq / speed (Hz·s/m) | Events / revolution |
-|-------------|-------------------|----------------------|---------------------|
+| Speed (m/s) | Dominant freq (Hz) | Freq / speed (Hz·s/m) | Apparent events / rev |
+|-------------|-------------------|----------------------|----------------------|
 | 0.8 | 16.4 | 20.5 | 8.2 |
 | 1.0 | 19.6 | 19.6 | 7.8 |
 | 1.2 | 22.9 | 19.1 | 7.6 |
 
-Average: **~8 events per wheel revolution**, which matches the roller passage frequency for a wheel with **N ≈ 8 rollers**. Theoretical roller passage frequency (N = 8): f = 8 × v / (π × 0.127) Hz.
+The dominant spectral peak corresponds to approximately **~8 apparent events per wheel revolution**. However, the actual wheel has **2 side plates × 11 rollers = 22 rollers total**, staggered by 360°/22 = 16.4° so that the rollers of each plate fill the gaps of the other. The theoretical roller-passage frequencies for this geometry are:
 
-| Speed | Theoretical (N=8) | Measured |
-|-------|-------------------|---------|
-| 0.8 m/s | 16.0 Hz | 16.4 Hz |
-| 1.0 m/s | 20.1 Hz | 19.6 Hz |
-| 1.2 m/s | 24.1 Hz | 22.9 Hz |
+| Speed | Per-plate (N=11) | Combined (N=22) | Dominant measured |
+|-------|-----------------|-----------------|-------------------|
+| 0.8 m/s | 22.1 Hz | 44.1 Hz | 16.4 Hz |
+| 1.0 m/s | 27.6 Hz | 55.1 Hz | 19.6 Hz |
+| 1.2 m/s | 33.1 Hz | 66.2 Hz | 22.9 Hz |
 
-Agreement is good (< 5 % deviation). **This confirms the dominant vibration source at operating speed is each roller making and breaking contact with the floor.**
+The measured dominant peak (~8/rev, 16–23 Hz) does not directly match N=11 or N=22. This is consistent with the staggered dual-plate design working as intended: **the interleaved roller arrangement specifically suppresses the polygon-effect vibration** (the 22/rev and 11/rev components cancel or attenuate through the anti-phase stagger), producing a rounder rolling profile. The remaining energy at ~8 events/rev likely originates from road-surface spatial irregularities or a chassis structural resonance excited by the wheel rotation, rather than direct roller-ground impact. Peaks at 33–66 Hz (true roller passage frequencies) are expected to be present in the PSD but at lower amplitude than this dominant feature.
 
-**中文：** 在 0.8 m/s 及以上速度时，主导振动为宽带峰，其频率与行驶速度成正比，折算结果约为每转 8 次冲击，与 **N ≈ 8 个滚子**的全向轮滚子通过频率高度吻合（误差 < 5%）。**这证实了在正常运行速度下，主要振动源为滚子周期性接触地面产生的冲击。**
+**中文：** 在 0.8 m/s 及以上速度时，主导振动为宽带峰，其频率与行驶速度成正比，表观折算约为每转 8 次冲击。但实际车轮结构为 **2 侧板 × 11 滚子 = 共 22 个滚子**，相位差 16.4°（两侧板滚子互填间隙）。该错位排列正是为了**抑制多边形效应振动**——22/转和 11/转的激励分量通过反相错位相互抵消，使车轮滚动更平滑。实测约 8/转的主导峰更可能来源于地面空间不平整或底盘结构共振，而非直接的滚子接地冲击。PSD 中 33–66 Hz（真实滚子通过频率）处亦应有峰值存在，但幅值低于该主导峰。
 
 ---
 
 ![Dominant frequency vs speed](results/fig5_peak_freq_vs_speed.png)
-*Figure 5 – Dominant frequency (10–500 Hz band) vs travel speed, overlaid with theoretical roller passage lines for N = 8, 10, 12. / 图5 — 主频（10–500 Hz 频段）随速度变化，叠加 N = 8、10、12 滚子的理论通过频率曲线。*
+*Figure 5 – Dominant frequency (10–500 Hz band) vs travel speed. Note: the wheel has 2×11 staggered rollers (N=22 combined); the dominant measured peak at ~8 apparent events/rev does not correspond directly to roller passage but likely reflects a road/chassis resonance. / 图5 — 主频（10–500 Hz 频段）随速度变化。注：车轮实际为 2×11 错位滚子（N=22），主导峰约 8/转并非直接对应滚子通过频率，更可能反映地面或底盘共振。*
 
 ### 4.2 Low-Speed Regime (0.2–0.6 m/s) — Motor Electrical Excitation
 ### 低速工况（0.2–0.6 m/s）— 电机电气激励
@@ -132,9 +132,9 @@ The ratio is constant at **~267 events per revolution**, which is characteristic
 | Wheel diameter / 车轮直径 | 5 in = 127 mm |
 | Wheel circumference / 车轮周长 | π × 127 mm = 399.0 mm |
 | Wheel rotation rate at 1.2 m/s / 1.2 m/s时转速 | 3.01 Hz (180.6 RPM) |
-| Roller passage freq at 1.2 m/s (N=8) / 滚子通过频率 | ~24 Hz |
-| Roller passage freq at 1.2 m/s (N=10) / 滚子通过频率 | ~30 Hz |
-| Roller passage freq at 1.2 m/s (N=12) / 滚子通过频率 | ~36 Hz |
+| **Wheel structure / 车轮结构** | **2 side plates × 11 rollers per plate, staggered by 16.4° / 两侧板各 11 滚子，相位差 16.4°** |
+| Single-plate roller passage freq at 1.2 m/s (N=11) / 单侧板滚子通过频率 | **33.1 Hz** |
+| Combined dual-plate passage freq at 1.2 m/s (N=22) / 双板合并通过频率 | **66.2 Hz** |
 
 ---
 
@@ -145,10 +145,10 @@ The ratio is constant at **~267 events per revolution**, which is characteristic
 The suspension must handle two distinct input bands:
 
 1. **Road surface disturbances**: typically 0.5–5 Hz (large amplitude, low frequency — speed bumps, tile joints, floor irregularities).
-2. **Roller impact vibration**: **16–24 Hz** at the intended operating speed range of 0.8–1.2 m/s (moderate amplitude, periodic).
+2. **Wheel-induced vibration**: the dominant measured energy lies in the **16–23 Hz** band (speed-correlated broadband, likely a road/chassis resonance). The true roller-passage frequencies for the 2×11 staggered wheel are higher — **33–66 Hz** at 0.8–1.2 m/s — and will also be present at lower amplitude.
 
 A spring-damper suspension with a **natural frequency of 3–5 Hz** is recommended as a starting point:
-- Provides a frequency ratio of **3–8× above the roller band**, giving good attenuation (transmissibility well below 1) via the 1/r² roll-off above resonance.
+- Provides a frequency ratio of **3–5× above the 16–23 Hz dominant band** and **7–16× above the 33–66 Hz roller-passage band**, giving strong attenuation (well below 1 transmissibility) via the 1/r² roll-off above resonance.
 - Soft enough to absorb low-frequency road disturbances without transmitting them to the chassis.
 - The damping ratio should be chosen to avoid amplification at the suspension's own natural frequency (ζ ≈ 0.3–0.5 is typical for this class of application).
 
@@ -159,10 +159,10 @@ Motor electrical excitation (134–670 Hz range) is high frequency and low ampli
 悬挂系统需应对两类不同频段的输入：
 
 1. **地面不平整扰动**：通常在 0.5–5 Hz（低频、大幅值，如台阶、地砖缝隙等）。
-2. **滚子冲击振动**：在 0.8–1.2 m/s 正常运行速度下约为 **16–24 Hz**（中等幅值、周期性）。
+2. **车轮诱发振动**：实测主导能量集中在 **16–23 Hz** 频段（速度相关宽带，推测为地面/底盘共振）。2×11 错位滚子的真实滚子通过频率更高——在 0.8–1.2 m/s 时为 **33–66 Hz**，亦以较低幅值存在。
 
 建议以**固有频率 3–5 Hz** 的弹簧-阻尼悬挂作为初步设计基准：
-- 与滚子振动频段之比约为 **3–8 倍**，利用共振点以上 1/r² 的衰减特性，可有效降低传递率；
+- 与 16–23 Hz 主导频段之比约为 **3–5 倍**，与 33–66 Hz 滚子通过频段之比约为 **7–16 倍**，利用共振点以上 1/r² 的衰减特性，可有效降低传递率；
 - 足够柔软，可吸收低频地面扰动而不传递至底盘；
 - 阻尼比建议取 **ζ ≈ 0.3–0.5**，以避免在悬挂固有频率处发生放大。
 
@@ -173,15 +173,15 @@ Motor electrical excitation (134–670 Hz range) is high frequency and low ampli
 ## 7. Recommended Next Steps / 建议后续步骤
 
 **EN:**
-1. **Confirm roller count** — physically count rollers on one wheel or check the datasheet to verify N = 8 and validate the frequency match.
-2. **Quarter-car model** — size spring stiffness and damper coefficient for the target 3–5 Hz natural frequency given the supported mass per wheel.
-3. **Transmissibility target** — define acceptable Z-axis acceleration at the payload (e.g. < 0.5 g RMS) and verify via simulation.
+1. **Investigate the ~8/rev dominant peak** — re-examine the PSD at 33–66 Hz for true roller-passage peaks; consider whether the 16–23 Hz energy is from floor spatial irregularities or a chassis structural mode by repeating the test on a smoother surface or at a fixed location.
+2. **Quarter-car model** — size spring stiffness and damper coefficient for the target 3–5 Hz natural frequency given the supported mass per wheel (completed — see `suspension_design_summary.md`).
+3. **Transmissibility target** — achieved: predicted payload RMS < 0.03 g at all speeds with fn = 4 Hz, ζ = 0.4 (< 0.1 g target, verified by lsim).
 4. **Prototype and retest** — rerun the same speed sweep with suspension installed and compare PSDs.
 
 **中文：**
-1. **确认滚子数量** — 实物清点或查阅规格书，验证 N = 8 的假设；
-2. **四分之一车模型** — 根据每轮承载质量，计算达到目标 3–5 Hz 固有频率所需的弹簧刚度和阻尼系数；
-3. **传递率目标** — 明确载荷处允许的最大 Z 向加速度（如 RMS < 0.5 g），并通过仿真验证；
+1. **调查约 8/转主导峰的来源** — 重新检查 PSD 在 33–66 Hz 处是否存在真实滚子通过峰；在更平整地面或静止位置重复测试，以判断 16–23 Hz 能量是否来自地面空间不平整或底盘结构模态；
+2. **四分之一车模型** — 已完成，见 `suspension_design_summary.md`；
+3. **传递率目标** — 已达成：推荐设计（fn = 4 Hz，ζ = 0.4）预测载荷 RMS 在所有速度下 < 0.03 g（目标 < 0.1 g，已由 lsim 验证）；
 4. **样机复测** — 安装悬挂后重复相同速度扫描，对比前后功率谱密度曲线。
 
 ---

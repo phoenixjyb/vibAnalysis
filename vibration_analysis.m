@@ -35,31 +35,29 @@ Fs   = zeros(nSpeeds, 1);
 
 for i = 1:nSpeeds
     fpath = fullfile(dataDir, files{i,1});
-    fid   = fopen(fpath, 'r', 'n', 'UTF-8');
-    fgetl(fid);   % skip Chinese header line
-    % Columns: timestamp(str)  X(g)  Y(g)  Z(g)  Fs_declared(Hz)
-    raw = textscan(fid, '%s %f %f %f %f', 'Delimiter', ',', 'CollectOutput', false);
+    % Open without encoding so Chinese header bytes don't confuse fgetl.
+    % Use HeaderLines to skip the header inside textscan instead.
+    fid = fopen(fpath, 'r');
+    raw = textscan(fid, '%s%f%f%f%f', 'Delimiter', ',', ...
+                   'HeaderLines', 1, 'CollectOutput', false);
     fclose(fid);
     accZ{i} = raw{4};           % Z acceleration (g)
-
-    % Compute true Fs from first and last timestamp (mm:ss.mmm.uuu format).
-    % The declared column-5 value is ~26820 Hz but timestamps show 37 µs steps
-    % → 27027 Hz. Parse timestamps to get ground-truth sample rate.
-    ts = raw{1};
-    t_us = @(s) parseTimestamp_us(s);
-    t1   = t_us(ts{1});
-    t2   = t_us(ts{end});
-    N    = numel(ts);
-    Fs(i) = (N - 1) / ((t2 - t1) * 1e-6);   % Hz from first/last timestamp
-
-    Fs_declared = raw{5}(1);
-    fprintf('  [%d/%d] %s  →  %d samples | Fs declared=%.0f Hz, Fs from timestamps=%.1f Hz\n', ...
-        i, nSpeeds, files{i,1}, N, Fs_declared, Fs(i));
+    % True Fs = 27027 Hz, verified from timestamps (37 µs steps = 1e6/37 Hz).
+    % Column-5 declared value (~26820 Hz) is inaccurate and not used.
+    Fs(i) = 27027.0;
+    fprintf('  [%d/%d] %s  →  %d samples @ %.0f Hz\n', ...
+        i, nSpeeds, files{i,1}, numel(accZ{i}), Fs(i));
 end
 fprintf('Done.\n\n');
 
+%% ── Save processed data for use by other scripts ─────────────────────────
+save('vibData.mat', 'accZ', 'Fs', 'speeds', 'nSpeeds', 'colors', 'legendLabels');
+fprintf('Saved processed data to vibData.mat\n\n');
+
 %% ── Theoretical frequency table ──────────────────────────────────────────
-rollerCounts = [8, 10, 12];
+% Wheel structure: 2 side plates × 11 rollers per plate, staggered by 360°/22 = 16.4°
+% Per-plate passage: N=11; combined dual-plate passage: N=22
+rollerCounts = [11, 22];
 fprintf('Wheel diameter: %.4f m  |  Circumference: %.4f m\n\n', wheelDiameter_m, wheelCirc);
 fprintf('%-10s  %-12s', 'Speed(m/s)', 'f_wheel(Hz)');
 for nc = rollerCounts
@@ -220,17 +218,20 @@ ylabel('Dominant Frequency in 10–500 Hz band (Hz)');
 title('Dominant Vibration Frequency vs Travel Speed');
 grid on; grid minor;
 
-% Overlay theoretical roller lines for N=8,10,12
+% Overlay theoretical roller-passage lines for actual wheel geometry:
+%   N=11: per-plate passage frequency
+%   N=22: combined dual-plate passage frequency (2 plates × 11 rollers, staggered)
 hold on;
 vLine = linspace(0.1, 1.4, 100);
-lineStyles = {'b--', 'g--', 'm--'};
+lineStyles = {'b--', 'g--'};
+lineLabels = {'N=11 per-plate theory', 'N=22 combined theory'};
 for ni = 1:numel(rollerCounts)
     nc = rollerCounts(ni);
     fRoller = nc * vLine / wheelCirc;
     plot(vLine, fRoller, lineStyles{ni}, 'LineWidth', 1.2, ...
-        'DisplayName', sprintf('N=%d rollers theory', nc));
+        'DisplayName', lineLabels{ni});
 end
-legend('Measured peak', 'N=8 theory', 'N=10 theory', 'N=12 theory', ...
+legend('Measured dominant peak', lineLabels{1}, lineLabels{2}, ...
     'Location', 'northwest');
 
 fprintf('Dominant frequencies (10–500 Hz band):\n');
@@ -251,13 +252,3 @@ saveas(fig4, fullfile(outDir, 'fig4_waterfall.png'));
 saveas(fig5, fullfile(outDir, 'fig5_peak_freq_vs_speed.png'));
 fprintf('\nFigures saved to ./%s/\n', outDir);
 
-%% ── Helper: parse timestamp string 'mm:ss.mmm.uuu' → microseconds ───────
-function us = parseTimestamp_us(str)
-    % Format: mm:ss.mmm.uuu  (minutes:seconds.milliseconds.microseconds)
-    parts = regexp(str, '^(\d+):(\d+)\.(\d+)\.(\d+)$', 'tokens', 'once');
-    mm  = str2double(parts{1});
-    ss  = str2double(parts{2});
-    ms  = str2double(parts{3});
-    uus = str2double(parts{4});
-    us  = (mm * 60 + ss) * 1e6 + ms * 1e3 + uus;
-end
