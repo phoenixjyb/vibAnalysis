@@ -36,6 +36,7 @@ vibAnalysis/
 ├── vibration_analysis.m                     # Step 1: FFT/PSD analysis & data export
 ├── suspension_design.m                      # Step 2: Passive suspension design
 ├── suspension_verify.m                      # Step 3: Independent toolbox verification
+├── multiaxis_analysis.m                     # Step 4: 3-axis (X/Y/Z) vibration analysis
 ├── diag_fileread_test.m                     # Diagnostic: file read sanity check
 │
 ├── vibData.mat                              # Pre-processed data (output of Step 1)
@@ -55,6 +56,11 @@ vibAnalysis/
     ├── susp_fig2_rms_vs_fn.png
     ├── susp_fig3_design_heatmap.png
     ├── susp_fig4_input_vs_output_psd.png
+    ├── multi_fig1_3axis_psd_500hz.png
+    ├── multi_fig2_3axis_psd_100hz.png
+    ├── multi_fig3_rms_comparison.png
+    ├── multi_fig4_total_magnitude.png
+    ├── multi_fig5_cross_coherence.png
     ├── verify_A1_pspectrum_vs_welch.png
     ├── verify_A2_findpeaks_roller.png
     ├── verify_A3_spectrogram.png
@@ -85,11 +91,15 @@ run('suspension_design.m')
 % Step 3: Independent toolbox verification
 % 第三步：工具箱独立验证
 run('suspension_verify.m')
+
+% Step 4: Three-axis (X/Y/Z) vibration analysis (standalone — no vibData.mat required)
+% 第四步：三轴（X/Y/Z）振动分析（独立运行，无需 vibData.mat）
+run('multiaxis_analysis.m')
 ```
 
-> **Note / 注意:** `suspension_design.m` and `suspension_verify.m` require `vibData.mat` produced by Step 1. Raw CSV files are stored with Git LFS — run `git lfs pull` if they appear as pointer files.
+> **Note / 注意:** `suspension_design.m` and `suspension_verify.m` require `vibData.mat` produced by Step 1. `multiaxis_analysis.m` loads raw CSVs directly and is independent. Raw CSV files are stored with Git LFS — run `git lfs pull` if they appear as pointer files.
 >
-> `suspension_design.m` 和 `suspension_verify.m` 依赖第一步生成的 `vibData.mat`。原始 CSV 文件通过 Git LFS 存储，若显示为指针文件请先运行 `git lfs pull`。
+> `suspension_design.m` 和 `suspension_verify.m` 依赖第一步生成的 `vibData.mat`。`multiaxis_analysis.m` 直接读取原始 CSV，独立运行。原始 CSV 文件通过 Git LFS 存储，若显示为指针文件请先运行 `git lfs pull`。
 
 ---
 
@@ -97,7 +107,7 @@ run('suspension_verify.m')
 
 | Toolbox | Used in / 用于 |
 |---------|---------------|
-| Signal Processing Toolbox | All scripts — `pwelch`, `hann`, `findpeaks`, `spectrogram`, `pspectrum` |
+| Signal Processing Toolbox | All scripts — `pwelch`, `hann`, `findpeaks`, `spectrogram`, `pspectrum`, `mscohere` |
 | Control System Toolbox | `suspension_verify.m` — `tf`, `bode`, `lsim`, `pole`, `pzmap` |
 | System Identification Toolbox | `suspension_verify.m` — `spa`, `iddata` |
 | Wavelet Toolbox | `suspension_verify.m` — `cwt` |
@@ -120,8 +130,8 @@ run('suspension_verify.m')
 Two distinct vibration regimes identified:
 识别出两种截然不同的振动模式：
 
-- **Low speed (0.2–0.6 m/s):** Narrow-band motor electrical excitation at ~267 events/rev (cogging torque signature). / **低速（0.2–0.6 m/s）：** 约 267 次/转的窄带电机电气激励（齿槽力矩特征）。
-- **High speed (0.8–1.2 m/s):** Broadband speed-correlated vibration at ~8 apparent events/rev (16–23 Hz). The true roller-passage frequencies (N=11: 22–33 Hz; N=22: 44–66 Hz) are suppressed by the staggered dual-plate wheel design. / **高速（0.8–1.2 m/s）：** 约 8 表观次/转的宽带速度相关振动（16–23 Hz）。真实滚子通过频率（N=11: 22–33 Hz；N=22: 44–66 Hz）因错位双板车轮设计而被抑制。
+- **Low speed (0.2–0.6 m/s):** Narrow-band motor electrical excitation at ~379 events/wheel_rev (~10.2 events/motor_rev, cogging torque signature). / **低速（0.2–0.6 m/s）：** 约 379 次/转（约 10.2 次/电机转）的窄带电机电气激励（齿槽力矩特征）。
+- **High speed (0.8–1.2 m/s):** Per-plate roller passage (N=11) at 15.6–23.4 Hz, confirmed after applying the X-configuration geometric correction (wheel axes at 45° to chassis forward → effective rolling speed = v_chassis/√2). Previously reported as "~8 apparent events/rev" — this was a calculation error. The combined N=22 passage (31.3–46.8 Hz) is suppressed by the staggered dual-plate design. / **高速（0.8–1.2 m/s）：** 单板滚子通过频率（N=11），为 15.6–23.4 Hz，经 X 形构型几何修正后确认（车轮轴线与底盘前向成 45°，实际滚动速度 = v_chassis/√2）。此前误报为"约 8 表观次/转"，经修正后确认为 N=11。N=22 双板合并通过频率（31.3–46.8 Hz）被错位双板设计抑制。
 
 ![FFT individual](results/fig1_fft_individual.png)
 ![Welch PSD](results/fig3_psd_welch.png)
