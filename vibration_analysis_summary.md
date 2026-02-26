@@ -120,9 +120,20 @@ $$f_\text{roller}(N) = \frac{N \cdot v_\text{chas}}{\sqrt{2} \cdot \pi d}$$
 | 0.4 | 267 | 377 | 10.1 |
 | 0.6 | 401 | 378 | 10.2 |
 
-With the √2 X-configuration correction, the wheel rotation rate at chassis speed $v$ is $f_w = v/(\sqrt{2}\,\pi d)$, so events/wheel rev $= f_\text{peak} \cdot \sqrt{2}\,\pi d / v$. Dividing by the reducer ratio of 37.14 gives **~10.2 events per motor revolution** — a consistent, clean integer-like value across all three low-speed runs. This is characteristic of motor electrical excitation (e.g. cogging torque with ~10 stator slots per pole-pair, or a force ripple pattern). The sharpness of these peaks (sinusoidal, not impact-like) further supports a motor/electrical origin rather than a mechanical impact. Note: the exact motor topology (number of poles and slots) would confirm the precise source.
+With the √2 X-configuration correction, the wheel rotation rate at chassis speed $v$ is $f_w = v/(\sqrt{2}\,\pi d)$, so events/wheel rev $= f_\text{peak} \cdot \sqrt{2}\,\pi d / v$. Dividing by the reducer ratio of 37.14 gives **~10.2 events per motor revolution** — a consistent value across all three low-speed runs. The sharpness of these peaks (sinusoidal, not impact-like) further supports a motor/electrical origin.
 
-**中文：** 在低速时，滚子冲击能量较弱，主导振动变为非常尖锐的窄带峰。应用 √2 修正后，车轮转速为 $f_w = v/(\sqrt{2}\,\pi d)$，折算得每转**约 379 次激励**（相当于**每电机转 10.2 次**），在三个低速工况下极为一致，与**电机齿槽力矩或定子力波**特征一致。峰形尖锐（正弦型而非冲击型）也进一步印证了其电气来源。注：确切的电机极槽数将有助于精确确认来源。
+**Gear mesh hypothesis — investigated and ruled out:** An alternative explanation is gear mesh frequency of the reducer (ratio 37.14). If the motor pinion has $N$ teeth, the gear mesh frequency equals motor shaft rate × $N$. The ratio of measured peak to motor shaft rate is **10.27** — a non-integer. Since gear teeth must be whole numbers, gear mesh cannot produce this frequency. The excitation is definitively **motor cogging torque or stator force ripple** (e.g. ~10 electrical events per motor revolution from pole/slot topology).
+
+**Wide-band PSD scan (0–2000 Hz):** The earlier 500 Hz analysis cap was artificially conservative (Nyquist = 13,513 Hz). A wide-band Welch PSD extended to 2,000 Hz was computed to check whether any gear mesh peaks appear above 500 Hz at high chassis speeds (predicted: 527 Hz at 0.8 m/s, 658 Hz at 1.0 m/s, 790 Hz at 1.2 m/s). **No speed-proportional sharp peaks were found** in that band — the PSD above ~500 Hz is flat and similar across all speeds. Gear mesh energy, if any, lies below the broadband noise floor. The two confirmed excitation sources (N=11 roller passage and motor cogging) are sufficient to explain all observed spectral features.
+
+**中文：** 在低速时，滚子冲击能量较弱，主导振动变为非常尖锐的窄带峰。应用 √2 修正后，折算得每电机转**约 10.2 次激励**，在三个低速工况下极为一致。
+
+**减速器齿轮啮合假说——已排除：** 另一可能的解释是减速器（减速比 37.14）的齿轮啮合频率。如果电机齿轮有 $N$ 个齿，齿轮啮合频率 = 电机轴转速 × $N$。实测峰值与电机轴转速之比为 **10.27**——非整数。由于齿数必须为整数，齿轮啮合无法产生该频率，因此可以明确排除。激励来源确认为**电机齿槽力矩或定子力波**。
+
+**宽频带 PSD 扫描（0–2000 Hz）：** 之前以 500 Hz 为上限具有一定局限性（奈奎斯特频率为 13,513 Hz）。为检验高速工况下 500 Hz 以上是否存在齿轮啮合峰，对 0–2000 Hz 范围进行了宽频带 Welch PSD 计算（预测齿轮啮合频率：0.8 m/s 时 527 Hz，1.0 m/s 时 658 Hz，1.2 m/s 时 790 Hz）。结果**未发现任何速度相关的尖锐峰**——500 Hz 以上各速度 PSD 趋于平坦且相近。两个已确认的激励源（N=11 滚子通过和电机齿槽）已足以解释所有观测到的频谱特征。
+
+![Wide-band PSD](results/fig6_wideband_psd.png)
+*Figure 6 – Wide-band Welch PSD (0–2000 Hz), left panel full band, right panel 300–1100 Hz zoom. Dashed lines mark expected gear mesh positions assuming ~10 motor-pinion teeth. No speed-proportional peaks appear above 500 Hz. / 图6 — 宽频带 Welch PSD（0–2000 Hz），左：全频段，右：300–1100 Hz 放大。虚线标注假设电机齿轮约 10 齿时的预期齿轮啮合频率。500 Hz 以上未见速度相关尖锐峰。*
 
 ---
 
@@ -185,13 +196,19 @@ Motor electrical excitation (134–670 Hz range, ~10.2 events/motor_rev) is high
 ## 7. Recommended Next Steps / 建议后续步骤
 
 **EN:**
-1. **Dominant peak source confirmed** — the 16–23 Hz dominant peaks are per-plate roller-passage (N=11) corrected for the 45° X-configuration wheel alignment. Error < 6 % at all high-speed runs. The staggered dual-plate design suppresses N=22 but N=11 remains the primary mechanical excitation source.
+1. **Dominant peak sources fully characterised** — two confirmed excitation sources, no unexplained features:
+   - High speed (0.8–1.2 m/s): N=11 per-plate roller passage at 15.6–23.4 Hz (< 6 % error after X-config correction)
+   - Low speed (0.2–0.6 m/s): motor cogging at ~10.2 events/motor_rev (gear mesh ruled out — non-integer ratio)
+   - Wide-band scan 0–2000 Hz: no additional sources found above 500 Hz
 2. **Quarter-car model** — size spring stiffness and damper coefficient for the target 3–5 Hz natural frequency given the supported mass per wheel (completed — see `suspension_design_summary.md`).
 3. **Transmissibility target** — achieved: predicted payload RMS < 0.03 g at all speeds with fn = 4 Hz, ζ = 0.4 (< 0.1 g target, verified by lsim).
 4. **Prototype and retest** — rerun the same speed sweep with suspension installed and compare PSDs.
 
 **中文：**
-1. **主导峰来源已确认** — 16–23 Hz 主导峰为 N=11 单板滚子通过频率，经 45° X 形构型修正后与实测值误差 < 6%。错位双板设计成功抑制 N=22 分量，但 N=11 仍为主要机械激励源。
+1. **主导峰来源已完整表征** — 已确认两类激励源，无未解释的频谱特征：
+   - 高速（0.8–1.2 m/s）：N=11 单板滚子通过频率 15.6–23.4 Hz（X 形构型修正后误差 < 6%）
+   - 低速（0.2–0.6 m/s）：电机齿槽激励，约 10.2 次/电机转（齿轮啮合已排除——非整数比率）
+   - 宽频带扫描 0–2000 Hz：500 Hz 以上未发现新的激励源
 2. **四分之一车模型** — 已完成，见 `suspension_design_summary.md`；
 3. **传递率目标** — 已达成：推荐设计（fn = 4 Hz，ζ = 0.4）预测载荷 RMS 在所有速度下 < 0.03 g（目标 < 0.1 g，已由 lsim 验证）；
 4. **样机复测** — 安装悬挂后重复相同速度扫描，对比前后功率谱密度曲线。

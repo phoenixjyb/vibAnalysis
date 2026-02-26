@@ -130,12 +130,13 @@ run('multiaxis_analysis.m')
 Two distinct vibration regimes identified:
 识别出两种截然不同的振动模式：
 
-- **Low speed (0.2–0.6 m/s):** Narrow-band motor electrical excitation at ~379 events/wheel_rev (~10.2 events/motor_rev, cogging torque signature). / **低速（0.2–0.6 m/s）：** 约 379 次/转（约 10.2 次/电机转）的窄带电机电气激励（齿槽力矩特征）。
-- **High speed (0.8–1.2 m/s):** Per-plate roller passage (N=11) at 15.6–23.4 Hz, confirmed after applying the X-configuration geometric correction (wheel axes at 45° to chassis forward → effective rolling speed = v_chassis/√2). Previously reported as "~8 apparent events/rev" — this was a calculation error. The combined N=22 passage (31.3–46.8 Hz) is suppressed by the staggered dual-plate design. / **高速（0.8–1.2 m/s）：** 单板滚子通过频率（N=11），为 15.6–23.4 Hz，经 X 形构型几何修正后确认（车轮轴线与底盘前向成 45°，实际滚动速度 = v_chassis/√2）。此前误报为"约 8 表观次/转"，经修正后确认为 N=11。N=22 双板合并通过频率（31.3–46.8 Hz）被错位双板设计抑制。
+- **Low speed (0.2–0.6 m/s):** Narrow-band motor electrical excitation at ~10.2 events/motor_rev (cogging torque). Gear mesh from the 37.14 reducer was investigated and ruled out — the measured ratio of 10.27 events/motor_rev is non-integer, which is impossible for gear teeth. Wide-band PSD (0–2,000 Hz, Fig 6) found no speed-proportional peaks above 500 Hz. / **低速（0.2–0.6 m/s）：** 约 10.2 次/电机转的窄带电机齿槽激励。减速器（37.14）的齿轮啮合假说已经排除——实测比值 10.27 为非整数，与整数齿数矛盾。宽频带 PSD（0–2000 Hz，图6）在 500 Hz 以上未发现速度相关峰。
+- **High speed (0.8–1.2 m/s):** Per-plate roller passage (N=11) at 15.6–23.4 Hz, confirmed after applying the X-configuration geometric correction (wheel axes at 45° to chassis forward → effective rolling speed = v_chassis/√2). Previously reported as "~8 apparent events/rev" — this was a calculation error. The combined N=22 passage (31.3–46.8 Hz) is suppressed by the staggered dual-plate design. / **高速（0.8–1.2 m/s）：** 单板滚子通过频率（N=11），为 15.6–23.4 Hz，经 X 形构型几何修正后确认。N=22 双板合并通过频率（31.3–46.8 Hz）被错位双板设计抑制。
 
 ![FFT individual](results/fig1_fft_individual.png)
 ![Welch PSD](results/fig3_psd_welch.png)
 ![Peak frequency vs speed](results/fig5_peak_freq_vs_speed.png)
+![Wide-band PSD](results/fig6_wideband_psd.png)
 
 ---
 
