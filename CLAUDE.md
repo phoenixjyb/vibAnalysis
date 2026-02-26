@@ -73,7 +73,11 @@ Previous (uncorrected) calculation gave ~267 events/wheel_rev and ~7.2/motor_rev
 
 - Recommended: `fn = 4 Hz`, `ζ = 0.4` per corner
 - Predicted output: < 0.030 g RMS at all speeds (target < 0.1 g)
-- Static sag: 15.5 mm; minimum stroke: 61 mm
+- **Mass split**: total 25 kg, unsprung 5.2 kg (4 × 1.3 kg motor+wheel), sprung 19.8 kg
+- **Sprung mass per corner**: 4.95 kg (use this for k, c — NOT total/4)
+- **k = 3,127 N/m**, **c = 99.5 N·s/m** per corner (for current 4.95 kg sprung)
+- Static sag: 15.5 mm; minimum stroke: **46 mm** (not 61 mm — that used uncorrected mass)
+- Note: 25 kg excludes suspension hardware — recompute k and c after hardware is weighed
 
 ---
 

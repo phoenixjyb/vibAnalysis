@@ -5,17 +5,20 @@
 
 ## 1. Background & Design Goals / 背景与设计目标
 
-**EN:** Building on the vibration characterisation study (see `vibration_analysis_summary.md`), a passive spring-damper suspension was designed for the 4-wheel omni-wheel chassis. The chassis supports a total mass of 15–30 kg distributed over 4 independent corner suspensions. The primary goal is to reduce the Z-axis payload RMS acceleration to **below 0.1 g** at all operating speeds (0.2–1.2 m/s).
+**EN:** Building on the vibration characterisation study (see `vibration_analysis_summary.md`), a passive spring-damper suspension was designed for the 4-wheel omni-wheel chassis. The actual system mass is **25 kg total**, with a **5.2 kg unsprung mass** (4 × 1.3 kg motor+wheel assemblies) and a **19.8 kg sprung mass** (everything above the suspension). The suspension spring and damper must be sized against the sprung mass only — for a rigid wheel on a hard floor there is no tyre compliance, so the unsprung mass does not appear in the transmissibility formula. The primary goal is to reduce the Z-axis payload RMS acceleration to **below 0.1 g** at all operating speeds (0.2–1.2 m/s).
 
-**中文：** 在振动特性研究（见 `vibration_analysis_summary.md`）的基础上，为四轮全向轮底盘设计了被动弹簧-阻尼悬挂系统。底盘总载质量为 15–30 kg，由四个独立角悬挂承担。主要设计目标是将载荷 Z 轴 RMS 加速度在所有工作速度（0.2–1.2 m/s）下降至 **0.1 g 以下**。
+**中文：** 在振动特性研究的基础上，为四轮全向轮底盘设计了被动弹簧-阻尼悬挂系统。系统实际总质量为 **25 kg**，其中**非簧载质量 5.2 kg**（4 × 1.3 kg 电机+车轮组件）、**簧载质量 19.8 kg**（悬挂以上的所有部件）。弹簧与阻尼器仅需针对簧载质量进行设计——刚性车轮在硬质地面上无轮胎弹性，非簧载质量不出现在传递率公式中。主要设计目标是将载荷 Z 轴 RMS 加速度在所有工作速度（0.2–1.2 m/s）下降至 **0.1 g 以下**。
 
 | Parameter / 参数 | Value / 数值 |
 |-----------------|-------------|
-| Total supported mass / 总质量 | 15–30 kg |
+| Total system mass / 系统总质量 | **25 kg** |
+| Unsprung mass (4 × motor+wheel) / 非簧载质量（4 × 电机+车轮） | **5.2 kg** (4 × 1.3 kg) |
+| Sprung mass / 簧载质量 | **19.8 kg** |
 | Number of suspensions / 悬挂数量 | 4 (one per corner / 每角一个) |
-| Per-corner sprung mass / 单角弹簧质量 | 3.75–7.5 kg |
+| Sprung mass per corner / 单角簧载质量 | **4.95 kg** |
 | Payload RMS acceleration target / 载荷 RMS 加速度目标 | < 0.1 g |
 | Suspension type / 悬挂类型 | Passive spring-damper / 被动弹簧-阻尼 |
+| Note / 注意 | 25 kg excludes suspension hardware mass — recheck k, c once hardware is weighed / 25 kg 不含悬挂结构自重，硬件称重后需复核 k、c |
 
 ---
 
@@ -92,26 +95,47 @@ The dominant measured peaks (16–23 Hz at 0.8–1.2 m/s) are confirmed as per-p
 |----------------------------|-------------|
 | Natural frequency / 固有频率 | **4 Hz** |
 | Damping ratio / 阻尼比 | **0.4** |
+| Sprung mass per corner / 单角簧载质量 | **4.95 kg** (19.8 kg sprung / 4) |
+| Spring stiffness k / 弹簧刚度 | **3,127 N/m** per corner |
+| Damper coefficient c / 阻尼系数 | **99.5 N·s/m** per corner |
 | Static deflection / 静态下沉量 | **15.5 mm** |
-| Minimum stroke / 最小行程 | **≥ 61 mm** (static sag + ±15 mm dynamic / 静态下沉 + ±15 mm 动态) |
+| Minimum stroke / 最小行程 | **≥ 46 mm** (15.5 mm sag + ±15 mm dynamic / 静态下沉 + ±15 mm 动态) |
 | Isolation onset / 隔振起始频率 | 5.66 Hz ($f_n\sqrt{2}$) |
 
 ---
 
 ## 6. Spring & Damper Sizing / 弹簧与阻尼器参数
 
-**EN:** Spring stiffness $k = m (2\pi f_n)^2$ and damper coefficient $c = 2\zeta\sqrt{km}$, where $m$ = total mass / 4 corners.
+**EN:** Spring stiffness $k = m_s (2\pi f_n)^2$ and damper coefficient $c = 2\zeta\sqrt{km_s}$, where $m_s$ = **sprung mass per corner** = (total mass − unsprung mass) / 4. The unsprung mass (wheel-motor assemblies) is excluded because for a rigid wheel on a hard floor it does not affect the suspension transmissibility.
 
-**中文：** 弹簧刚度 $k = m (2\pi f_n)^2$，阻尼系数 $c = 2\zeta\sqrt{km}$，其中 $m$ = 总质量 / 4（单角质量）。
+**中文：** 弹簧刚度 $k = m_s (2\pi f_n)^2$，阻尼系数 $c = 2\zeta\sqrt{km_s}$，其中 $m_s$ = **单角簧载质量** = （总质量 − 非簧载质量）/ 4。非簧载质量（车轮电机组件）已排除，因为刚性车轮在硬质地面上不影响悬挂传递率。
 
-### Per-corner values at fn = 4 Hz, ζ = 0.4 / fn = 4 Hz、ζ = 0.4 时各角参数
+### Actual design point — 25 kg total, 5.2 kg unsprung / 实际设计点 — 总质量 25 kg，非簧载 5.2 kg
 
-| Total mass / 总质量 | Corner mass / 单角质量 | k (N/m) | c (N·s/m) | c (N·s/mm) |
-|--------------------|----------------------|---------|-----------|------------|
-| 15 kg | 3.75 kg | 2,369 | 75.4 | 0.0754 |
-| 20 kg | 5.00 kg | 3,158 | 100.5 | 0.1005 |
-| 25 kg | 6.25 kg | 3,948 | 125.7 | 0.1257 |
-| 30 kg | 7.50 kg | 4,737 | 150.8 | 0.1508 |
+| Parameter / 参数 | Value / 数值 |
+|-----------------|-------------|
+| Total mass / 总质量 | 25.0 kg |
+| Unsprung mass / 非簧载质量 | 5.2 kg (4 × 1.3 kg) |
+| Sprung mass / 簧载质量 | **19.8 kg** |
+| Sprung mass per corner / 单角簧载质量 | **4.95 kg** |
+| Spring stiffness k / 弹簧刚度 | **3,127 N/m** |
+| Damper coefficient c / 阻尼系数 | **99.5 N·s/m** |
+| Static sag / 静态下沉量 | **15.5 mm** |
+| Minimum stroke / 最小行程 | **≥ 46 mm** (15.5 mm sag + ±15 mm dynamic / 静态下沉 + ±15 mm 动态) |
+
+> **Note / 注意:** The 25 kg figure does not yet include suspension hardware (lower frame, upper platform, springs, dampers). Each kilogram added to the sprung side increases k and c by ~160 N/m and ~5 N·s/m respectively while keeping fn and ζ unchanged. Recompute after weighing the hardware.
+>
+> 25 kg 不含悬挂结构自重（下框架、上平台、弹簧、阻尼器）。簧载侧每增加 1 kg，k 增加约 160 N/m，c 增加约 5 N·s/m，fn 和 ζ 保持不变。硬件称重后需重新计算。
+
+### General sizing reference (sprung mass per corner) / 通用参数参考（单角簧载质量）
+
+| Sprung mass per corner / 单角簧载质量 | k (N/m) | c (N·s/m) | Equiv. total mass (no unsprung) / 等效总质量 |
+|--------------------------------------|---------|-----------|---------------------------------------------|
+| 3.75 kg | 2,369 | 75.4 | ~15 kg total |
+| 4.95 kg | **3,127** | **99.5** | **25 kg total, 5.2 kg unsprung ← actual** |
+| 5.00 kg | 3,159 | 100.5 | ~20 kg total (no unsprung) |
+| 6.25 kg | 3,948 | 125.7 | ~25 kg total (no unsprung correction) |
+| 7.50 kg | 4,737 | 150.8 | ~30 kg total (no unsprung) |
 
 **EN:** These spring stiffness values correspond to common light-duty coil springs or rubber-in-shear isolators. The damper coefficients are in the range of small hydraulic or elastomer dampers.
 
@@ -195,16 +219,16 @@ All conclusions were independently verified using MATLAB toolbox functions.
 
 **EN:**
 
-1. **Recommended design**: fn = 4 Hz, ζ = 0.4 per corner. Spring and damper values depend on total payload — select from the sizing table in Section 6.
-2. **Stroke budget**: Allow ≥ 61 mm total stroke (15.5 mm static sag + ±15 mm dynamic travel + installation tolerance). For lighter payloads (15 kg total), ≥ 46 mm may be sufficient.
+1. **Recommended design**: fn = 4 Hz, ζ = 0.4 per corner. For the actual system (25 kg total, 5.2 kg unsprung): **k = 3,127 N/m** and **c = 99.5 N·s/m** per corner. Note: 25 kg excludes suspension hardware mass — recompute k and c after the hardware is weighed (each extra kg on the sprung side adds ~160 N/m to k and ~5 N·s/m to c).
+2. **Stroke budget**: Allow ≥ 46 mm total stroke (15.5 mm static sag + ±15 mm dynamic travel + installation tolerance) for the current 4.95 kg sprung mass per corner.
 3. **Prototype and retest**: Install suspension hardware and repeat the 0.2–1.2 m/s speed sweep. Compare output PSDs against the predictions in Figure 4 to validate the model.
 4. **Dominant peak source confirmed**: The 16–23 Hz dominant peaks are confirmed as per-plate roller-passage (N=11) once the 45° X-configuration geometry is accounted for ($v_\text{wheel} = v_\text{chassis}/\sqrt{2}$). Error < 6 % at all high-speed runs. The staggered dual-plate design effectively suppresses N=22 combined polygon vibration.
 5. **Motor cogging note**: The 134–670 Hz motor electrical excitation peaks (~10.2 events/motor_rev, dominant at low speed) are attenuated > 30 dB by the recommended suspension and are not a design driver. If further attenuation is needed, address at the motor controller level (current ripple filtering).
 
 **中文：**
 
-1. **推荐设计**：每角 fn = 4 Hz，ζ = 0.4。弹簧和阻尼器参数取决于实际总载质量，从第 6 节尺寸表中选取。
-2. **行程预算**：总行程应 ≥ 61 mm（15.5 mm 静态下沉 + ±15 mm 动态行程 + 安装余量）。对于较轻载荷（总质量 15 kg），≥ 46 mm 可能即已足够。
+1. **推荐设计**：每角 fn = 4 Hz，ζ = 0.4。当前实际系统（总质量 25 kg，非簧载 5.2 kg）：每角 **k = 3,127 N/m**，**c = 99.5 N·s/m**。注意：25 kg 不含悬挂结构自重，硬件称重后需重新计算（簧载侧每增加 1 kg，k 增加约 160 N/m，c 增加约 5 N·s/m）。
+2. **行程预算**：当前单角簧载质量 4.95 kg 时，总行程应 ≥ 46 mm（15.5 mm 静态下沉 + ±15 mm 动态行程 + 安装余量）。
 3. **样机复测**：安装悬挂硬件后，重复 0.2–1.2 m/s 速度扫描测试，将输出 PSD 与图 4 的预测结果对比，以验证模型。
 4. **主导峰来源已确认**：16–23 Hz 主导峰已确认为 N=11 单板滚子通过频率（经 45° X 形构型 $v_\text{wheel} = v_\text{chassis}/\sqrt{2}$ 修正），三个高速工况误差 < 6%。错位双板设计已有效抑制 N=22 多边形振动。
 5. **电机齿槽振动说明**：低速主导的 134–670 Hz 电机电气激励峰（约 10.2 次/电机转）经推荐悬挂后衰减 > 30 dB，不构成设计约束。如需进一步抑制，应在电机控制器层面处理（电流纹波滤波）。
