@@ -206,6 +206,7 @@ The end goal is stable video from a camera mounted on a gimbal arm. Key conclusi
 - **[Vibration Analysis Report](vibration_analysis_summary.md)** — Data overview, frequency analysis, two vibration regimes, wheel geometry, suspension design implications. / 数据概况、频域分析、两种振动模式、车轮几何参数、悬挂设计启示。
 - **[Suspension Design Report](suspension_design_summary.md)** — Modelling approach, design space sweep, recommended parameters, spring/damper sizing, predicted performance, full verification. / 建模方法、设计空间扫描、推荐参数、弹簧阻尼器参数、预测性能、完整验证。
 - **[Future Design Roadmap](future_design_roadmap.md)** — Full ground-to-image vibration chain, why gimbals cannot fix Z-vibration, why passive isolators fail on articulated arms, three-layer mitigation strategy, second accelerometer measurement plan, image blur budget method, and proposed next MATLAB scripts. / 完整地面到图像振动传递链、云台无法修正 Z 向振动的原因、被动隔振器在关节臂上失效的原因、三层减振策略、第二加速度计测量方案、图像模糊容差方法及建议后续 MATLAB 脚本。
+- **[X-Config Kinematics Explainer](xconfig_kinematics_explainer.md)** — Why the chassis moves √2 faster than the wheels: no-slip constraint derivation, common misconception explained, inverse & forward kinematics verification, project speed limits. / 底盘速度为何是轮缘速度的 √2 倍：无打滑约束推导、常见误解解析、逆/正运动学验证、项目速度上限。
 
 ---
 
