@@ -1,9 +1,9 @@
 # Omni-Wheel Chassis Vibration Analysis & Suspension Design
 # 全向轮底盘振动分析与悬挂系统设计
 
-A MATLAB-based frequency-domain vibration study of a 4-wheel omni-wheel chassis, followed by a data-driven passive suspension design and independent toolbox verification.
+A MATLAB-based frequency-domain vibration study of a 4-wheel omni-wheel chassis, followed by a data-driven passive suspension design, independent toolbox verification, and a system-level roadmap for extending vibration control to a camera-carrying gimbal arm.
 
-基于 MATLAB 的四轮全向轮底盘频域振动分析项目，包含数据驱动的被动悬挂设计及工具箱独立验证。
+基于 MATLAB 的四轮全向轮底盘频域振动分析项目，包含数据驱动的被动悬挂设计、工具箱独立验证，以及将振动控制延伸至搭载相机的云台臂系统的设计路线图。
 
 ---
 
@@ -42,6 +42,7 @@ vibAnalysis/
 │
 ├── vibration_analysis_summary.md            # Bilingual vibration analysis report
 ├── suspension_design_summary.md             # Bilingual suspension design report
+├── future_design_roadmap.md                 # Bilingual roadmap: gimbal arm vibration & image quality
 ├── README.md                                # This file
 │
 └── results/                                 # All generated figures
@@ -178,10 +179,22 @@ All results independently verified using MATLAB toolboxes.
 
 ---
 
+### System-Level: Camera Image Quality / 系统层面：相机图像质量
+
+The end goal is stable video from a camera mounted on a gimbal arm. Key conclusions:
+最终目标是云台臂上搭载相机获得稳定视频。主要结论：
+
+- **Gimbals correct rotation only (Roll/Pitch/Yaw) — they cannot correct Z-axis translational vibration.** The camera sensor bounces vertically regardless of gimbal motor action, causing frame shift, rolling-shutter jello, and motion blur. / **云台仅修正旋转（翻滚/俯仰/偏航）——无法修正 Z 轴平移振动。** 无论云台电机如何动作，相机传感器均上下弹跳，导致帧位移、卷帘快门果冻效应和运动模糊。
+- **A passive isolator at the gimbal mount is not suitable for an articulated arm** — under gravity the isolator deflects toward the ground regardless of arm pose, coupling Z-vibration into angular motion and introducing pose-dependent tilt. / **被动隔振器不适合安装在关节臂的云台安装处**——在重力作用下，隔振器沿重力方向偏转（与臂姿态无关），将 Z 向振动耦合为角运动并引入与位姿相关的倾斜。
+- **The chassis passive suspension is the primary and most practical Z-isolation layer** for this architecture. The arm-to-gimbal interface should be rigid; residual Z-effects are best handled by EIS and a global-shutter camera. / **底盘被动悬挂是该架构中最主要、最实用的 Z 向隔振层。** 臂与云台的连接界面应保持刚性；残余 Z 向影响最好由 EIS 和全局快门相机处理。
+
+---
+
 ## Detailed Reports / 详细报告
 
 - **[Vibration Analysis Report](vibration_analysis_summary.md)** — Data overview, frequency analysis, two vibration regimes, wheel geometry, suspension design implications. / 数据概况、频域分析、两种振动模式、车轮几何参数、悬挂设计启示。
 - **[Suspension Design Report](suspension_design_summary.md)** — Modelling approach, design space sweep, recommended parameters, spring/damper sizing, predicted performance, full verification. / 建模方法、设计空间扫描、推荐参数、弹簧阻尼器参数、预测性能、完整验证。
+- **[Future Design Roadmap](future_design_roadmap.md)** — Full ground-to-image vibration chain, why gimbals cannot fix Z-vibration, why passive isolators fail on articulated arms, three-layer mitigation strategy, second accelerometer measurement plan, image blur budget method, and proposed next MATLAB scripts. / 完整地面到图像振动传递链、云台无法修正 Z 向振动的原因、被动隔振器在关节臂上失效的原因、三层减振策略、第二加速度计测量方案、图像模糊容差方法及建议后续 MATLAB 脚本。
 
 ---
 
