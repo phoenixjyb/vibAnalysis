@@ -138,13 +138,13 @@ With the √2 X-configuration correction, the wheel rotation rate at chassis spe
 | Wheel diameter / 车轮直径 | 5 in = 127 mm |
 | Wheel circumference / 车轮周长 | π × 127 mm = 399.0 mm |
 | **Chassis configuration / 底盘构型** | **X-configuration: wheel axes at 45° to chassis forward / X形构型：车轮轴线与底盘前向成45°** |
-| Motor max speed / 电机最高转速 | ~6000 RPM |
+| Motor max speed / 电机最高转速 | **6,500 RPM** |
 | Reducer ratio / 减速比 | 37.14 |
-| Max wheel rolling speed / 最大车轮滚动速度 | ~1.05 m/s → max chassis forward speed ~1.49 m/s |
+| Max wheel rolling speed / 最大车轮滚动速度 | ~1.05 m/s (operational) / 1.16 m/s (motor limit) → max chassis forward ~1.49 / 1.65 m/s |
 | **Wheel structure / 车轮结构** | **2 side plates × 11 rollers per plate, staggered by 16.4° / 两侧板各 11 滚子，相位差 16.4°** |
 | Effective wheel rolling speed at chassis 1.2 m/s / 底盘1.2 m/s时车轮实际滚动速度 | 1.2/√2 = 0.849 m/s |
 | Wheel rotation rate at 1.2 m/s chassis speed / 底盘1.2 m/s时车轮转速 | 0.849/0.399 = 2.13 Hz (127.7 RPM) |
-| Motor RPM at 1.2 m/s chassis speed / 底盘1.2 m/s时电机转速 | 127.7 × 37.14 = 4,744 RPM (< 6000 RPM limit ✓) |
+| Motor RPM at 1.2 m/s chassis speed / 底盘1.2 m/s时电机转速 | 127.7 × 37.14 = 4,744 RPM (< 6,500 RPM limit ✓) |
 | Single-plate roller passage freq at 1.2 m/s chassis (N=11, corrected) / 单侧板滚子通过频率（修正后） | **23.4 Hz** |
 | Combined dual-plate passage freq at 1.2 m/s chassis (N=22, corrected) / 双板合并通过频率（修正后） | **46.8 Hz** |
 

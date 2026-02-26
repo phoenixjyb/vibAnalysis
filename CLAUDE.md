@@ -42,10 +42,10 @@ are exactly **N=11 per-plate roller passage** (< 6% error at all high-speed runs
 | Wheel structure | 2 side plates × 11 rollers each | staggered 16.4° (= 360°/22) |
 | Chassis configuration | X-type, wheel axes at 45° to forward | see `ref-info/` folder |
 | True sample rate | **27,027 Hz** (37 µs steps) | column-5 declared ~26,820 Hz is WRONG |
-| Motor max RPM | ~6,000 RPM | |
+| Motor max RPM | **6,500 RPM** | |
 | Reducer ratio | 37.14 | |
-| Max wheel rolling speed | ~1.05 m/s | → max chassis forward speed ~1.49 m/s |
-| Motor RPM at 1.2 m/s chassis | 4,744 RPM | safely below 6,000 RPM limit |
+| Max wheel rolling speed | ~1.05 m/s (operational) / 1.16 m/s (motor limit) | → max chassis forward ~1.49 / 1.65 m/s |
+| Motor RPM at 1.2 m/s chassis | 4,744 RPM | safely below 6,500 RPM limit |
 
 ### High-speed vibration (0.8–1.2 m/s chassis)
 
