@@ -60,12 +60,12 @@ Image / 图像
 
 **EN:** Z-vibration causes the following image artefacts that a gimbal cannot prevent:
 - **Vertical image shift** per frame — objects appear to jump up and down in the video
-- **Rolling-shutter jello effect** — CMOS sensors read out line by line; Z-bounce at 16–23 Hz modulates each line differently, producing a wobbling distortion
+- **Rolling-shutter jello effect** — CMOS sensors read out line by line; Z-bounce at 15.6–23.4 Hz (per-plate roller passage N=11) modulates each line differently, producing a wobbling distortion
 - **Motion blur** — at slow shutter speeds, sensor displacement during exposure smears the image
 
 **中文：** Z 轴振动导致以下图像缺陷，云台均无法阻止：
 - **每帧垂直位移**——视频中物体上下跳动
-- **卷帘快门果冻效应**——CMOS 传感器逐行读出，16–23 Hz 的 Z 向弹跳使各行读出时刻不同，产生波浪形畸变
+- **卷帘快门果冻效应**——CMOS 传感器逐行读出，15.6–23.4 Hz 的 Z 向弹跳（N=11 单板滚子通过频率）使各行读出时刻不同，产生波浪形畸变
 - **运动模糊**——慢速快门下，曝光期间的传感器位移使图像模糊
 
 ---
@@ -152,9 +152,9 @@ Arm at arbitrary angle / 臂任意角度：
 
 **B. Material selection / 材料选择**
 
-**EN:** Carbon fibre arm links have higher specific stiffness than aluminium. If the arm currently uses aluminium, switching to carbon fibre raises structural resonance frequencies out of the problem frequency band (16–66 Hz), reducing response amplitude at those frequencies.
+**EN:** Carbon fibre arm links have higher specific stiffness than aluminium. If the arm currently uses aluminium, switching to carbon fibre raises structural resonance frequencies out of the problem frequency band (15.6–46.8 Hz — roller passage N=11/N=22 corrected for X-configuration), reducing response amplitude at those frequencies.
 
-**中文：** 碳纤维臂杆比铝合金具有更高的比刚度。若当前使用铝合金，改用碳纤维可将结构共振频率提高至问题频带（16–66 Hz）之上，从而降低该频段的响应幅值。
+**中文：** 碳纤维臂杆比铝合金具有更高的比刚度。若当前使用铝合金，改用碳纤维可将结构共振频率提高至问题频带（15.6–46.8 Hz，即经 X 形构型修正后的 N=11/N=22 滚子通过频段）之上，从而降低该频段的响应幅值。
 
 ---
 
@@ -291,9 +291,10 @@ Max allowable acceleration at frequency f / 频率 f 处最大允许加速度:
                                     │
                ┌────────────────────┼────────────────────┐
                ▼                    ▼                    ▼
-       20–100 Hz               16–23 Hz             135–670 Hz
-     臂结构共振               速度相关残余              电机齿槽
-    Arm resonance           Speed-correlated         Motor cogging
+       20–100 Hz            15.6–23.4 Hz            135–670 Hz
+     臂结构共振           N=11滚子通过（已确认）        电机齿槽
+    Arm resonance        N=11 roller passage        Motor cogging
+                         (confirmed, X-config)     (~10.2/motor rev)
                │                    │                    │
       约束层阻尼              EIS + 全局快门          电机安装处
      CLD on arm links       global shutter +        阻尼减振垫

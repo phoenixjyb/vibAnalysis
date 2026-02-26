@@ -76,9 +76,12 @@ for i = 1:nSpeeds
     [pks, locs, ~, prom] = findpeaks(p_b, f_b, ...
         'MinPeakProminence', 6, 'SortStr', 'descend', 'NPeaks', 6);
 
-    % For each peak, compute events/revolution and best roller count match
-    % ev_per_rev: row vector; N_candidates: row vector → subtract with bsxfun
-    ev_per_rev = locs(:)' * wheelCirc / speeds(i);   % 1×nPeaks
+    % For each peak, compute events/revolution and best roller count match.
+    % X-configuration correction: wheel rolling speed = v_chassis / sqrt(2),
+    % so wheel rotation rate = v_chassis / (sqrt(2) * wheelCirc).
+    % ev_per_rev = peak_freq / (v_chassis / (sqrt(2)*wheelCirc))
+    %            = peak_freq * sqrt(2) * wheelCirc / v_chassis
+    ev_per_rev = locs(:)' * wheelCirc * sqrt(2) / speeds(i);   % 1×nPeaks
     [~, best_idx] = min(abs(bsxfun(@minus, N_candidates(:), ev_per_rev)), [], 1); % 1×nPeaks
 
     subplot(2,3,i);
@@ -129,9 +132,10 @@ axis tight; view(0,90); shading interp;
 xlabel('Time (s)'); ylabel('Frequency (Hz)');
 title('A4: CWT Scalogram – Z-accel at 1.2 m/s (Wavelet Toolbox)');
 colorbar; colormap('jet');
-% Overlay theoretical roller-passage lines: N=11 (per-plate) and N=22 (combined dual-plate)
+% Overlay theoretical roller-passage lines: N=11 (per-plate) and N=22 (combined dual-plate).
+% X-configuration correction: wheel rolling speed = v_chassis / sqrt(2).
 hold on;
-fw_12 = speeds(nSpeeds) / wheelCirc;
+fw_12 = speeds(nSpeeds) / (sqrt(2) * wheelCirc);
 yline(11 * fw_12, 'w--', sprintf('f_{roller}(N=11)=%.1fHz', 11*fw_12), 'LineWidth', 2);
 yline(22 * fw_12, 'c--', sprintf('f_{roller}(N=22)=%.1fHz', 22*fw_12), 'LineWidth', 2);
 
@@ -206,8 +210,8 @@ for j = 1:numel(fn_vals)
         'DisplayName', sprintf('f_n=%dHz', fn_vals(j)));
 end
 yline(0,'k:');
-xline(11*speeds(end)/wheelCirc, 'b--', sprintf('N=11: %.1fHz', 11*speeds(end)/wheelCirc));
-xline(22*speeds(end)/wheelCirc, 'm--', sprintf('N=22: %.1fHz', 22*speeds(end)/wheelCirc));
+xline(11*speeds(end)/(sqrt(2)*wheelCirc), 'b--', sprintf('N=11: %.1fHz', 11*speeds(end)/(sqrt(2)*wheelCirc)));
+xline(22*speeds(end)/(sqrt(2)*wheelCirc), 'm--', sprintf('N=22: %.1fHz', 22*speeds(end)/(sqrt(2)*wheelCirc)));
 xlabel('Frequency (Hz)'); ylabel('Transmissibility (dB)');
 title('Effect of f_n  (ζ = 0.4)');
 legend('Location','southwest'); grid on;
@@ -221,7 +225,7 @@ for j = 1:numel(zeta_vals)
     semilogx(f_plot, 20*log10(squeeze(m)), 'Color',cm2(j,:), 'LineWidth',1.4, ...
         'DisplayName', sprintf('ζ=%.1f', zeta_vals(j)));
 end
-yline(0,'k:'); xline(8*speeds(end)/wheelCirc,'m--');
+yline(0,'k:'); xline(11*speeds(end)/(sqrt(2)*wheelCirc),'m--');
 xlabel('Frequency (Hz)'); ylabel('Transmissibility (dB)');
 title('Effect of ζ  (f_n = 4 Hz)');
 legend('Location','southwest'); grid on;

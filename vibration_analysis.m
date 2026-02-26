@@ -65,7 +65,8 @@ for nc = rollerCounts
 end
 fprintf('\n%s\n', repmat('-',1,65));
 for i = 1:nSpeeds
-    fw = speeds(i) / wheelCirc;
+    % X-configuration: wheel rolls at v_chassis / sqrt(2)
+    fw = speeds(i) / (sqrt(2) * wheelCirc);
     fprintf('%-10.1f  %-12.3f', speeds(i), fw);
     for nc = rollerCounts
         fprintf('  %18.3f', nc * fw);
@@ -106,7 +107,9 @@ for i = 1:nSpeeds
     grid on; grid minor;
 
     % Annotate wheel rotation frequency
-    fw = speeds(i) / wheelCirc;
+    % X-configuration: each wheel axis is at 45° to chassis forward direction.
+    % When chassis moves at v_chassis, wheel rolling speed = v_chassis * cos(45°) = v_chassis/sqrt(2).
+    fw = speeds(i) / (sqrt(2) * wheelCirc);
     xline(fw, 'r--', sprintf('f_w = %.2f Hz', fw), ...
         'LabelVerticalAlignment', 'bottom', 'LabelHorizontalAlignment', 'right');
 end
@@ -227,7 +230,8 @@ lineStyles = {'b--', 'g--'};
 lineLabels = {'N=11 per-plate theory', 'N=22 combined theory'};
 for ni = 1:numel(rollerCounts)
     nc = rollerCounts(ni);
-    fRoller = nc * vLine / wheelCirc;
+    % X-configuration correction: wheel rolling speed = v_chassis / sqrt(2)
+    fRoller = nc * vLine / (sqrt(2) * wheelCirc);
     plot(vLine, fRoller, lineStyles{ni}, 'LineWidth', 1.2, ...
         'DisplayName', lineLabels{ni});
 end

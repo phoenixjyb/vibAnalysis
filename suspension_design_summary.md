@@ -47,9 +47,9 @@ $$\text{RMS}_\text{out} = \sqrt{\int_0^\infty T^2(f)\, S_{xx}(f)\, df}$$
 ![Design space heatmap](results/susp_fig3_design_heatmap.png)
 *Figure 2 – Left: worst-case predicted payload RMS (g) across all speeds as a function of (fn, ζ). Right: pass/fail map against the 0.1 g target. / 图2 — 左：全速度工况下最大预测载荷 RMS（g）随（fn, ζ）的分布热图；右：以 0.1 g 为目标的通过/失败区域图。*
 
-**EN:** The heatmap shows that **the entire swept design space passes the 0.1 g target** — even the least aggressive design (fn = 6 Hz, ζ = 0.2) keeps payload below 0.1 g RMS. The dominant vibration sources (roller impacts at 16–24 Hz, motor cogging at 134–670 Hz) are all well above the 3–6 Hz suspension band, ensuring strong attenuation.
+**EN:** The heatmap shows that **the entire swept design space passes the 0.1 g target** — even the least aggressive design (fn = 6 Hz, ζ = 0.2) keeps payload below 0.1 g RMS. The dominant vibration sources (per-plate roller impacts at 15.6–23.4 Hz, motor cogging at 134–670 Hz) are all well above the 3–6 Hz suspension band, ensuring strong attenuation.
 
-**中文：** 热图表明，**整个扫描设计空间均满足 0.1 g 目标**——即使最保守的设计（fn = 6 Hz，ζ = 0.2）也能将载荷保持在 0.1 g RMS 以下。主要振动源（16–24 Hz 的滚子冲击和 134–670 Hz 的电机齿槽振动）均远高于 3–6 Hz 的悬挂频带，因此具有强衰减效果。
+**中文：** 热图表明，**整个扫描设计空间均满足 0.1 g 目标**——即使最保守的设计（fn = 6 Hz，ζ = 0.2）也能将载荷保持在 0.1 g RMS 以下。主要振动源（15.6–23.4 Hz 的单板滚子通过激励和 134–670 Hz 的电机齿槽振动）均远高于 3–6 Hz 的悬挂频带，因此具有强衰减效果。
 
 ---
 
@@ -58,30 +58,32 @@ $$\text{RMS}_\text{out} = \sqrt{\int_0^\infty T^2(f)\, S_{xx}(f)\, df}$$
 ![Transmissibility curves](results/susp_fig1_transmissibility.png)
 *Figure 3 – Left: transmissibility vs frequency for fn = 3, 4, 5 Hz at ζ = 0.4. Right: effect of damping ratio at fn = 4 Hz. / 图3 — 左：ζ = 0.4 时，fn = 3、4、5 Hz 的传递率频率特性；右：fn = 4 Hz 时阻尼比的影响。*
 
-**EN:** Above $f_n\sqrt{2}$ (the isolation onset), transmissibility falls as $1/r^2$ (−40 dB/decade). The wheel has **2 side plates × 11 rollers = 22 rollers total**, staggered by 16.4° so each plate's rollers fill the other's gaps. The stagger suppresses the polygon-effect vibration, but three frequency bands remain relevant:
+**EN:** Above $f_n\sqrt{2}$ (the isolation onset), transmissibility falls as $1/r^2$ (−40 dB/decade). The wheel has **2 side plates × 11 rollers = 22 rollers total**, staggered by 16.4° so each plate's rollers fill the other's gaps. The chassis uses an **X-configuration** (wheel axes at 45° to chassis forward), so the effective wheel rolling speed is $v_\text{wheel} = v_\text{chassis}/\sqrt{2}$. Applying this correction, two frequency bands remain relevant:
 
-| Vibration source | Frequency at 0.8–1.2 m/s | At fn = 4 Hz: r | T (approx) | Attenuation |
-|-----------------|--------------------------|-----------------|------------|-------------|
-| Dominant measured band (road/chassis resonance, ~8/rev) | **16–23 Hz** | 4.0–5.8 | ~0.06 | −24 dB |
-| Per-plate roller passage (N=11) | **22–33 Hz** | 5.5–8.3 | ~0.03 | −31 dB |
-| Combined roller passage (N=22) | **44–66 Hz** | 11–17 | ~0.008 | −42 dB |
+| Vibration source | Frequency at 0.8–1.2 m/s chassis (corrected) | At fn = 4 Hz: r | T (approx) | Attenuation |
+|-----------------|----------------------------------------------|-----------------|------------|-------------|
+| Per-plate roller passage (N=11) — **dominant measured source** | **15.6–23.4 Hz** | 3.9–5.9 | ~0.06 | −24 dB |
+| Combined dual-plate passage (N=22, stagger-suppressed) | **31.3–46.8 Hz** | 7.8–11.7 | ~0.012 | −38 dB |
 
-The staggered dual-plate design already reduces the N=22 polygon vibration by design. The suspension attenuates all three bands effectively.
+The dominant measured peaks (16–23 Hz at 0.8–1.2 m/s) are confirmed as per-plate roller passage (N=11) with < 6 % error, once the 45° X-configuration geometry is accounted for. The staggered dual-plate design suppresses the N=22 combined polygon vibration. The suspension attenuates both bands effectively.
 
-**中文：** 车轮为 **2 侧板 × 11 滚子 = 共 22 个滚子**，相位差 16.4°，两侧板滚子互填间隙，该错位排列本身已抑制多边形效应振动。悬挂对三个频带均有良好衰减：主导实测频带（16–23 Hz）约 −24 dB，单板滚子通过频率（22–33 Hz）约 −31 dB，双板合并滚子通过频率（44–66 Hz）约 −42 dB。
+**中文：** 车轮为 **2 侧板 × 11 滚子 = 共 22 个滚子**，相位差 16.4°，两侧板滚子互填间隙。底盘采用 **X 形构型**（车轮轴线与底盘前向成 45°），因此实际车轮滚动速度为 $v_\text{wheel} = v_\text{chassis}/\sqrt{2}$。修正后，两个频带与悬挂设计相关：
+
+- **单板滚子通过频率（N=11）**：在 0.8–1.2 m/s 底盘速度时为 **15.6–23.4 Hz**（已确认为主导实测峰，误差 < 6%），悬挂衰减约 −24 dB
+- **双板合并通过频率（N=22，被错位设计抑制）**：**31.3–46.8 Hz**，悬挂衰减约 −38 dB
 
 ---
 
 ## 5. Recommended Design Point / 推荐设计点
 
 **EN:** **fn = 4 Hz, ζ = 0.4** is selected as the recommended design. This choice balances:
-- Good attenuation of dominant 16–23 Hz vibration band (−24 dB) and even stronger attenuation of true roller-passage frequencies at 33–66 Hz (−31 to −42 dB)
+- Good attenuation of the dominant 15.6–23.4 Hz per-plate roller-passage band (N=11, −24 dB) and even stronger attenuation of the combined dual-plate passage at 31.3–46.8 Hz (N=22, −38 dB)
 - Modest static deflection (15.5 mm — practical for a compact chassis)
 - Manageable stroke requirement (≥ 61 mm)
 - Robust: all speeds pass with large margin, ζ = 0.4 provides good transient behaviour without excessive softness
 
 **中文：** 推荐设计点为 **fn = 4 Hz，ζ = 0.4**。该选择在以下方面取得平衡：
-- 对 16–23 Hz 主导频带的良好衰减（−24 dB），以及对 33–66 Hz 真实滚子通过频率的更强衰减（−31 至 −42 dB）
+- 对 15.6–23.4 Hz 主导 N=11 单板滚子通过频带的良好衰减（−24 dB），以及对 31.3–46.8 Hz 的 N=22 双板合并通过频率的更强衰减（−38 dB）
 - 适中的静态下沉量（15.5 mm，对紧凑型底盘切实可行）
 - 可接受的行程需求（≥ 61 mm）
 - 鲁棒性强：所有速度均大幅满足目标，ζ = 0.4 兼顾动态响应与柔软性
@@ -196,16 +198,16 @@ All conclusions were independently verified using MATLAB toolbox functions.
 1. **Recommended design**: fn = 4 Hz, ζ = 0.4 per corner. Spring and damper values depend on total payload — select from the sizing table in Section 6.
 2. **Stroke budget**: Allow ≥ 61 mm total stroke (15.5 mm static sag + ±15 mm dynamic travel + installation tolerance). For lighter payloads (15 kg total), ≥ 46 mm may be sufficient.
 3. **Prototype and retest**: Install suspension hardware and repeat the 0.2–1.2 m/s speed sweep. Compare output PSDs against the predictions in Figure 4 to validate the model.
-4. **Investigate dominant ~8/rev peak**: The wheel has 2×11 = 22 staggered rollers; the stagger is designed to smooth out polygon-effect vibration. The dominant measured peak at ~8/rev (16–23 Hz) likely reflects a road-surface spatial frequency or chassis structural resonance rather than direct roller contact. Retest on a different floor surface or at varying speeds with finer resolution to confirm the source.
-5. **Motor cogging note**: The 134–670 Hz motor electrical excitation peaks (dominant at low speed) are attenuated > 30 dB by the recommended suspension and are not a design driver. If further attenuation is needed, address at the motor controller level (current ripple filtering).
+4. **Dominant peak source confirmed**: The 16–23 Hz dominant peaks are confirmed as per-plate roller-passage (N=11) once the 45° X-configuration geometry is accounted for ($v_\text{wheel} = v_\text{chassis}/\sqrt{2}$). Error < 6 % at all high-speed runs. The staggered dual-plate design effectively suppresses N=22 combined polygon vibration.
+5. **Motor cogging note**: The 134–670 Hz motor electrical excitation peaks (~10.2 events/motor_rev, dominant at low speed) are attenuated > 30 dB by the recommended suspension and are not a design driver. If further attenuation is needed, address at the motor controller level (current ripple filtering).
 
 **中文：**
 
 1. **推荐设计**：每角 fn = 4 Hz，ζ = 0.4。弹簧和阻尼器参数取决于实际总载质量，从第 6 节尺寸表中选取。
 2. **行程预算**：总行程应 ≥ 61 mm（15.5 mm 静态下沉 + ±15 mm 动态行程 + 安装余量）。对于较轻载荷（总质量 15 kg），≥ 46 mm 可能即已足够。
 3. **样机复测**：安装悬挂硬件后，重复 0.2–1.2 m/s 速度扫描测试，将输出 PSD 与图 4 的预测结果对比，以验证模型。
-4. **确认滚子数量**：实物清点一个车轮上的滚子数量，确认 N = 8（已由 `findpeaks` 分析识别）。这将验证主要振动激励频率。
-5. **电机齿槽振动说明**：低速主导的 134–670 Hz 电机电气激励峰经推荐悬挂后衰减 > 30 dB，不构成设计约束。如需进一步抑制，应在电机控制器层面处理（电流纹波滤波）。
+4. **主导峰来源已确认**：16–23 Hz 主导峰已确认为 N=11 单板滚子通过频率（经 45° X 形构型 $v_\text{wheel} = v_\text{chassis}/\sqrt{2}$ 修正），三个高速工况误差 < 6%。错位双板设计已有效抑制 N=22 多边形振动。
+5. **电机齿槽振动说明**：低速主导的 134–670 Hz 电机电气激励峰（约 10.2 次/电机转）经推荐悬挂后衰减 > 30 dB，不构成设计约束。如需进一步抑制，应在电机控制器层面处理（电流纹波滤波）。
 
 ---
 
