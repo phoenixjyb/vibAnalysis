@@ -25,8 +25,7 @@ A MATLAB-based frequency-domain vibration study of a 4-wheel omni-wheel chassis,
 
 ```
 vibAnalysis/
-├── recomoProto1-190-logs-acc-diff-speeds/   # Raw CSV data (Git LFS) / 原始 CSV 数据
-│   ├── 0001_..._0d2.csv                     # 0.2 m/s run
+├── recomoProto1-190-logs-acc-diff-speeds/   # Raw CSV data (Git LFS) / 原始 CSV 数据│   ├── 0001_..._0d2.csv                     # 0.2 m/s run
 │   ├── 0001_..._0d4.csv                     # 0.4 m/s run
 │   ├── 0001_..._0d6.csv                     # 0.6 m/s run
 │   ├── 0001_..._0d8.csv                     # 0.8 m/s run
@@ -52,6 +51,7 @@ vibAnalysis/
     ├── fig3_psd_welch.png
     ├── fig4_waterfall.png
     ├── fig5_peak_freq_vs_speed.png
+    ├── fig6_wideband_psd.png
     ├── susp_fig1_transmissibility.png
     ├── susp_fig2_rms_vs_fn.png
     ├── susp_fig3_design_heatmap.png

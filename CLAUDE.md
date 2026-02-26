@@ -138,3 +138,5 @@ Output figures go to `results/` with prefixes: `fig*`, `susp_fig*`, `verify_*`, 
 3. **Never open CSV with UTF-8 encoding** — use plain `fopen(fpath, 'r')`.
 4. **Never run MATLAB via Bash** — use MCP tools only.
 5. **N=11 is the dominant mechanical excitation**, not N=8 or N=22. N=22 is stagger-suppressed.
+6. **Low-speed peaks (135/269/404 Hz) are motor cogging, not gear mesh.** Gear mesh requires integer tooth counts; the measured ratio of ~10.27 events/motor_rev is non-integer, ruling out gear mesh. Wide-band PSD (0–2000 Hz, Fig 6) confirmed no gear mesh peaks above 500 Hz at high speeds — gear mesh is below the noise floor there.
+7. **Nyquist = 13,513 Hz** — the 500 Hz cap in early figures was artificially conservative. Fig 6 now shows 0–2000 Hz. No new excitation sources were found above 500 Hz.

@@ -245,6 +245,58 @@ for i = 1:nSpeeds
     fprintf('%-10.1f  %-15.2f\n', speeds(i), peakFreqs(i));
 end
 
+%% ── Figure 6: Wide-band PSD (0–2000 Hz) — gear mesh / cogging search ────
+% Our 500 Hz cap in earlier figures hides potential gear mesh frequencies.
+% At high chassis speeds, gear mesh (if ~10 teeth on motor pinion) falls at:
+%   0.8 m/s → ~527 Hz   1.0 m/s → ~658 Hz   1.2 m/s → ~790 Hz
+% Nyquist = 27027/2 = 13513 Hz, so 2000 Hz is well within reach.
+fig6 = figure('Name', 'Wide-Band PSD – 0–2000 Hz', ...
+    'Position', [50 50 1400 550]);
+
+reducerRatio  = 37.14;
+N_teeth_est   = 10;    % estimated teeth on motor pinion (matches ~10.2 events/motor_rev)
+
+xlims_wb  = {[0 2000], [300 1100]};
+titles_wb = {'Wide-Band Welch PSD  (0–2000 Hz)', ...
+             'Gear Mesh Search Band  (300–1100 Hz)'};
+
+for col = 1:2
+    subplot(1, 2, col); hold on;
+    for i = 1:nSpeeds
+        z    = detrend(accZ{i}, 'constant');
+        win  = round(0.5 * Fs(i));
+        [pxx, f] = pwelch(z, hann(win), round(win/2), [], Fs(i));
+        plot(f, 10*log10(pxx), 'Color', colors(i,:), ...
+            'LineWidth', 0.9, 'DisplayName', legendLabels{i});
+    end
+    % Annotate expected gear mesh lines (N_teeth_est teeth on motor pinion)
+    % f_gearmesh = (v_chassis / (sqrt(2)*C)) * reducerRatio * N_teeth_est
+    for i = 1:nSpeeds
+        f_gm = speeds(i) / (sqrt(2) * wheelCirc) * reducerRatio * N_teeth_est;
+        if f_gm >= xlims_wb{col}(1) && f_gm <= xlims_wb{col}(2)
+            xline(f_gm, '--', sprintf('%.0f Hz\n%.1fm/s', f_gm, speeds(i)), ...
+                'Color', colors(i,:), 'LineWidth', 0.8, 'FontSize', 6, ...
+                'LabelHorizontalAlignment', 'right', 'LabelVerticalAlignment', 'bottom');
+        end
+    end
+    xlim(xlims_wb{col});
+    xlabel('Frequency (Hz)'); ylabel('PSD (dB/Hz  re g²)');
+    title(titles_wb{col}); legend('Location', 'northeast'); grid on; grid minor;
+end
+sgtitle(sprintf(['Wide-Band PSD: Z-Axis (0–2000 Hz)\n' ...
+    'Dashed lines = expected gear mesh if N_{teeth} \\approx %d ' ...
+    '(motor pinion, reducer ratio %.2f)'], N_teeth_est, reducerRatio));
+
+fprintf('\nExpected gear mesh frequencies (N_teeth=%d, reducer=%.2f):\n', ...
+    N_teeth_est, reducerRatio);
+fprintf('%-10s  %-20s  %-20s\n', 'Speed','Motor shaft (Hz)','Gear mesh (Hz)');
+fprintf('%s\n', repmat('-',1,52));
+for i = 1:nSpeeds
+    f_motor = speeds(i) / (sqrt(2) * wheelCirc) * reducerRatio;
+    f_gm    = f_motor * N_teeth_est;
+    fprintf('%-10.1f  %-20.2f  %-20.2f\n', speeds(i), f_motor, f_gm);
+end
+
 %% ── Save figures ─────────────────────────────────────────────────────────
 outDir = 'results';
 if ~exist(outDir, 'dir'), mkdir(outDir); end
@@ -254,5 +306,6 @@ saveas(fig2, fullfile(outDir, 'fig2_fft_overlay.png'));
 saveas(fig3, fullfile(outDir, 'fig3_psd_welch.png'));
 saveas(fig4, fullfile(outDir, 'fig4_waterfall.png'));
 saveas(fig5, fullfile(outDir, 'fig5_peak_freq_vs_speed.png'));
+saveas(fig6, fullfile(outDir, 'fig6_wideband_psd.png'));
 fprintf('\nFigures saved to ./%s/\n', outDir);
 
