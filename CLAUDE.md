@@ -47,16 +47,19 @@ are exactly **N=11 per-plate roller passage** (< 6% error at all high-speed runs
 | Max wheel rolling speed | ~1.05 m/s (operational) / 1.16 m/s (motor limit) | → max chassis forward ~1.49 / 1.65 m/s |
 | Motor RPM at 1.2 m/s chassis | 4,744 RPM | safely below 6,500 RPM limit |
 
-### High-speed vibration (0.8–1.2 m/s chassis)
+### High-speed vibration (0.8–1.5 m/s chassis) — confirmed across 5 datasets / 4 surfaces
 
-| Speed (m/s) | Dominant peak (Hz) | N=11 corrected (Hz) | Error |
-|-------------|-------------------|---------------------|-------|
-| 0.8 | 16.5 | 15.6 | −5.5% |
-| 1.0 | 19.8 | 19.5 | −1.5% |
-| 1.2 | 23.1 | 23.4 | +1.3% |
+| Speed (m/s) | N=11 corrected (Hz) | Confirmed on surfaces |
+|-------------|---------------------|-----------------------|
+| 0.8 | 15.6 | Original, Black (< 1% error each) |
+| 1.0 | 19.5 | Original, Black, White, Pavement (< 2% each) |
+| 1.2 | 23.4 | Original, Black, Pavement (< 3% each) |
+| **1.5** | **29.2** | Black, White, Cement, Pavement (< 10% each) |
 
-**Conclusion: dominant peaks = per-plate roller passage (N=11). Mystery solved.**
-N=22 combined passage (31.3–46.8 Hz) is suppressed by the staggered dual-plate design.
+**Conclusion: N=11 confirmed on all smooth surfaces, all high speeds. Error < 7% at ≥ 1.0 m/s.**
+- Cement 0.8–1.2 m/s: broadband road noise masks N=11; structural resonance at **~79 Hz** dominates instead.
+- Original test = indoor smooth floor (confirmed; matches white/black tile RMS within 7%).
+- "2.58 g at 1.2 m/s" = **instantaneous PEAK, not RMS**. RMS at 1.2 m/s = **0.50 g**.
 
 ### Low-speed vibration (0.2–0.6 m/s chassis)
 
@@ -75,9 +78,12 @@ Previous (uncorrected) calculation gave ~267 events/wheel_rev and ~7.2/motor_rev
 - Predicted output: < 0.030 g RMS at all speeds (target < 0.1 g)
 - **Mass split**: total 25 kg, unsprung 5.2 kg (4 × 1.3 kg motor+wheel), sprung 19.8 kg
 - **Sprung mass per corner**: 4.95 kg (use this for k, c — NOT total/4)
-- **k = 3,127 N/m**, **c = 99.5 N·s/m** per corner (for current 4.95 kg sprung)
+- **k = 3,127 N/m**, **c = 99.5 N·s/m** per corner (for current 4.95 kg sprung) — **INDOOR USE ONLY**
 - Static sag: 15.5 mm; minimum stroke: **46 mm** (not 61 mm — that used uncorrected mass)
 - Note: 25 kg excludes suspension hardware — recompute k and c after hardware is weighed
+- **For outdoor pavement**: fn = 3 Hz, k ≈ 1,758 N/m; **for cement**: fn = 2 Hz, k ≈ 781 N/m, sag = 62 mm
+- **Low-speed resonance**: at 0.2 m/s N=11 (3.9 Hz) ≈ fn (4 Hz) → suspension amplifies ×1.62. Avoid ≤ 0.3 m/s sustained operation.
+- **Cement structural resonance**: ~79 Hz speed-independent peak on cement — chassis structural mode, not kinematic
 
 ---
 

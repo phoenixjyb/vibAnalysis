@@ -11,3 +11,6 @@ slprj/
 
 # Editor
 .vscode/
+
+# Test data (large CSV files managed locally)
+testData/

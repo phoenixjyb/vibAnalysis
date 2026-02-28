@@ -207,6 +207,8 @@ The end goal is stable video from a camera mounted on a gimbal arm. Key conclusi
 - **[Suspension Design Report](suspension_design_summary.md)** — Modelling approach, design space sweep, recommended parameters, spring/damper sizing, predicted performance, full verification. / 建模方法、设计空间扫描、推荐参数、弹簧阻尼器参数、预测性能、完整验证。
 - **[Future Design Roadmap](future_design_roadmap.md)** — Full ground-to-image vibration chain, why gimbals cannot fix Z-vibration, why passive isolators fail on articulated arms, three-layer mitigation strategy, second accelerometer measurement plan, image blur budget method, and proposed next MATLAB scripts. / 完整地面到图像振动传递链、云台无法修正 Z 向振动的原因、被动隔振器在关节臂上失效的原因、三层减振策略、第二加速度计测量方案、图像模糊容差方法及建议后续 MATLAB 脚本。
 - **[X-Config Kinematics Explainer](xconfig_kinematics_explainer.md)** — Why the chassis moves √2 faster than the wheels: no-slip constraint derivation, common misconception explained, inverse & forward kinematics verification, project speed limits. / 底盘速度为何是轮缘速度的 √2 倍：无打滑约束推导、常见误解解析、逆/正运动学验证、项目速度上限。
+- **[Multi-Surface Vibration Analysis](multi_surface_analysis_summary.md)** — 4 surfaces × 7 speeds (0.2–1.5 m/s): indoor tiles vs outdoor cement/pavement, N=11 confirmed at 1.5 m/s, suspension transmissibility per surface, critical low-speed resonance warning, outdoor design options. / 四种地面 × 七档速度（0.2–1.5 m/s）：室内地砖与室外水泥/人行道对比，1.5 m/s 时 N=11 验证，各地面悬挂传递率，低速共振预警，室外方案建议。
+- **[Suspension Case Review & Next Steps](suspension_case_review.md)** — Evaluation of three double wishbone design cases, identification of double-counted wheel mass, corrected inputs, geometry recommendation (Case 3), and 5-step action plan toward prototype. / 三个双叉臂设计方案评审、轮子质量重复计入问题识别、修正输入、几何参数推荐（方案三）及面向样机的五步行动计划。
 
 ---
 

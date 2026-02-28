@@ -5,9 +5,13 @@
 
 ## 1. Background & Design Goals / 背景与设计目标
 
-**EN:** Building on the vibration characterisation study (see `vibration_analysis_summary.md`), a passive spring-damper suspension was designed for the 4-wheel omni-wheel chassis. The actual system mass is **25 kg total**, with a **5.2 kg unsprung mass** (4 × 1.3 kg motor+wheel assemblies) and a **19.8 kg sprung mass** (everything above the suspension). The suspension spring and damper must be sized against the sprung mass only — for a rigid wheel on a hard floor there is no tyre compliance, so the unsprung mass does not appear in the transmissibility formula. The primary goal is to reduce the Z-axis payload RMS acceleration to **below 0.1 g** at all operating speeds (0.2–1.2 m/s).
+**EN:** Building on the vibration characterisation study (see `vibration_analysis_summary.md`), a passive spring-damper suspension was designed for the 4-wheel omni-wheel chassis. The actual system mass is **25 kg total**, with a **5.2 kg unsprung mass** (4 × 1.3 kg motor+wheel assemblies) and a **19.8 kg sprung mass** (everything above the suspension). The suspension spring and damper must be sized against the sprung mass only — for a rigid wheel on a hard floor there is no tyre compliance, so the unsprung mass does not appear in the transmissibility formula.
 
-**中文：** 在振动特性研究的基础上，为四轮全向轮底盘设计了被动弹簧-阻尼悬挂系统。系统实际总质量为 **25 kg**，其中**非簧载质量 5.2 kg**（4 × 1.3 kg 电机+车轮组件）、**簧载质量 19.8 kg**（悬挂以上的所有部件）。弹簧与阻尼器仅需针对簧载质量进行设计——刚性车轮在硬质地面上无轮胎弹性，非簧载质量不出现在传递率公式中。主要设计目标是将载荷 Z 轴 RMS 加速度在所有工作速度（0.2–1.2 m/s）下降至 **0.1 g 以下**。
+**The baseline vibration data used here was collected on an indoor smooth floor (confirmed by cross-comparison with four additional surface datasets — see `multi_surface_analysis_summary.md`). The fn = 4 Hz design meets < 0.1 g on indoor surfaces at all speeds. Outdoor cement and pavement require a different approach — see Section 9.**
+
+**中文：** 在振动特性研究的基础上，为四轮全向轮底盘设计了被动弹簧-阻尼悬挂系统。系统实际总质量为 **25 kg**，其中**非簧载质量 5.2 kg**（4 × 1.3 kg 电机+车轮组件）、**簧载质量 19.8 kg**（悬挂以上的所有部件）。弹簧与阻尼器仅需针对簧载质量进行设计——刚性车轮在硬质地面上无轮胎弹性，非簧载质量不出现在传递率公式中。
+
+**本设计所用基线振动数据采集于室内光滑地面（经与四组新增地面数据集交叉对比确认——见 `multi_surface_analysis_summary.md`）。fn = 4 Hz 设计在室内地面所有速度下满足 < 0.1 g 目标。室外水泥路和人行道需要不同方案——见第 9 节。**
 
 | Parameter / 参数 | Value / 数值 |
 |-----------------|-------------|
@@ -152,8 +156,10 @@ The dominant measured peaks (16–23 Hz at 0.8–1.2 m/s) are confirmed as per-p
 
 **中文：** 采用推荐悬挂后，滚子冲击峰及所有高频分量均得到强烈衰减。约 6 Hz 以上的载荷 PSD 下降超过 20 dB。
 
-| Speed / 速度 | Input RMS / 输入 RMS | Output RMS / 输出 RMS | Reduction / 衰减 | Meets target / 达标 |
-|-------------|---------------------|----------------------|-----------------|---------------------|
+**Indoor smooth floor (original baseline, validated against white/black tile datasets):**
+
+| Speed | Input RMS | Output RMS | Reduction | Meets < 0.1 g |
+|---|---|---|---|---|
 | 0.2 m/s | 0.069 g | 0.0074 g | −89 % | ✓ |
 | 0.4 m/s | 0.239 g | 0.0118 g | −95 % | ✓ |
 | 0.6 m/s | 0.303 g | 0.0157 g | −95 % | ✓ |
@@ -161,8 +167,21 @@ The dominant measured peaks (16–23 Hz at 0.8–1.2 m/s) are confirmed as per-p
 | 1.0 m/s | 0.500 g | 0.0245 g | −95 % | ✓ |
 | 1.2 m/s | 0.500 g | 0.0300 g | −94 % | ✓ |
 
-**Worst-case output: 0.030 g RMS @ 1.2 m/s — 70 % below the 0.1 g target.**
-**最恶劣工况输出：1.2 m/s 时 0.030 g RMS——低于 0.1 g 目标 70%。**
+**Worst-case indoor output: 0.030 g RMS @ 1.2 m/s — 70 % below the 0.1 g target.**
+**室内最恶劣工况输出：1.2 m/s 时 0.030 g RMS——低于 0.1 g 目标 70%。**
+
+**Outdoor surfaces — predicted output with same fn = 4 Hz suspension (T at N=11 frequency):**
+
+| Surface | Speed | Input RMS | T | Predicted output | Meets < 0.1 g |
+|---|---|---|---|---|---|
+| Pavement | 1.2 m/s | 1.068 g | 0.143 | 0.153 g | ✗ |
+| Pavement | 1.5 m/s | 1.306 g | 0.112 | 0.147 g | ✗ |
+| Cement | 1.2 m/s | 3.257 g | 0.143 | 0.466 g | ✗ |
+| Cement | 1.5 m/s | 3.575 g | 0.112 | 0.401 g | ✗ |
+
+> Note: T values above are at the N=11 roller frequency (dominant source on smooth surfaces). On cement, broadband road noise dominates — the actual output may differ from this single-frequency estimate. Measured PSD integration would give a more accurate prediction.
+>
+> 注意：上表 T 值取自 N=11 滚子频率处（光滑地面的主导激励源）。水泥路以宽频路面噪声为主，实际输出可能与单频估计有差异，需对实测 PSD 积分获得更精确预测。
 
 ---
 
@@ -217,21 +236,42 @@ All conclusions were independently verified using MATLAB toolbox functions.
 
 ## 9. Design Recommendations & Next Steps / 设计建议与后续步骤
 
-**EN:**
+### 9.1 Surface-specific suspension parameters / 各地面悬挂参数
 
-1. **Recommended design**: fn = 4 Hz, ζ = 0.4 per corner. For the actual system (25 kg total, 5.2 kg unsprung): **k = 3,127 N/m** and **c = 99.5 N·s/m** per corner. Note: 25 kg excludes suspension hardware mass — recompute k and c after the hardware is weighed (each extra kg on the sprung side adds ~160 N/m to k and ~5 N·s/m to c).
-2. **Stroke budget**: Allow ≥ 46 mm total stroke (15.5 mm static sag + ±15 mm dynamic travel + installation tolerance) for the current 4.95 kg sprung mass per corner.
-3. **Prototype and retest**: Install suspension hardware and repeat the 0.2–1.2 m/s speed sweep. Compare output PSDs against the predictions in Figure 4 to validate the model.
-4. **Dominant peak source confirmed**: The 16–23 Hz dominant peaks are confirmed as per-plate roller-passage (N=11) once the 45° X-configuration geometry is accounted for ($v_\text{wheel} = v_\text{chassis}/\sqrt{2}$). Error < 6 % at all high-speed runs. The staggered dual-plate design effectively suppresses N=22 combined polygon vibration.
-5. **Motor cogging note**: The 134–670 Hz motor electrical excitation peaks (~10.2 events/motor_rev, dominant at low speed) are attenuated > 30 dB by the recommended suspension and are not a design driver. If further attenuation is needed, address at the motor controller level (current ripple filtering).
+| Operating scenario | fn | ζ | k (N/m) | c (N·s/m) | Sag | Stroke |
+|---|---|---|---|---|---|---|
+| **Indoor smooth only** | **4 Hz** | **0.4** | **3,127** | **99.5** | 15.5 mm | ≥ 46 mm |
+| Indoor + pavement | 3 Hz | 0.4 | 1,758 | 75 | 27.6 mm | ≥ 82 mm |
+| All surfaces incl. cement | 2 Hz | 0.4 | 781 | 50 | 62 mm | ≥ 180 mm |
+
+> The fn = 4 Hz design is **validated** for indoor use (< 0.030 g worst-case).
+> For outdoor pavement and cement, lower fn is required — hardware choices and packaging must be revisited.
+>
+> fn = 4 Hz 设计已针对室内使用进行验证（最恶劣工况 < 0.030 g）。室外人行道和水泥路需降低 fn——硬件选型和安装空间需重新评估。
+
+### 9.2 Low-speed resonance warning / 低速共振预警
+
+At **0.2 m/s**, the N=11 roller frequency (3.9 Hz) is almost equal to fn (4 Hz) → suspension **amplifies** by ×1.62 rather than attenuating. Avoid sustained operation at ≤ 0.3 m/s when vibration isolation is critical. This issue is less severe with fn = 2–3 Hz (the resonance point shifts below 0.2 m/s).
+
+**在 0.2 m/s 时，N=11 滚子频率（3.9 Hz）约等于 fn（4 Hz），悬挂会对该频率放大 ×1.62 而非衰减。** 对振动隔离要求严格时应避免在 ≤ 0.3 m/s 下长时间运行。采用 fn = 2–3 Hz 时共振点移至 0.2 m/s 以下，该问题有所缓解。
+
+### 9.3 Hardware and re-measurement / 硬件与重新测量
+
+**EN:**
+1. **Correct tool inputs before building**: Input payload = **19.8 kg** (sprung only) in the suspension designer — current Case 2 inputs 25 kg which double-counts the wheel mass and gives k = 4,946 N/m (too stiff; would give fn ≈ 5 Hz for actual sprung mass). See `suspension_case_review.md`.
+2. **Adopt Case 3 geometry**: Lu = L_lower = 150 mm (equal-length arms), spring mount a = 140 mm. Kinematically superior to Case 1/2 (less camber change through travel).
+3. **Weigh suspension hardware** and recompute k, c — 25 kg does not include wishbone arms, hub carriers, fasteners. Each kg on sprung side adds ~160 N/m to k and ~5 N·s/m to c.
+4. **Build prototype and retest on all 4 surfaces** — reference vibration data now exists for all surfaces (see `surface_comparison.m` figures). Compare measured output RMS against predictions.
+5. **Investigate 79 Hz chassis structural resonance** — excited on cement, speed-independent. Assess whether frame stiffening or damping treatment is needed before finalising the chassis design.
+6. **Motor cogging**: 134–1,007 Hz at 0.2–1.5 m/s — attenuated > 30 dB by any fn ≤ 4 Hz suspension. Not a design driver but may require motor controller tuning if audible.
 
 **中文：**
-
-1. **推荐设计**：每角 fn = 4 Hz，ζ = 0.4。当前实际系统（总质量 25 kg，非簧载 5.2 kg）：每角 **k = 3,127 N/m**，**c = 99.5 N·s/m**。注意：25 kg 不含悬挂结构自重，硬件称重后需重新计算（簧载侧每增加 1 kg，k 增加约 160 N/m，c 增加约 5 N·s/m）。
-2. **行程预算**：当前单角簧载质量 4.95 kg 时，总行程应 ≥ 46 mm（15.5 mm 静态下沉 + ±15 mm 动态行程 + 安装余量）。
-3. **样机复测**：安装悬挂硬件后，重复 0.2–1.2 m/s 速度扫描测试，将输出 PSD 与图 4 的预测结果对比，以验证模型。
-4. **主导峰来源已确认**：16–23 Hz 主导峰已确认为 N=11 单板滚子通过频率（经 45° X 形构型 $v_\text{wheel} = v_\text{chassis}/\sqrt{2}$ 修正），三个高速工况误差 < 6%。错位双板设计已有效抑制 N=22 多边形振动。
-5. **电机齿槽振动说明**：低速主导的 134–670 Hz 电机电气激励峰（约 10.2 次/电机转）经推荐悬挂后衰减 > 30 dB，不构成设计约束。如需进一步抑制，应在电机控制器层面处理（电流纹波滤波）。
+1. **建造前修正工具输入**：悬挂设计器中有效负载应输入 **19.8 kg**（仅簧载质量）。当前方案二输入 25 kg 重复计入车轮质量，得到 k = 4,946 N/m（过硬；对实际簧载质量将导致 fn ≈ 5 Hz）。详见 `suspension_case_review.md`。
+2. **采用方案三几何参数**：Lu = L_lower = 150 mm（等长叉臂），弹簧安装点 a = 140 mm。运动学特性优于方案一/二（行程内外倾变化更小）。
+3. **称量悬挂硬件**，重新计算 k、c — 25 kg 不含叉臂、轮毂载体、紧固件。簧载侧每增加 1 kg，k 增加约 160 N/m，c 增加约 5 N·s/m。
+4. **建样机并在全部四种地面实测** — 四种地面振动数据均已就绪（见 `surface_comparison.m` 图表）。将实测输出 RMS 与预测值对比。
+5. **调查 79 Hz 底盘结构共振** — 在水泥路激励下出现，与速度无关。在最终确定底盘设计前，评估是否需要加强框架刚度或增加阻尼处理。
+6. **电机齿槽**：0.2–1.5 m/s 范围内为 134–1,007 Hz——任何 fn ≤ 4 Hz 悬挂均衰减 > 30 dB，不构成设计约束，但若有可闻噪声，可考虑电机控制器调优。
 
 ---
 

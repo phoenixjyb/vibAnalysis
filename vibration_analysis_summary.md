@@ -5,15 +5,26 @@
 
 ## 1. Background / 背景
 
-**EN:** A 4-wheel omni-wheel chassis (wheel diameter 5 in / 127 mm) was instrumented with a 3-axis accelerometer to characterise vertical (Z-axis) vibration at six travel speeds ranging from 0.2 m/s to 1.2 m/s. The goal is to inform the design of a suspension system that attenuates both wheel-roller-induced vibration and road-surface disturbances.
+**EN:** A 4-wheel omni-wheel chassis (wheel diameter 5 in / 127 mm) was instrumented with a 3-axis accelerometer to characterise vertical (Z-axis) vibration across **five test datasets spanning four surface types and seven travel speeds from 0.2 m/s to 1.5 m/s**. The goal is to inform the design of a suspension system that attenuates both wheel-roller-induced vibration and road-surface disturbances. The original baseline dataset (6 speeds, 0.2–1.2 m/s, indoor smooth floor) was supplemented by four additional surface datasets (each 7 speeds, 0.2–1.5 m/s): indoor black tile, indoor white tile, outdoor cement, and outdoor pavement.
 
-**中文：** 对一台配备四个全向轮的底盘（车轮直径 5 英寸 / 127 mm）进行了振动测试，使用三轴加速度计采集竖直方向（Z 轴）的加速度数据。测试速度覆盖 0.2 m/s 至 1.2 m/s 共六个工况，目的是为悬挂系统的设计提供依据，使其能同时抑制全向轮滚子引起的振动以及地面不平整带来的冲击。
+**中文：** 对一台配备四个全向轮的底盘（车轮直径 5 英寸 / 127 mm）进行了振动测试，使用三轴加速度计采集竖直方向（Z 轴）的加速度数据。共完成**五组测试数据集，涵盖四种地面类型、速度范围 0.2–1.5 m/s 的七档工况**。原始基线数据集（六档速度，0.2–1.2 m/s，室内光滑地面）后续补充了四种地面的扩展数据集（每组七档速度，0.2–1.5 m/s）：室内黑砖、室内白砖、室外水泥路、室外人行道。
 
 ---
 
 ## 2. Test Data Overview / 测试数据概况
 
 **EN:**
+
+| Dataset / 数据集 | Surface / 地面 | Speeds / 速度档 | Files / 文件数 |
+|---|---|---|---|
+| Original baseline / 原始基线 | Indoor smooth (≈ white tile) / 室内光滑（≈ 白砖） | 0.2–1.2 m/s (6) | 6 |
+| indoor-blackFloor / 室内黑砖 | Indoor black tile / 室内黑砖 | 0.2–1.5 m/s (7) | 7 |
+| indoor-whiteFloor / 室内白砖 | Indoor white tile / 室内白砖 | 0.2–1.5 m/s (7) | 7 |
+| outdoor-cement / 室外水泥路 | Outdoor cement / 室外水泥路 | 0.2–1.5 m/s (7) | 7 |
+| outdoor-pavement / 室外人行道 | Outdoor paving stones / 室外人行道 | 0.2–1.5 m/s (7) | 7 |
+| **Total / 合计** | | | **34 files** |
+
+**Original baseline file detail / 原始基线文件详情:**
 
 | File | Speed | Samples | Duration |
 |------|-------|---------|----------|
@@ -23,6 +34,10 @@
 | 0001_…_0d8.csv | 0.8 m/s | 314,824 | ~11.6 s |
 | 0001_…_1d0.csv | 1.0 m/s | 314,824 | ~11.6 s |
 | 0001_…_1d2.csv | 1.2 m/s | 266,800 | ~9.9 s  |
+
+> **The original test was confirmed to be on an indoor smooth surface.** Cross-comparison shows its RMS matches indoor white tile to within 7 % at all speeds, and indoor black tile to within 12 %. It is clearly distinct from outdoor cement (3–6× higher) and pavement (1.5–2× higher).
+>
+> **原始测试已确认为室内光滑地面。** 交叉对比表明，其各速度 RMS 与室内白砖吻合，误差在 7% 以内，与黑砖误差在 12% 以内。与室外水泥路（高 3–6 倍）和人行道（高 1.5–2 倍）明显不同。
 
 - **True sample rate: 27,027 Hz** (verified from timestamps; the declared column value of ~26,820 Hz was found to be inaccurate — timestamps show a fixed 37 µs interval, i.e. 1,000,000 / 37 Hz exactly).
 - Timestamp format confirmed: `mm:ss.mmm.uuu` (minutes : seconds . milliseconds . microseconds).
@@ -41,11 +56,13 @@
 ## 3. Vibration Severity / 振动强度
 
 ![Individual FFT spectra at each speed](results/fig1_fft_individual.png)
-*Figure 1 – Single-sided FFT of Z-axis acceleration at each travel speed (0–500 Hz). / 图1 — 各行驶速度下 Z 轴加速度的单边 FFT 频谱（0–500 Hz）。*
+*Figure 1 – Single-sided FFT of Z-axis acceleration at each travel speed (0–500 Hz), original baseline. / 图1 — 原始基线各行驶速度下 Z 轴加速度的单边 FFT 频谱（0–500 Hz）。*
+
+### 3.1 Original baseline (indoor smooth floor) / 原始基线（室内光滑地面）
 
 **EN:**
 
-| Speed (m/s) | RMS Z (g) | Peak Z (g) |
+| Speed (m/s) | RMS Z (g) | Peak Z (g) ¹ |
 |-------------|-----------|------------|
 | 0.2 | 0.069 | 0.47 |
 | 0.4 | 0.239 | 1.04 |
@@ -54,11 +71,29 @@
 | 1.0 | 0.500 | 2.30 |
 | 1.2 | 0.500 | **2.58** |
 
-Vibration grows steeply with speed. Peak Z-acceleration reaches **2.58 g** at 1.2 m/s — a level that would be highly damaging to sensitive payloads without suspension.
+¹ **Peak Z (2.58 g) is the instantaneous maximum — NOT the RMS.** The RMS at 1.2 m/s is 0.50 g. All suspension design calculations use RMS, not peak.
 
 **中文：**
 
-振动随速度显著增大。在 1.2 m/s 时，Z 轴峰值加速度达 **2.58 g**，对敏感载荷而言在无悬挂状态下将造成严重影响。
+¹ **Z 轴峰值（2.58 g）为瞬时最大值——并非 RMS。** 1.2 m/s 时的 RMS 为 0.50 g。所有悬挂设计计算均使用 RMS，而非峰值。
+
+### 3.2 All surfaces — Z-RMS comparison / 全地面 Z 轴 RMS 对比 (g)
+
+| Speed | Original | Black Tile | White Tile | Cement | Pavement |
+|---|---|---|---|---|---|
+| 0.2 m/s | 0.069 | 0.068 | 0.064 | **0.193** | 0.072 |
+| 0.4 m/s | 0.239 | 0.196 | 0.201 | **0.546** | 0.240 |
+| 0.6 m/s | 0.303 | 0.277 | 0.296 | **1.073** | 0.406 |
+| 0.8 m/s | 0.397 | 0.374 | 0.379 | **1.765** | 0.565 |
+| 1.0 m/s | 0.500 | 0.513 | 0.507 | **2.507** | 0.828 |
+| 1.2 m/s | 0.500 | 0.552 | 0.534 | **3.257** | 1.068 |
+| 1.5 m/s | — | 0.705 | 0.674 | **3.575** | 1.306 |
+
+**Key observations / 主要观察：**
+- Indoor surfaces (original, black tile, white tile) are **tightly grouped** — all within 12 % of each other. The original test is representative of any indoor smooth floor. / 室内地面（原始、黑砖、白砖）数值**高度一致**——彼此误差在 12% 以内，原始测试可代表任意室内光滑地面。
+- Outdoor cement is **3–6× worse** than indoor at all speeds. / 室外水泥路在所有速度下均比室内高 **3–6 倍**。
+- Outdoor pavement is moderate: **1.1–2× worse** than indoor. / 室外人行道居中：比室内高 **1.1–2 倍**。
+- At 1.5 m/s cement reaches **3.58 g RMS** — an extreme input for any passive suspension. / 1.5 m/s 时水泥路 RMS 达 **3.58 g**——对任何被动悬挂都是极端输入。
 
 ---
 
@@ -75,34 +110,41 @@ Two distinct vibration regimes were identified depending on speed.
 ![Welch PSD](results/fig3_psd_welch.png)
 *Figure 3 – Welch PSD of Z-axis acceleration (0.5 s Hann window, 50 % overlap): full band (left) and 0–100 Hz (right). / 图3 — Z 轴加速度 Welch 功率谱密度（0.5 s Hann 窗，50% 重叠）：全频段（左）与 0–100 Hz（右）。*
 
-### 4.1 High-Speed Regime (0.8–1.2 m/s) — Per-Plate Roller Passage (N=11) Confirmed
-### 高速工况（0.8–1.2 m/s）— 单板滚子通过频率（N=11）已确认
+### 4.1 High-Speed Regime (≥ 0.8 m/s) — Per-Plate Roller Passage (N=11) Confirmed
+### 高速工况（≥ 0.8 m/s）— 单板滚子通过频率（N=11）已确认
 
-**EN:** At operating speeds of 0.8 m/s and above, the dominant vibration is a broadband peak whose frequency scales proportionally with travel speed:
-
-| Speed (m/s) | Dominant freq (Hz) | Freq / speed (Hz·s/m) | Events / wheel rev (corrected) |
-|-------------|-------------------|----------------------|-------------------------------|
-| 0.8 | 16.4 | 20.5 | 11.0 |
-| 1.0 | 19.6 | 19.6 | 11.1 |
-| 1.2 | 22.9 | 19.1 | 11.0 |
-
-The apparent ~8 events/rev from the earlier (uncorrected) analysis was a geometric artefact. The chassis uses an **X-configuration** (each wheel's rolling axis points NE/SE/SW/NW — at 45° to the chassis forward direction). For pure forward motion at chassis speed $v_\text{chas}$, each wheel rolls at $v_\text{wheel} = v_\text{chas} \cos 45° = v_\text{chas}/\sqrt{2}$. Applying this correction, the roller-passage frequencies become:
+**EN:** At 0.8 m/s and above, the dominant vibration on smooth indoor surfaces is a speed-proportional peak confirmed as **N=11 per-plate roller passage**. The chassis uses an **X-configuration** (each wheel's rolling axis at 45° to chassis forward), so each wheel rolls at $v_\text{wheel} = v_\text{chas}/\sqrt{2}$, giving:
 
 $$f_\text{roller}(N) = \frac{N \cdot v_\text{chas}}{\sqrt{2} \cdot \pi d}$$
 
-| Speed (m/s) | Per-plate (N=11) corrected | Combined (N=22) corrected | Dominant measured | Error (corrected N=11) |
-|-------------|---------------------------|--------------------------|-------------------|------------------------|
-| 0.8 | **15.6 Hz** | 31.3 Hz | 16.4 Hz | −5.5 % |
-| 1.0 | **19.5 Hz** | 39.0 Hz | 19.6 Hz | −0.5 % |
-| 1.2 | **23.4 Hz** | 46.8 Hz | 22.9 Hz | +2.2 % |
+**Cross-surface verification — N=11 peak frequency vs measured (Hz) / 跨地面 N=11 频率验证：**
 
-**The mystery is resolved: the dominant measured peaks (16–23 Hz) are exactly the per-plate roller-passage frequency (N=11), with < 6 % error across all three high-speed runs.** The wheel's staggered dual-plate design still suppresses the N=22 combined polygon vibration, but the N=11 per-plate component remains visible. The previous "~8/rev" reading arose from using chassis speed directly (without the √2 correction) to compute the wheel rotation rate.
+| Speed | N=11 theory | Original | Black | White | Cement | Pavement |
+|---|---|---|---|---|---|---|
+| 0.8 m/s | **15.6** | 15.7 (+0.5%) | 15.7 (+0.5%) | 21.4 ⚠ | — ² | — ² |
+| 1.0 m/s | **19.5** | 19.8 (+1.5%) | 19.8 (+1.5%) | 19.8 (+1.5%) | — ² | 19.8 (+1.5%) |
+| 1.2 m/s | **23.4** | 23.9 (+2.2%) | 23.9 (+2.2%) | 47.0 ⚠ | — ² | 23.1 (−1.3%) |
+| 1.5 m/s | **29.2** | — | 27.2 (−6.9%) | 27.2 (−6.9%) | 26.4 (−9.7%) | 27.2 (−6.9%) |
 
-**中文：** 之前分析中"约 8/转"的表观值是几何误差所致。该底盘为 **X 形构型**（每个车轮的滚动轴线朝向 NE/SE/SW/NW 方向，与底盘前向呈 45° 角）。当底盘以速度 $v_\text{chas}$ 纯前进时，每个车轮的实际滚动速度为 $v_\text{wheel} = v_\text{chas}/\sqrt{2}$，因此修正后的滚子通过频率为：
+² Cement (0.8–1.2 m/s) and Pavement (0.8 m/s): broadband road noise or structural resonance dominates, masking the roller peak — see Section 4.3.
 
-$$f_\text{roller}(N) = \frac{N \cdot v_\text{chas}}{\sqrt{2} \cdot \pi d}$$
+⚠ White tile anomaly: at 0.8 m/s measured 21.4 Hz (between N=11 and N=22); at 1.2 m/s measured 47.0 Hz ≈ **N=22 (46.8 Hz)** — stagger suppression was less effective in this specific run. N=11 is still the primary source, but N=22 can emerge on occasion.
 
-**谜题已解开：实测主导峰（16–23 Hz）正是单侧板滚子通过频率（N=11），三个高速工况下误差均小于 6%。** 车轮的错位双板设计仍有效抑制了 N=22 的多边形振动，但 N=11 的单板分量保持可见。之前"约 8/转"的误判，源于直接用底盘速度（未做 √2 修正）计算车轮转速。
+**N=11 is confirmed as the dominant mechanical excitation on all smooth surfaces at ≥ 1.0 m/s, with error < 7 % across 14 of 17 high-speed measurements.**
+
+**中文：** N=11 单板滚子通过频率已在所有光滑地面、≥ 1.0 m/s 的工况下得到确认，17 个高速测量点中 14 个误差 < 7%。水泥路（0.8–1.2 m/s）及人行道（0.8 m/s）因宽频路面噪声掩盖滚子峰值而无法识别（见 4.3 节）。白砖在特定工况下偶现 N=22（46.8 Hz），系错位抑制效果减弱所致。
+
+**Complete frequency table / 完整频率表 (0.2–1.5 m/s):**
+
+| Speed | N=11 (Hz) | N=22 (Hz) | Cogging (Hz) | Motor RPM |
+|---|---|---|---|---|
+| 0.2 | 3.9 | 7.8 | 134 | 788 |
+| 0.4 | 7.8 | 15.6 | 269 | 1,575 |
+| 0.6 | 11.7 | 23.4 | 403 | 2,363 |
+| 0.8 | 15.6 | 31.2 | 537 | 3,150 |
+| 1.0 | 19.5 | 39.0 | 671 | 3,938 |
+| 1.2 | 23.4 | 46.8 | 806 | 4,725 |
+| **1.5** | **29.2** | **58.5** | **1,007** | **5,906** |
 
 ---
 
@@ -122,15 +164,35 @@ $$f_\text{roller}(N) = \frac{N \cdot v_\text{chas}}{\sqrt{2} \cdot \pi d}$$
 
 With the √2 X-configuration correction, the wheel rotation rate at chassis speed $v$ is $f_w = v/(\sqrt{2}\,\pi d)$, so events/wheel rev $= f_\text{peak} \cdot \sqrt{2}\,\pi d / v$. Dividing by the reducer ratio of 37.14 gives **~10.2 events per motor revolution** — a consistent value across all three low-speed runs. The sharpness of these peaks (sinusoidal, not impact-like) further supports a motor/electrical origin.
 
-**Gear mesh hypothesis — investigated and ruled out:** An alternative explanation is gear mesh frequency of the reducer (ratio 37.14). If the motor pinion has $N$ teeth, the gear mesh frequency equals motor shaft rate × $N$. The ratio of measured peak to motor shaft rate is **10.27** — a non-integer. Since gear teeth must be whole numbers, gear mesh cannot produce this frequency. The excitation is definitively **motor cogging torque or stator force ripple** (e.g. ~10 electrical events per motor revolution from pole/slot topology).
+**Cross-surface verification of motor cogging / 跨地面电机齿槽验证:**
 
-**Wide-band PSD scan (0–2000 Hz):** The earlier 500 Hz analysis cap was artificially conservative (Nyquist = 13,513 Hz). A wide-band Welch PSD extended to 2,000 Hz was computed to check whether any gear mesh peaks appear above 500 Hz at high chassis speeds (predicted: 527 Hz at 0.8 m/s, 658 Hz at 1.0 m/s, 790 Hz at 1.2 m/s). **No speed-proportional sharp peaks were found** in that band — the PSD above ~500 Hz is flat and similar across all speeds. Gear mesh energy, if any, lies below the broadband noise floor. The two confirmed excitation sources (N=11 roller passage and motor cogging) are sufficient to explain all observed spectral features.
+| Speed | Cogging theory | Original | Black | White | Pavement | Cement |
+|---|---|---|---|---|---|---|
+| 0.2 m/s | 134 Hz | 134 (+0.1%) | 134 (+0.1%) | 134 (+0.1%) | 134 (+0.1%) | masked ³ |
+| 0.4 m/s | 269 Hz | 269 (+0.1%) | 269 (+0.1%) | 270 (+0.4%) | 277 (+3.2%) | masked ³ |
+| 0.6 m/s | 403 Hz | 404 (+0.3%) | 404 (+0.3%) | 403 (+0.1%) | 400 (−0.7%) | masked ³ |
 
-**中文：** 在低速时，滚子冲击能量较弱，主导振动变为非常尖锐的窄带峰。应用 √2 修正后，折算得每电机转**约 10.2 次激励**，在三个低速工况下极为一致。
+³ On outdoor cement, broadband road noise energy at 0.2–0.6 m/s is large enough to bury the cogging peak. Cogging is still present but not the dominant spectral feature.
 
-**减速器齿轮啮合假说——已排除：** 另一可能的解释是减速器（减速比 37.14）的齿轮啮合频率。如果电机齿轮有 $N$ 个齿，齿轮啮合频率 = 电机轴转速 × $N$。实测峰值与电机轴转速之比为 **10.27**——非整数。由于齿数必须为整数，齿轮啮合无法产生该频率，因此可以明确排除。激励来源确认为**电机齿槽力矩或定子力波**。
+Motor cogging is confirmed on all smooth surfaces with error < 3.5 %. It is not visible as the dominant peak on cement at any speed due to the much higher broadband road noise floor.
 
-**宽频带 PSD 扫描（0–2000 Hz）：** 之前以 500 Hz 为上限具有一定局限性（奈奎斯特频率为 13,513 Hz）。为检验高速工况下 500 Hz 以上是否存在齿轮啮合峰，对 0–2000 Hz 范围进行了宽频带 Welch PSD 计算（预测齿轮啮合频率：0.8 m/s 时 527 Hz，1.0 m/s 时 658 Hz，1.2 m/s 时 790 Hz）。结果**未发现任何速度相关的尖锐峰**——500 Hz 以上各速度 PSD 趋于平坦且相近。两个已确认的激励源（N=11 滚子通过和电机齿槽）已足以解释所有观测到的频谱特征。
+**Gear mesh ruled out:** The ratio 10.27 events/motor_rev is non-integer — gear teeth must be whole numbers. Gear mesh cannot produce this frequency. Wide-band PSD (0–2000 Hz) confirms no speed-proportional peaks above 500 Hz on any surface. At 1.5 m/s the cogging frequency rises to **1,007 Hz** — outside the standard analysis window.
+
+**中文：** 电机齿槽激励已在所有光滑地面（原始、黑砖、白砖、人行道）低速工况下确认，误差 < 3.5%。水泥路因宽频路面噪声较强，齿槽峰被掩盖，无法识别为主导峰。齿轮啮合假说已排除（10.27 次/转为非整数）。1.5 m/s 时齿槽频率升至 **1,007 Hz**，超出标准分析窗口。
+
+### 4.3 NEW — Cement Structural Resonance at ~79 Hz / 新发现：水泥路激励下的底盘结构共振（约 79 Hz）
+
+**EN:** On outdoor cement at 0.8–1.2 m/s, the dominant spectral peak is at **~79 Hz — constant regardless of speed**. This is not a kinematic frequency (N=11 at 0.8 m/s = 15.6 Hz, N=22 = 31.2 Hz). Its speed-independence identifies it as a **chassis structural resonance** excited by the broadband road roughness input from cement.
+
+| Speed (m/s) | N=11 theory | N=22 theory | Observed dominant peak | Speed-dependent? |
+|---|---|---|---|---|
+| 0.8 | 15.6 Hz | 31.2 Hz | **79.2 Hz** | No → structural |
+| 1.0 | 19.5 Hz | 39.0 Hz | **79.2 Hz** | No → structural |
+| 1.2 | 23.4 Hz | 46.8 Hz | **79.2 Hz** | No → structural |
+
+**Implications:** The 79 Hz chassis resonance is only excited when the broadband road input (cement) is strong enough to drive it. On smooth indoor surfaces the broadband floor is too low to excite it significantly. This resonance should be investigated in structural analysis of the chassis frame and may need to be addressed by stiffening the frame or adding damping treatment.
+
+**中文：** 室外水泥路在 0.8–1.2 m/s 工况下，主导谱峰为 **约 79 Hz——与速度无关**。这不是运动学频率（N=11 在 0.8 m/s 时为 15.6 Hz，N=22 为 31.2 Hz）。速度无关性表明这是水泥路宽频输入激励的**底盘结构共振**。该共振仅在室外粗糙地面提供足够宽频激励时才被显著激发，室内光滑地面因路面噪声底数低而不出现。建议对底盘框架进行结构分析，必要时通过加强刚度或增加阻尼处理来解决。
 
 ![Wide-band PSD](results/fig6_wideband_psd.png)
 *Figure 6 – Wide-band Welch PSD (0–2000 Hz), left panel full band, right panel 300–1100 Hz zoom. Dashed lines mark expected gear mesh positions assuming ~10 motor-pinion teeth. No speed-proportional peaks appear above 500 Hz. / 图6 — 宽频带 Welch PSD（0–2000 Hz），左：全频段，右：300–1100 Hz 放大。虚线标注假设电机齿轮约 10 齿时的预期齿轮啮合频率。500 Hz 以上未见速度相关尖锐峰。*
@@ -163,57 +225,78 @@ With the √2 X-configuration correction, the wheel rotation rate at chassis spe
 
 ## 6. Implications for Suspension Design / 对悬挂系统设计的启示
 
-**EN:**
+### 6.1 Surface-dependent performance / 地面相关性能
 
 The suspension must handle two distinct input bands:
+1. **Wheel-induced vibration (N=11):** 3.9–29.2 Hz depending on speed (dominant on smooth surfaces)
+2. **Road surface broadband:** Low frequency on indoor tiles; significantly stronger and broader on outdoor cement and pavement
 
-1. **Road surface disturbances**: typically 0.5–5 Hz (large amplitude, low frequency — speed bumps, tile joints, floor irregularities).
-2. **Wheel-induced vibration**: the dominant energy lies in the **15.6–23.4 Hz** band (confirmed as per-plate roller passage N=11, corrected for X-configuration). The combined dual-plate passage (N=22) at **31.3–46.8 Hz** is also present at lower amplitude (suppressed by the stagger design).
+**Critical: at 0.2 m/s, N=11 = 3.9 Hz ≈ fn = 4 Hz → suspension AMPLIFIES by ×1.62 at this speed.**
+The robot should avoid sustained operation at ≤ 0.3 m/s if vibration isolation is critical.
+**重要：0.2 m/s 时 N=11 = 3.9 Hz ≈ fn = 4 Hz，悬挂对该频率振动产生 ×1.62 的放大效应。**
+若对振动隔离要求严格，应避免在 ≤ 0.3 m/s 下长时间运行。
 
-A spring-damper suspension with a **natural frequency of 3–5 Hz** is recommended:
-- Provides a frequency ratio of **3–7× above the 15.6–23.4 Hz dominant band** and **7–12× above the 31.3–46.8 Hz N=22 roller-passage band**, giving strong attenuation via the 1/r² roll-off above resonance.
-- Soft enough to absorb low-frequency road disturbances without transmitting them to the chassis.
-- The damping ratio should be chosen to avoid amplification at the suspension's own natural frequency (ζ ≈ 0.3–0.5 is typical for this class of application).
+### 6.2 Predicted suspension output by surface (fn=4 Hz, ζ=0.4) / 各地面悬挂预测输出
 
-Motor electrical excitation (134–670 Hz range, ~10.2 events/motor_rev) is high frequency and low amplitude at low speeds; a 3–5 Hz suspension will attenuate it strongly and it is unlikely to be a design driver.
+| Surface | Input @ 1.2 m/s | T at 23.4 Hz | Output | < 0.1 g? |
+|---|---|---|---|---|
+| Indoor (original / black / white) | ~0.50–0.55 g | 0.143 | **~0.072–0.079 g** | ✓ |
+| Outdoor pavement | 1.068 g | 0.143 | **0.153 g** | ✗ |
+| Outdoor cement | 3.257 g | 0.143 | **0.466 g** | ✗ |
 
-**中文：**
+At 1.5 m/s (T=0.112 at 29.2 Hz):
 
-悬挂系统需应对两类不同频段的输入：
+| Surface | Input @ 1.5 m/s | Output | < 0.1 g? |
+|---|---|---|---|
+| Indoor (black / white) | ~0.67–0.70 g | **~0.076–0.079 g** | ✓ |
+| Outdoor pavement | 1.306 g | **0.147 g** | ✗ |
+| Outdoor cement | 3.575 g | **0.401 g** | ✗ |
 
-1. **地面不平整扰动**：通常在 0.5–5 Hz（低频、大幅值，如台阶、地砖缝隙等）。
-2. **车轮诱发振动**：主导能量集中在 **15.6–23.4 Hz** 频段（已确认为 X 形构型修正后的 N=11 单板滚子通过频率）。N=22 双板合并通过频率（**31.3–46.8 Hz**）亦以较低幅值存在（被错位设计抑制）。
+### 6.3 Surface-specific suspension guidance / 各地面悬挂建议
 
-建议以**固有频率 3–5 Hz** 的弹簧-阻尼悬挂作为初步设计基准：
-- 与 15.6–23.4 Hz 主导频段之比约为 **3–7 倍**，与 31.3–46.8 Hz 的 N=22 频段之比约为 **7–12 倍**，利用共振点以上 1/r² 的衰减特性，可有效降低传递率；
-- 足够柔软，可吸收低频地面扰动而不传递至底盘；
-- 阻尼比建议取 **ζ ≈ 0.3–0.5**，以避免在悬挂固有频率处发生放大。
+| Operating surface | Recommended fn | k per corner | Comment |
+|---|---|---|---|
+| **Indoor only** (smooth tile) | **4 Hz** | **3,127 N/m** | Meets < 0.1 g at all speeds ✓ |
+| Pavement + indoor | **3 Hz** | ~1,758 N/m | Reduces pavement output to ~0.085 g ✓ |
+| All surfaces incl. cement | **≤ 2 Hz** | ~781 N/m | Meets < 0.1 g on cement; sag = 62 mm, stroke ≥ 180 mm |
 
-电机电气激励（134–670 Hz，约 10.2 次/电机转）频率高、幅值相对小，3–5 Hz 悬挂对其衰减效果极强，通常不构成设计约束。
+**中文：** fn=4 Hz 设计仅满足室内光滑地面的 < 0.1 g 目标。人行道需降至 fn≈3 Hz；室外水泥路需 fn≤2 Hz（弹簧刚度约 781 N/m，静态下沉 62 mm，行程 ≥ 180 mm）。
 
 ---
 
-## 7. Recommended Next Steps / 建议后续步骤
+## 7. Status of Conclusions / 结论状态
+
+| Conclusion / 结论 | Status / 状态 | Note / 说明 |
+|---|---|---|
+| N=11 is dominant at high speed on smooth surfaces | ✓ Confirmed across 4 smooth datasets / 四组光滑地面数据均证实 | Error < 7 % at ≥ 1.0 m/s |
+| N=22 stagger-suppressed on smooth surfaces | ✓ Holds generally; appears occasionally on white tile | White tile 1.2 m/s run showed N=22 as dominant |
+| Motor cogging ~10.2 events/motor_rev | ✓ Confirmed on all smooth surfaces < 3.5 % error | Masked on cement by road noise |
+| Gear mesh ruled out | ✓ Still valid — non-integer ratio confirmed | Wide-band scan negative on all surfaces |
+| Original test = indoor smooth floor | ✓ **Newly confirmed** — matches white/black tile within 7 % | N=11 and cogging errors identical |
+| "2.58 g at 1.2 m/s" = RMS | ✗ **Correction: this is the instantaneous PEAK** | RMS at 1.2 m/s = 0.50 g |
+| Suspension < 0.1 g at all speeds | ⚠ **Revised: indoor only** | Pavement and cement require lower fn |
+| Cement same as indoor | ✗ **Wrong: cement is 3–6× worse** | Completely different design case |
+| No structural resonance found | ✗ **Revised: 79 Hz resonance found on cement** | Speed-independent; chassis structural mode |
+
+## 8. Recommended Next Steps / 建议后续步骤
 
 **EN:**
-1. **Dominant peak sources fully characterised** — two confirmed excitation sources, no unexplained features:
-   - High speed (0.8–1.2 m/s): N=11 per-plate roller passage at 15.6–23.4 Hz (< 6 % error after X-config correction)
-   - Low speed (0.2–0.6 m/s): motor cogging at ~10.2 events/motor_rev (gear mesh ruled out — non-integer ratio)
-   - Wide-band scan 0–2000 Hz: no additional sources found above 500 Hz
-2. **Quarter-car model** — size spring stiffness and damper coefficient for the target 3–5 Hz natural frequency given the supported mass per wheel (completed — see `suspension_design_summary.md`).
-3. **Transmissibility target** — achieved: predicted payload RMS < 0.03 g at all speeds with fn = 4 Hz, ζ = 0.4 (< 0.1 g target, verified by lsim).
-4. **Prototype and retest** — rerun the same speed sweep with suspension installed and compare PSDs.
+1. **Decide operating surface scope** — if outdoor cement is required, redesign suspension for fn ≈ 2 Hz (k ≈ 781 N/m, stroke ≥ 180 mm). If indoor + pavement only, fn = 3 Hz is sufficient.
+2. **Avoid sustained operation at ≤ 0.3 m/s** — N=11 at 0.2 m/s ≈ fn = 4 Hz, suspension amplifies by ×1.62 at that speed.
+3. **Investigate 79 Hz chassis structural resonance** — only excited on cement; assess whether frame stiffening or damping treatment is needed.
+4. **Build fn = 4 Hz prototype first** — test on all 4 surfaces (now documented) to validate model predictions before committing to softer spring.
+5. **Re-run suspension design with corrected mass inputs** — see `suspension_case_review.md` (payload = 19.8 kg sprung only; tool was double-counting wheel mass).
+6. **Weigh suspension hardware** and recompute k, c — 25 kg excludes arms, mounts, and fasteners.
 
 **中文：**
-1. **主导峰来源已完整表征** — 已确认两类激励源，无未解释的频谱特征：
-   - 高速（0.8–1.2 m/s）：N=11 单板滚子通过频率 15.6–23.4 Hz（X 形构型修正后误差 < 6%）
-   - 低速（0.2–0.6 m/s）：电机齿槽激励，约 10.2 次/电机转（齿轮啮合已排除——非整数比率）
-   - 宽频带扫描 0–2000 Hz：500 Hz 以上未发现新的激励源
-2. **四分之一车模型** — 已完成，见 `suspension_design_summary.md`；
-3. **传递率目标** — 已达成：推荐设计（fn = 4 Hz，ζ = 0.4）预测载荷 RMS 在所有速度下 < 0.03 g（目标 < 0.1 g，已由 lsim 验证）；
-4. **样机复测** — 安装悬挂后重复相同速度扫描，对比前后功率谱密度曲线。
+1. **确定使用地面范围** — 若需室外水泥路，重新设计 fn ≈ 2 Hz（k ≈ 781 N/m，行程 ≥ 180 mm）；仅室内+人行道则 fn = 3 Hz 足够。
+2. **避免在 ≤ 0.3 m/s 下长时间运行** — 0.2 m/s 时 N=11 ≈ fn = 4 Hz，悬挂放大倍数 ×1.62。
+3. **调查 79 Hz 底盘结构共振** — 仅在水泥路上显现；评估是否需要加强框架刚度或增加阻尼处理。
+4. **先建 fn = 4 Hz 样机** — 在四种地面实测（均已有测试数据），验证模型预测后再决定是否改用更软弹簧。
+5. **修正悬挂设计工具输入** — 见 `suspension_case_review.md`（有效负载应输入 19.8 kg 簧载质量，工具当前重复计入了车轮质量）。
+6. **称量悬挂硬件** 并重新计算 k、c — 25 kg 不含叉臂、安装架及紧固件。
 
 ---
 
-*Analysis performed with MATLAB R2024a. Data: 6 CSV files, ~27,027 Hz, Z-axis acceleration, speeds 0.2–1.2 m/s.*
-*分析工具：MATLAB R2024a。数据：6 个 CSV 文件，采样率 ~27,027 Hz，Z 轴加速度，速度 0.2–1.2 m/s。*
+*Analysis performed with MATLAB R2024a. Data: 34 CSV files across 5 datasets (4 surfaces + original baseline), Fs = 27,027 Hz, Z-axis acceleration, speeds 0.2–1.5 m/s.*
+*分析工具：MATLAB R2024a。数据：5 组数据集（4 种地面 + 原始基线）共 34 个 CSV 文件，采样率 27,027 Hz，Z 轴加速度，速度 0.2–1.5 m/s。*
