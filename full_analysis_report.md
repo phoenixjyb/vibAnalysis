@@ -26,6 +26,7 @@
 10. [Adding Mass to Shift Resonance](#10-adding-mass-to-shift-resonance--增加质量以移频)
 11. [Pneumatic Tyres vs Omni Wheels](#11-pneumatic-tyres-vs-omni-wheels--充气轮胎与全向轮对比)
 12. [Sandwich Layer — Four-Option Comparative Analysis](#12-sandwich-layer--机体结构夹层减振设计)
+13. [Additional Isolator Candidates — Extended Evaluation](#13-additional-isolator-candidates--新增隔振器候选方案扩展评估)
 
 ---
 
@@ -949,6 +950,209 @@ All viable options (fn=4–5 Hz) share the same low-speed problem: at 0.2 m/s, N
 
 ---
 
+## 13. Additional Isolator Candidates — Extended Evaluation / 新增隔振器候选方案扩展评估
+
+Seven additional products were evaluated against the same requirement: **fn = 4–5 Hz, load = 4.95 kg per corner (19.8 kg body ÷ 4)**.
+对以下七款新增产品进行评估，要求同前：**fn=4–5 Hz，每角载荷=4.95 kg（机体19.8 kg÷4）**。
+
+*(Source: ref-info/ images added 2026-03-02 after 16:00)*
+
+---
+
+### 13.1 DPA Cylindrical Rubber Isolator / 圆柱形减振器 DPA型
+
+*(ref-info/cylinderal-shape-isolater.jpeg)*
+
+**Product:** 圆柱形减振器-两端外螺纹型 DPA — Natural rubber (天然橡胶), Shore A60, zinc-plated steel hardware.
+**Features:** Simple structure; handles both axial and radial loads; radial stiffness > axial stiffness.
+
+Derived stiffness from compression spec (k = F\_max / δ\_max):
+
+| Size D×H (mm) | Thread | F\_max (N) | δ\_max (mm) | k (N/m) | fn @ 4.95 kg |
+|---|---|---|---|---|---|
+| D10×H10 | M4 | 90 | 2.0 | 45,000 | 15.2 Hz ✗ |
+| D15×H10 | M4 | 200 | 1.5 | 133,333 | 26.1 Hz ✗ |
+| D15×H15 | M4 | 220 | 3.0 | **73,333** | **19.4 Hz ✗** |
+| D15×H15 | M6 | 350 | 3.0 | 116,667 | 24.4 Hz ✗ |
+
+**Physics:** For Shore A60 natural rubber, reducing diameter or increasing height lowers k, but the geometry needed to reach fn = 4–5 Hz at 4.95 kg would require extremely tall, narrow cylinders (H > 300 mm) — not practical.
+**物理原因：** Shore A60天然橡胶降低k需减小直径或增大高度，但4.95 kg时fn=4–5 Hz需H>300 mm，不可行。
+
+**T at 1.0 m/s (fn=19.4 Hz): 4.53 — catastrophic resonance at operating speed.**
+**Verdict: NOT suitable. / 不适用。**
+
+---
+
+### 13.2 E-type Protector Isolator / E型保护式隔振器
+
+*(ref-info/e-shape-isolater.jpeg)*
+
+**Product:** E型/EA型保护式隔振器 — Natural rubber, Shore A60, ζ = 0.08–0.12 (stated).
+**Design intent:** Semi-rigid precision instrument mounting; three-axis isolation with protection against over-deflection via metal stops.
+
+Natural frequencies **directly stated** in the spec table (Z/X/Y axes):
+
+| Model | Z rated (N) | kZ (N/mm) | fn\_Z (Hz) | fn\_X (Hz) | fn\_Y (Hz) | fn @ 4.95 kg |
+|---|---|---|---|---|---|---|
+| E10 | 100 | 330 | 28.5 | 29.5 | 35.0 | 258 Hz ✗ |
+| EA25 | 250 | 500 | 22.0 | 23.5 | 30.5 | 318 Hz ✗ |
+| EA120 | 1200 | 1530 | **18.0** | **13.0** | **19.0** | 557 Hz ✗ |
+
+The best axis (EA120 X: fn=13 Hz) is still 3× above our 4–5 Hz target. At our 4.95 kg load (rated 122 kg), fn is hundreds of Hz.
+
+**T at 1.0 m/s: 3.65+ — severe resonance. Designed for completely different load class.**
+**Verdict: NOT suitable. / 不适用。**
+
+---
+
+### 13.3 SHEDA / SHEDC Narrow-Mid Cylindrical Rubber / 腰型及圆柱型减振螺栓
+
+*(ref-info/narrow-mid-isolater.jpeg)*
+
+**Product:** SHEDA (one external stud), SHEDB (external + internal), SHEDC (waist/腰型) — Natural rubber, Shore A60, S45C or SUS304 hardware.
+
+From optimal load and compression table (k = m\_opt × g / δ\_opt):
+
+| Size | D×H (mm) | Thread | Opt load (kg) | Opt δ (mm) | k (N/m) | fn @ opt | fn @ 4.95 kg |
+|---|---|---|---|---|---|---|---|
+| 0808 | 8×8 | M3 | 8 | 1.5 | 52,320 | 12.9 Hz | 16.4 Hz ✗ |
+| 1010 | 10×10 | M4 | 10 | 2.0 | 49,050 | 11.1 Hz | 15.8 Hz ✗ |
+| 1515 | 15×15 | M4 | 18 | 2.5 | 70,632 | 10.0 Hz | 19.0 Hz ✗ |
+
+At our 4.95 kg load (optimal 8–18 kg): under-loaded, operating on stiff part of rubber curve. fn = 16–21 Hz.
+
+**T at 0.8–1.0 m/s: >>5 — catastrophic resonance. Wrong size class.**
+**Verdict: NOT suitable. / 不适用。**
+
+---
+
+### 13.4 ST-type Air Spring Mount / ST型空气弹簧减振器
+
+*(ref-info/st-isolater.jpeg)*
+
+**Product:** ST型减振器 — Air spring with coil spring and adjustable height. H = 100–135 mm, D1 = 120–155 mm.
+
+| Model | P1 min (kg) | P2 opt (kg) | P3 max (kg) | H (mm) | D1 (mm) |
+|---|---|---|---|---|---|
+| **ST-25** | **15** | **25** | **30** | 100 | 120 |
+| ST-40 | 30 | 40 | 50 | 100 | 120 |
+| ST-70 | 45 | 70 | 90 | 110 | 130 |
+
+**Critical mismatch / 关键不匹配:**
+- 4 corners × P1\_min = 4 × 15 = **60 kg minimum** total body mass required
+- Our body = **19.8 kg** → less than 1/3 of minimum preload
+- Without minimum preload, the coil spring inside is fully extended; the air bladder loses its design compliance; effective k rises 4–6× → fn ≈ 18–22 Hz
+- Physical size (H=100 mm, D=120 mm) too large for a thin sandwich panel
+
+```
+Under-loaded (4.95 kg vs 25 kg rated):
+  4× over-stiff: fn ≈ 18.0 Hz
+  5× over-stiff: fn ≈ 20.1 Hz
+  6× over-stiff: fn ≈ 22.0 Hz
+```
+
+**Verdict: NOT suitable — wrong load class, too large. / 不适用——载荷等级和尺寸均不匹配。**
+
+---
+
+### 13.5 ZT-type Rubber Spring Mount / ZT型橡胶弹簧减振器
+
+*(ref-info/zt-isolater.jpeg)*
+
+**Product:** ZT型减振器 — Rubber spring with flanged base. k and fn **directly stated**.
+
+| Model | Pmin (kg) | Popt (kg) | k (N/mm) | fn @ Popt (Hz) | fn stated range | fn @ 4.95 kg* |
+|---|---|---|---|---|---|---|
+| **ZT-25** | **15** | **25** | **17.45** | **4.2** | **5.4–3.6** | ~17.7 Hz ✗ |
+| ZT-40 | 25 | 40 | 25.00 | 4.0 | 5.0–3.4 | ~21.2 Hz ✗ |
+| ZT-60 | 40 | 60 | 33.54 | 3.8 | 4.6–3.3 | ~24.5 Hz ✗ |
+
+*\* Estimated using 3.5× under-load stiffening factor (rubber below Pmin).*
+
+**The ZT-25 is conceptually correct — fn = 4.2 Hz at rated 25 kg is exactly our target.** However, minimum preload per isolator is 15 kg, requiring a body mass of 4 × 15 = **60 kg minimum**. Our body (19.8 kg) is 1/3 of that. At our load, rubber stiffens ~3–5× and fn rises to ~18 Hz, right into the amplification zone.
+
+> **ZT-25 is the right isolator for the right body.** If the robot body (including arm, payload, and batteries) reaches **60–100 kg** in future configurations, ZT-25 at four corners would be ideal: no stacking, direct bolt-on, fn = 3.6–5.4 Hz, industrial-grade rubber.
+> **ZT-25是正确思路的产品，但机体需达到60–100 kg才能匹配。** 若未来机体（含机械臂、载荷、电池）达到60–100 kg，ZT-25四角安装将是理想方案：无需叠放，直接螺栓安装，fn=3.6–5.4 Hz，工业级橡胶。
+
+**Current verdict: NOT suitable for 19.8 kg body. / 当前不适用（机体19.8 kg）。**
+
+---
+
+### 13.6 AVC AISI 316 Stainless Steel Wire Rope Isolator / AVC不锈钢钢丝绳减振器
+
+*(ref-info/avc-isolater.jpeg, avc-isolater-intro.jpeg)*
+
+**Product:** AVC系列钢丝绳减振器 — AISI 316 stainless steel wire rope, handles compression, axial clamping, and shear loads. Suitable for HVAC, maritime, military equipment.
+
+| Model | F\_min (N) | F\_max (N) | δ\_min (mm) | δ\_max (mm) | k\_est (N/m) | fn @ 4.95 kg | Load OK? |
+|---|---|---|---|---|---|---|---|
+| **AVC-4-4-53** | **50** | **110** | **2** | **5** | **16,667** | **9.2 Hz ✗** | BELOW min |
+| AVC-4-6-61 | 200 | 300 | 2 | 4 | 66,667 | 18.5 Hz ✗ | BELOW min |
+| AVC-4-6-93 | 70 | 140 | 2 | 7 | 22,222 | 10.7 Hz ✗ | BELOW min |
+| AVC-4-8-80 | 80 | 180 | 2 | 9 | 14,815 | 8.7 Hz ✗ | BELOW min |
+
+Our 4.95 kg = 48.6 N is at or below the minimum rated load for all models. AVC-4-4-53 is the only unit within range (50 N min).
+
+**AVC-4-4-53 series stacking analysis (k\_unit = 16,667 N/m, midpoint estimate):**
+
+| N stacked | k\_eff (N/m) | fn @ 4.95 kg | In target? |
+|---|---|---|---|
+| 1 | 16,667 | 9.2 Hz | ✗ |
+| 2 | 8,333 | 6.5 Hz | ✗ |
+| **3** | **5,556** | **5.3 Hz** | **△ borderline** |
+| **4** | **4,167** | **4.6 Hz** | **△ borderline** |
+| 5 | 3,333 | 4.1 Hz | △ |
+
+N = 3–4 stacked reaches the 4–5 Hz window — but with two important caveats:
+1. **Operating below rated minimum load (48.6 N vs 50 N min):** actual fn is uncertain and potentially unstable
+2. **ζ ≈ 0.10** — lower than silicon pad's 0.13; resonance peak at 0.2 m/s would be slightly sharper
+
+At N=3 (fn=5.3 Hz), T@0.4 m/s = 0.87 — still marginally amplifying at the primary operating speed. At N=4 (fn=4.6 Hz), T@0.4 m/s = 0.55 — similar to Si 4-series.
+
+**Verdict: MARGINAL — theoretically reachable with N=3–4 stacked, but operating outside rated load range. Si 4-series is more reliable and uses the same installation footprint. / 勉强可行——理论上3–4叠可达目标，但超出额定载荷范围，不如硅胶4串联可靠。**
+
+---
+
+### 13.7 Comparative Transmissibility — All Options / 全选项传递率对比
+
+![New isolator comparison](results/new_isolator_comparison.png)
+
+#### T at key chassis speeds / 关键速度下传递率
+
+| Option / 方案 | fn (Hz) | ζ | T@0.2 | T@0.4 | T@0.6 | T@0.8 | T@1.0 | T@1.5 |
+|---|---|---|---|---|---|---|---|---|
+| **Si 4-series ✓✓** | **4.49** | **0.13** | **3.07** | **0.531** | **0.207** | **0.121** | **0.084** | **0.047** |
+| AVC-4-4-53 3× △ | 5.3 | 0.10 | 2.10 | 0.868 | 0.281 | 0.151 | 0.099 | 0.051 |
+| AVC-4-4-53 1× ✗ | 9.2 | 0.10 | 1.22 | 3.09 | 1.55 | 0.555 | 0.309 | 0.130 |
+| ZT-25 under-loaded ✗ | 16.1 | 0.12 | 1.06 | 1.30 | 2.02 | 4.27 | 1.90 | 0.466 |
+| SHEDA 0808 ✗ | 16.4 | 0.07 | 1.06 | 1.29 | 2.00 | >>5 | 2.28 | 0.470 |
+| DPA D15×H15 ✗ | 19.4 | 0.07 | 1.04 | 1.19 | 1.56 | 2.71 | >>5 | 0.793 |
+| ST-25 under-loaded ✗ | 20.1 | 0.15 | 1.04 | 1.17 | 1.48 | 2.23 | 3.51 | 0.910 |
+| E-type EA25 ✗ | 22.0 | 0.10 | 1.03 | 1.14 | 1.39 | 1.95 | 3.65 | 1.275 |
+
+**Pattern: any isolator with fn > 7 Hz creates a new resonance peak inside the 0.6–1.2 m/s operating range — worse than no sandwich at all.**
+**规律：fn>7 Hz的隔振器在0.6–1.2 m/s工作范围内产生新共振峰——比不加夹层更糟。**
+
+---
+
+### 13.8 Overall Ranking Across All 10 Options Evaluated / 全部10款方案综合排名
+
+| Rank | Option | fn (Hz) | Verdict | Key reason |
+|---|---|---|---|---|
+| **1st** | **Si 4-series (stacked)** | **4.49** | **✓✓ Best** | Target fn; ζ=0.13; uses stock pads; proven |
+| 2nd | Si 5-series (stacked) | 4.02 | ✓ Good | Slightly better high-speed; 75 mm height |
+| 3rd | AVC-4-4-53 (3–4×) | 4.6–5.3 | △ Marginal | Below rated load; fn uncertain; stainless steel benefit |
+| 4th | Air spring 87250 | 5.76 | △ Weak | fn slightly high; T=1.19 at 0.4 m/s |
+| 5th | Metal ALJ 89B027 | 6.44 | ✗ Poor | T=1.79 at 0.4 m/s; outdoor environments only |
+| 6th | ZT-25 (at correct load) | 4.2 | — Future | Perfect fn IF body ≥ 60 kg |
+| 7th | Wire rope 836 | ~25 | ✗✗ | Catastrophic at 1.0–1.3 m/s |
+| 8th | DPA / SHEDA / ST / E-type | 15–22 | ✗✗ | All create severe resonance inside operating range |
+
+> **Conclusion: Silicon 4-series stacking is the correct answer for the current 19.8 kg body.** No new option changes this finding. If the body mass grows to ≥ 60 kg in future (heavier arm, payload, or batteries), ZT-25 becomes the preferred industrial-grade upgrade path.
+> **结论：硅胶4串联是当前19.8 kg机体的正确答案。** 无任何新方案改变这一结论。若未来机体≥60 kg（更重机械臂、载荷或电池），ZT-25将成为首选工业级升级路径。
+
+---
+
 ## Appendix: Script Reference / 附录：脚本索引
 
 | Script / 脚本 | Purpose / 用途 |
@@ -959,7 +1163,7 @@ All viable options (fn=4–5 Hz) share the same low-speed problem: at 0.2 m/s, N
 | `suspension_verify.m` | Independent verification (tf, lsim, cwt, spa) / 独立验证（tf、lsim、cwt、spa） |
 | `multiaxis_analysis.m` | 3-axis (X/Y/Z) PSD, RMS, cross-coherence / 三轴（X/Y/Z）PSD、RMS、互相干分析 |
 
-Output figures / 输出图表: `results/` — prefixes `fig*`, `surf_fig*`, `susp_fig*`, `verify_*`, `multi_fig*`, `lowspeed_transmissibility.png`, `wheel_comparison_transmissibility.png`, `tyre_vs_omni_transmissibility.png`, `silicon_series_analysis.png`, `sandwich_isolation_comparison.png`, `cascade_transmissibility.png`
+Output figures / 输出图表: `results/` — prefixes `fig*`, `surf_fig*`, `susp_fig*`, `verify_*`, `multi_fig*`, `lowspeed_transmissibility.png`, `wheel_comparison_transmissibility.png`, `tyre_vs_omni_transmissibility.png`, `silicon_series_analysis.png`, `sandwich_isolation_comparison.png`, `cascade_transmissibility.png`, `new_isolator_comparison.png`
 
 ---
 
