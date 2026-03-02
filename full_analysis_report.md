@@ -25,8 +25,8 @@
 9. [Conclusions & Recommendations](#9-conclusions--结论与建议)
 10. [Adding Mass to Shift Resonance](#10-adding-mass-to-shift-resonance--增加质量以移频)
 11. [Pneumatic Tyres vs Omni Wheels](#11-pneumatic-tyres-vs-omni-wheels--充气轮胎与全向轮对比)
-12. [Sandwich Layer — Four-Option Comparative Analysis](#12-sandwich-layer--机体结构夹层减振设计)
-13. [Additional Isolator Candidates — Extended Evaluation](#13-additional-isolator-candidates--新增隔振器候选方案扩展评估)
+12. [Sandwich Layer — Four-Option Comparative Analysis](#12-sandwich-layer--four-option-comparative-analysis--机体结构夹层减振设计)
+13. [Additional Isolator Candidates — Extended Evaluation](#13-additional-isolator-candidates--extended-evaluation--新增隔振器候选方案扩展评估)
 
 ---
 
@@ -606,7 +606,7 @@ Pneumatic tyres solve essentially **all** vibration problems identified in this 
 
 ---
 
-## 12. Sandwich Layer — Secondary Vibration Isolation for Robotic Arm / 机体结构夹层减振设计
+## 12. Sandwich Layer — Four-Option Comparative Analysis / 机体结构夹层减振设计
 
 ### 12.1 Concept / 设计概念
 
