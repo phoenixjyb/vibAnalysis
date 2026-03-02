@@ -901,8 +901,8 @@ Suspension: fn = 4.0 Hz, ζ = 0.4 (indoor) / 悬挂：fn=4.0 Hz，ζ=0.4
 ```
 Configuration / 配置:
 Body structure panel / 机体面板
-        ↕  4 × silicon pads stacked (50×50×60 mm column, ζ=0.13)
-           每角4块叠放（50×50×60 mm柱，ζ=0.13）
+        ↕  4 × silicon pads + 3 × spacer plates (50×50×66 mm column total)
+           4块硅胶垫 + 3块隔板（总高66 mm）
 Chassis top panel / 底盘顶板
 ```
 
@@ -910,7 +910,7 @@ Chassis top panel / 底盘顶板
 |---|---|
 | Pads per corner / 每角垫块数 | **4 (stacked in series / 串联叠放)** |
 | Total pads / 总垫块数 | **16** (4 corners × 4) |
-| Stack height per corner / 每角叠高 | **60 mm** |
+| Stack height per corner / 每角叠高 | **60 mm** (pads) + **6 mm** (3 × 2 mm spacers) = **66 mm total** |
 | k_eff per corner / 每角等效刚度 | **3,948 N/m** |
 | fn at 19.8 kg body / 机体19.8 kg时fn | **4.49 Hz** |
 | Damping ratio ζ / 阻尼比 | **0.13** |
@@ -938,15 +938,89 @@ All viable options (fn=4–5 Hz) share the same low-speed problem: at 0.2 m/s, N
 - Avoid sustained operation below 0.3 m/s (already required for suspension resonance avoidance) / 避免持续低于0.3 m/s运行（悬挂共振规避已有此要求）
 - Traverse through 0.1–0.3 m/s quickly during acceleration/deceleration / 加减速时快速通过0.1–0.3 m/s区间
 
-#### 12.7.4 Next steps / 下阶段行动
+#### 12.7.4 Why rigid spacer plates are required between pads / 为何每块垫之间需要刚性隔板
+
+**Each silicon pad has a stud on one face only** (ø6–8.5 mm × 3–4 mm, depending on variant). The opposite face is flat. If pads are stacked directly without spacers, the stud of one pad presses as a **point contact** into the flat rubber face of the next:
+**每块硅胶垫仅一面有凸台**（ø6–8.5 mm × 3–4 mm，视型号而定），另一面为平面。若不加隔板直接叠放，上一块垫的凸台将以**点接触**方式压入下一块垫的平面橡胶面：
+
+```
+WITHOUT spacers / 无隔板:              WITH spacers / 有隔板:
+─────────────────────────             ─────────────────────────
+  flat face of pad 2                    flat face of pad 2
+  ← stud (ø6mm, 28 mm²)                ← spacer plate (50×50 mm)
+  rubber of pad 1 deforms               ← stud locates in ø7 hole
+  locally at stud tip only              full 2500 mm² face contact
+  k unpredictable, fn shifts            k = k_single/4 = 3,948 N/m ✓
+─────────────────────────             ─────────────────────────
+```
+
+**Effect of stud point-loading without spacers / 无隔板凸台点载效应:**
+- Contact area drops from 2500 mm² to ~28 mm² (ø6 stud) → local stress 90× higher / 接触面积从2500 mm²降至~28 mm²，局部应力高90倍
+- Effective k rises unpredictably (local rubber compression, not bulk shear) / 等效k不可预测地升高（局部压缩而非整体剪切）
+- fn shifts up, potentially into 10–20 Hz danger zone / fn升高，可能落入10–20 Hz危险区
+- Studs may bond into adjacent rubber over time (difficult to disassemble) / 凸台可能随时间与相邻橡胶粘连（难以拆卸）
+
+**Spacer plates ensure each pad deforms as a uniform elastic layer — the only way to achieve the designed series-spring behaviour.**
+**隔板确保每块垫作为均匀弹性层变形——这是实现设计串联弹簧特性的唯一途径。**
+
+#### 12.7.5 Spacer plate specification / 隔板规格
+
+3 spacer plates per corner × 4 corners = **12 plates total** / 每角3块 × 4角 = **共12块**
+
+```
+Assembly diagram — one corner / 单角装配图:
+
+Body panel  ─── flat contact on pad 4 top face (no stud needed here)
+                                         机体面板（与第4垫顶面平接触）
+  [  Pad 4  ]   stud ↓ locates in spacer 3 centre hole
+  ────────────────────────────────────────
+  [ Spacer 3 ]  50×50×2 mm Al plate, ø7 centre hole
+  ────────────────────────────────────────
+  [  Pad 3  ]   stud ↓ locates in spacer 2 centre hole
+  ────────────────────────────────────────
+  [ Spacer 2 ]  50×50×2 mm Al plate, ø7 centre hole
+  ────────────────────────────────────────
+  [  Pad 2  ]   stud ↓ locates in spacer 1 centre hole
+  ────────────────────────────────────────
+  [ Spacer 1 ]  50×50×2 mm Al plate, ø7 centre hole
+  ────────────────────────────────────────
+  [  Pad 1  ]   stud ↓ locates in chassis panel boss/hole
+
+Chassis panel ─── M-thread boss or ø7 clearance hole for pad 1 stud
+                                         底盘面板（M螺纹台或ø7通孔定位第1垫凸台）
+```
+
+| Parameter / 参数 | Value / 数值 |
+|---|---|
+| Material / 材质 | Aluminium alloy 5052 or mild steel / 铝合金5052或低碳钢 |
+| Size / 尺寸 | **50 × 50 mm** (matches pad footprint / 与垫片等尺寸) |
+| Thickness / 厚度 | **2 mm** (rigid in bending; negligible added height) |
+| Centre hole / 中心孔 | **ø7 mm** (clears pad stud ø6 with 0.5 mm each side / 单侧间隙0.5 mm) |
+| Surface finish / 表面处理 | Flat; no sharp edges (deburr after cutting) / 去毛刺 |
+| Mass per plate / 每块质量 | ~14 g (Al) — 3 plates per corner = **42 g** (negligible) / 可忽略 |
+| Total plates / 总数量 | **12** (3 per corner × 4 corners) |
+| Fabrication / 制作方式 | Laser cut or waterjet from 2 mm sheet stock; one drill pass for ø7 hole / 激光切割或水刀切割，ø7孔一次钻削完成 |
+| Cost estimate / 成本估算 | < ¥50 total material for 12 plates / 12块总材料成本<¥50 |
+
+**Stack height summary per corner / 每角叠高汇总:**
+
+```
+4 × silicon pad:     4 × 15 mm = 60 mm
+3 × spacer plate:    3 ×  2 mm =  6 mm
+─────────────────────────────────────
+Total column height:            66 mm
+```
+
+#### 12.7.6 Next steps / 下阶段行动
 
 | Priority | Action / 行动 |
 |---|---|
-| 1 | **Source 16 silicon bumper pads** (50×50×15 mm, PN as per spec sheet stud variant matching panel hole pattern). Current stock: confirm quantity available. / **备货16块硅胶减振垫**（50×50×15 mm，凸台型号与面板孔型匹配）。确认现有库存数量。 |
-| 2 | **Weigh body structure + arm + electronics** to confirm m_body is in the 15–25 kg range. If m_body < 12 kg, switch to N=5 series (fn=4.0 Hz) to keep isolation onset below 0.35 m/s. / **称量机体+臂+电子设备**，确认m_body在15–25 kg范围。若m_body<12 kg，改用N=5串联（fn=4.0 Hz）。 |
-| 3 | **Fabricate sandwich panel with 4 stacking columns** (4 corner positions × 4 pads each), bolt pattern matching silicon stud. **Clearance holes** in chassis panel to allow 60 mm column; recess in body panel for top stud. / **制造带4处叠柱的夹层面板**（四角×4块），螺栓孔型与硅胶凸台匹配。底盘面板开通孔容纳60 mm柱，机体面板开沉孔安装顶部凸台。 |
-| 4 | **Prototype impulse test**: tap chassis panel, measure body panel response with accelerometer. Verify fn ≈ 4.5 Hz and ζ ≈ 0.13 via peak-picking. / **原型冲击测试**：敲击底盘面板，用加速度计测量机体面板响应，通过峰值拾取验证fn≈4.5 Hz，ζ≈0.13。 |
-| 5 | **If outdoor cement/pavement use is planned**: consider ALJ 89B027 metal isolators in place of silicon pads — they survive salt spray, chemicals and −60°C environments where silicone may degrade. fn=6.4 Hz sacrifices 0.4–0.6 m/s performance but the chassis suspension compensates. / **若规划室外水泥/人行道使用**：考虑以ALJ 89B027金属减振器替代硅胶垫——其耐盐雾、耐化学腐蚀、耐−60°C（硅胶可能降解）。fn=6.4 Hz牺牲0.4–0.6 m/s性能，但底盘悬挂可补偿。 |
+| 1 | **Source 16 silicon bumper pads** (50×50×15 mm). Confirm stud variant (A/B/C) matches ø7 mm hole in spacer plates. / **备货16块硅胶减振垫**（50×50×15 mm）。确认凸台型号（A/B/C）与隔板ø7孔匹配。 |
+| 2 | **Fabricate 12 spacer plates**: 50×50×2 mm aluminium, ø7 centre hole. Laser-cut from sheet stock; deburr all edges. / **制作12块隔板**：50×50×2 mm铝板，ø7中心孔。激光切割，去毛刺。 |
+| 3 | **Weigh body structure + arm + electronics** to confirm m_body. If m_body < 12 kg, switch to N=5 series + 4 spacers (fn=4.0 Hz, 81 mm total column height). / **称量机体+臂+电子设备**。若m_body<12 kg，改用N=5串联+4块隔板（fn=4.0 Hz，总高81 mm）。 |
+| 4 | **Fabricate sandwich panels**: drill/mill ø7 boss or clearance hole at 4 corner positions in both chassis top panel and body bottom panel. Column centres should be symmetric about the body CG. / **制作夹层面板**：在底盘顶板和机体底板四角各加工ø7定位孔或台阶。柱位关于机体重心对称布置。 |
+| 5 | **Prototype impulse test**: assemble one corner column (pad × 4 + spacer × 3), load with 4.95 kg mass, tap and measure response. Verify fn ≈ 4.5 Hz and ζ ≈ 0.13 before full assembly. / **原型冲击测试**：组装单角叠柱（4垫+3隔板），加载4.95 kg，敲击测量响应，验证fn≈4.5 Hz、ζ≈0.13后再全面装配。 |
+| 6 | **If outdoor use planned**: replace silicon pads with ALJ 89B027 metal isolators (no spacers needed — direct bolt-on). fn=6.4 Hz, acceptable for outdoor where suspension compensates. / **若规划室外使用**：以ALJ 89B027金属减振器替换硅胶垫（无需隔板，直接螺栓安装）。fn=6.4 Hz，室外工况下悬挂可补偿。 |
 
 ---
 
