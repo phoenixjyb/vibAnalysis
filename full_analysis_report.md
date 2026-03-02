@@ -25,6 +25,7 @@
 9. [Conclusions & Recommendations](#9-conclusions--结论与建议)
 10. [Adding Mass to Shift Resonance](#10-adding-mass-to-shift-resonance--增加质量以移频)
 11. [Pneumatic Tyres vs Omni Wheels](#11-pneumatic-tyres-vs-omni-wheels--充气轮胎与全向轮对比)
+12. [Sandwich Layer — Secondary Vibration Isolation for Robotic Arm](#12-sandwich-layer--机体结构夹层减振设计)
 
 ---
 
@@ -601,6 +602,252 @@ Pneumatic tyres solve essentially **all** vibration problems identified in this 
 
 - **If omnidirectionality can be sacrificed**: use pneumatic tyres + fn = 1.5–2 Hz + ζ = 0.3–0.4. Vibration problem is solved. / **若可以放弃全向性**：使用充气轮胎 + fn=1.5–2 Hz + ζ=0.3–0.4，振动问题即可解决。
 - **If omnidirectionality is required**: keep omni wheels, redesign suspension to fn = 3 Hz + ζ = 0.7 as described in Section 6. / **若全向性不可或缺**：保留全向轮，按第6节将悬挂重设计为fn=3 Hz + ζ=0.7。
+
+---
+
+## 12. Sandwich Layer — Secondary Vibration Isolation for Robotic Arm / 机体结构夹层减振设计
+
+### 12.1 Concept / 设计概念
+
+The robotic arm is mounted on a body structure that sits above the chassis. A **sandwich layer** is inserted between the chassis top panel and the body structure: two thin metal panels with a compliant damping element in between. This creates a secondary isolation stage on top of the mechanical wheel suspension.
+机械臂安装在位于底盘上方的机体结构上。在底盘顶板与机体结构之间插入**夹层结构**：两块薄金属板之间夹持柔性阻尼元件。这在车轮悬挂的基础上形成第二级隔振。
+
+```
+Ground / 地面
+    ↓  (wheel + suspension stage 1 / 车轮+悬挂 第一级)
+Chassis panel / 底盘顶板
+    ↓  [sandwich layer — stage 2 / 夹层 第二级]
+Body structure panel / 机体结构底板
+    ↓
+Robotic arm / 机械臂
+```
+
+**Chassis footprint / 底盘投影面积:** ~600 mm diameter / 直径约600 mm
+**Sandwich element layout / 夹层元件布局:** Four-corner mounting — the only mechanically stable configuration for a large panel. / 四角安装——大面积面板唯一稳定的力学构型。
+
+---
+
+### 12.2 Silicon Bumper Pad — Specification & Analysis / 硅胶减振垫——规格与分析
+
+#### 12.2.1 Product specifications / 产品规格
+
+*(Source: `ref-info/silicon-damperMat-spec.png`, `silicon-damperMat-dim.png`, `silicon-damperMat-illustration.png` / 来源：ref-info文件夹中三张规格图)*
+
+| Parameter / 参数 | Value / 数值 |
+|---|---|
+| Pad dimensions / 垫片尺寸 | **50 × 50 × 15 mm** |
+| Stud variants / 凸台规格 | A: ø6×4 mm · B: ø7.5×3.5 mm · C: ø8.5×3 mm |
+| Rated load per pad / 单垫额定载荷 | **25 kg** |
+| Natural frequency (at rated load) / 自振频率（额定载荷下）| **4 Hz** |
+| Damping ratio / 阻尼比 | **0.12–0.15** |
+| Tensile strength / 拉伸强度 | ≥ 3 MPa |
+| Elongation at break / 扯断伸长率 | ≥ 400% |
+| Permanent set / 扯断永久变形 | ≤ 30% |
+
+#### 12.2.2 Derived stiffness / 推导刚度
+
+From the rated condition (fn = 4 Hz at m = 25 kg):
+由额定工况（fn=4 Hz，m=25 kg）推导：
+
+```
+k_pad = m × (2π × fn)² = 25 × (2π × 4)² = 15,791 N/m per pad / 每垫
+```
+
+Static load curve (from spec sheet) confirms approximately linear behaviour up to ~1,200 N (≈ 4 mm deflection), consistent with k ≈ 300 N/mm at the pad level under full-area compression.
+静载荷曲线（规格书）在约1,200 N（约4 mm形变）范围内近似线性，与整垫满面积受压刚度约300 N/mm相符。
+
+#### 12.2.3 Four-pad parallel configuration / 四垫并联配置
+
+Four pads at corners, all in compression:
+四角各一个垫片，均受压：
+
+```
+k_total = 4 × k_pad = 4 × 15,791 = 63,164 N/m
+Rated total load = 4 × 25 = 100 kg
+```
+
+#### 12.2.4 fn vs body mass (4 pads) / 自振频率与机体质量的关系（4垫）
+
+`fn_silicon = (1/2π) × √(k_total / m_body)`
+
+| Body mass / 机体质量 | fn_silicon | N=11 resonance speed / N=11共振速度 | In operating range? / 在工作范围内? |
+|---|---|---|---|
+| 5 kg | 17.9 Hz | 0.92 m/s | ✗ Problem |
+| 10 kg | 12.6 Hz | 0.65 m/s | ✗ Problem |
+| **15 kg** | **10.3 Hz** | **0.53 m/s** | **✗ Problem** |
+| 20 kg | 8.9 Hz | 0.46 m/s | ✗ Problem |
+| 50 kg | 5.7 Hz | 0.29 m/s | ✗ Problem |
+| 100 kg (rated) | 4.0 Hz | 0.21 m/s | ✗ Problem |
+
+**Every realistic body mass creates a silicon pad resonance within the 0.2–1.5 m/s operating range.** / **所有合理的机体质量都会在0.2–1.5 m/s工作范围内产生硅胶垫共振。**
+
+#### 12.2.5 Transmissibility with 4 silicon pads / 四垫传递率（配合悬挂）
+
+Combined: Suspension (fn=3 Hz, ζ=0.7) + 4 silicon pads (ζ=0.135):
+组合：悬挂（fn=3 Hz，ζ=0.7）+ 四个硅胶垫（ζ=0.135）：
+
+| Speed / 速度 | N=11 (Hz) | Susp only (g) / 仅悬挂 | + 4 pads, 10 kg body | + 4 pads, 15 kg body | + 4 pads, 20 kg body |
+|---|---|---|---|---|---|
+| 0.2 m/s | 3.9 | 0.073 | 0.080 | 0.085 | 0.089 |
+| **0.4 m/s** | **7.8** | **0.111** | **0.176 ✗** | **0.239 ✗** | **0.341 ✗** |
+| **0.6 m/s** | **11.7** | **0.108** | **0.386 ✗** | **0.271 ✗** | **0.144 ✗** |
+| 0.8 m/s | 15.6 | 0.103 | 0.176 ✗ | 0.083 ✓ | 0.054 ✓ |
+| 1.0 m/s | 19.5 | 0.110 | 0.083 ✓ | 0.047 ✓ | 0.034 ✓ |
+| 1.5 m/s | 29.2 | 0.097 | 0.026 ✓ | 0.017 ✓ | 0.013 ✓ |
+
+**fn_silicon: 10 kg→12.6 Hz · 15 kg→10.3 Hz · 20 kg→8.9 Hz**
+
+#### 12.2.6 Root cause of the mismatch / 根本原因
+
+The silicon bumper pad is rated for heavy industrial machinery (100 kg total on 4 pads). The robot body structure + arm is 10–20 kg — each pad carries only **2.5–5 kg, 10–20% of rated load**. Operating far below rated load means the pads are excessively stiff relative to the supported mass, pushing fn_silicon to 9–13 Hz — directly into the operating speed range.
+该硅胶减振垫面向重型工业设备（4垫共100 kg）设计。机器人机体结构+机械臂仅10–20 kg——每垫仅承载**2.5–5 kg，为额定载荷的10–20%**。远低于额定载荷工作意味着垫片相对于被支撑质量刚度过大，使fn_silicon达到9–13 Hz，直接落入工作速度范围内。
+
+---
+
+### 12.3 What the Silicon Pads Are Still Good For / 硅胶垫的适用场景
+
+Despite the isolation mismatch, the pads provide real value:
+尽管隔振匹配不佳，垫片仍有实际价值：
+
+| Benefit / 优点 | Detail / 说明 |
+|---|---|
+| High-speed isolation (≥ 1.0 m/s) / 高速隔振 | T drops to 0.03–0.08 at 1.0–1.5 m/s — excellent / T降至0.03–0.08，效果优异 |
+| Rigid path break / 阻断刚性传递路径 | Prevents direct metal-to-metal chassis-to-body vibration / 避免底盘与机体金属直接接触传振 |
+| Impact/shock absorption / 冲击吸收 | Silicon studs absorb transient bumps (kerbs, floor joints) / 硅胶凸台吸收瞬态冲击（地砖缝、坡坎）|
+| Wear & corrosion protection / 耐磨防腐 | Long service life, no lubrication needed / 使用寿命长，无需润滑 |
+
+**Role summary / 角色定位:** The silicon pads are a **secondary high-frequency damping layer**, not a primary isolator. The mechanical wheel suspension remains solely responsible for 0.2–0.8 m/s isolation. / 硅胶垫是**高频阻尼辅助层**，非主隔振器。0.2–0.8 m/s范围的隔振仍由车轮悬挂全权负责。
+
+---
+
+### 12.4 Required Isolation Element for Effective Low-Speed Coverage / 有效覆盖低速段所需隔振元件
+
+To achieve fn_silicon ≈ 4–5 Hz with 4-corner mounting and a 15 kg body structure:
+对于四角安装、15 kg机体结构，实现fn_silicon≈4–5 Hz所需：
+
+```
+k_per_corner = m_body × (2π × fn_target)² / 4
+             = 15 × (2π × 4.5)² / 4
+             ≈ 3,750 N/m per corner       (vs silicon pad k = 15,791 N/m — 4× too stiff)
+             ≈ 3,750 N/m每角             （vs硅胶垫 k=15,791 N/m——刚4倍偏大）
+```
+
+---
+
+### 12.5 Candidate Isolation Elements — Four-Corner Mount / 候选隔振元件——四角安装方案
+
+#### A — Rubber Anti-Vibration Grommet (Bolt-Through) / 橡胶减振螺套（穿孔螺栓式）
+
+Compact threaded mount, bolt passes through panel into body frame. Standard catalogue item (M6/M8).
+紧凑型螺纹安装座，螺栓穿过面板固定至机体框架。标准目录产品（M6/M8）。
+
+| Parameter / 参数 | Value / 数值 |
+|---|---|
+| Typical k range / 典型刚度范围 | 2,000–8,000 N/m |
+| Recommended selection / 推荐选型 | k ≈ 3,500–5,000 N/m per mount (4 mounts for 15 kg body) |
+| Resulting fn / 结果fn | 4.8–5.8 Hz |
+| ζ | 0.10–0.20 |
+| Form factor / 外形 | ø20–40 mm × 15–25 mm |
+| Assembly / 装配 | Bolt-through, captive nut / 穿孔螺栓+嵌入螺母 |
+| **Verdict / 评价** | **✓ Best fit. Direct replacement for silicon pad positions. Easy to source and tune by selecting load rating.** / **✓ 最佳匹配。直接替换硅胶垫安装位置，通过选择额定载荷进行调节，易于采购。** |
+
+#### B — Soft Neoprene / Silicone Sheet Pad (Cut to Size) / 软质氯丁橡胶/硅胶板（裁切成型）
+
+Continuous sheet bonded or clamped between panels. Can be cut to any shape. Low cost.
+连续片材，粘接或夹紧于面板之间，可裁切为任意形状，成本低。
+
+| Parameter / 参数 | Value / 数值 |
+|---|---|
+| Typical k (25 mm thick, per 50×50 mm patch) / 典型刚度 | 3,000–12,000 N/m |
+| Thickness to tune fn / 调频厚度 | Thicker = softer / 越厚越软；25–40 mm recommended |
+| ζ | 0.05–0.15 |
+| Form factor / 外形 | Full-panel sheet or discrete patches / 全面板片材或离散块 |
+| Assembly / 装配 | Adhesive bond or compression clamp / 胶接或压紧 |
+| **Verdict / 评价** | **✓ Good. Flexible layout — can cover full panel area for distributed load. Lower ζ than grommet.** / **✓ 良好。布局灵活，可覆盖全面板面积实现分布式承载，但ζ低于螺套。** |
+
+#### C — Gel / Silicone Isolator Stud / 凝胶/硅胶隔振柱
+
+Small stud-style isolators, press-fit or adhesive. Very soft, good for light loads.
+小型柱状隔振器，压入或粘接安装。极柔软，适合轻载荷。
+
+| Parameter / 参数 | Value / 数值 |
+|---|---|
+| Typical k range / 典型刚度范围 | 500–5,000 N/m |
+| ζ | 0.15–0.25 |
+| Load per stud / 每柱载荷 | 1–10 kg |
+| Form factor / 外形 | ø15–30 mm × 10–20 mm |
+| Assembly / 装配 | Press-fit hole or adhesive pad / 压入孔位或粘接 |
+| **Verdict / 评价** | **✓ Good for very light bodies (< 8 kg). Higher ζ reduces resonance peak.** / **✓ 适合极轻机体（<8 kg），较高ζ可抑制共振峰。** |
+
+#### D — Wire Rope / Coil Spring Isolator (Mini) / 钢丝绳/弹簧隔振器（小型）
+
+Metal spring or wire-rope isolator. Very low k, excellent multi-axis isolation, high fatigue life.
+金属弹簧或钢丝绳隔振器。刚度极低，多轴隔振效果优异，抗疲劳寿命长。
+
+| Parameter / 参数 | Value / 数值 |
+|---|---|
+| Typical k range / 典型刚度范围 | 500–3,000 N/m |
+| ζ | 0.08–0.15 (wire rope higher end) |
+| Form factor / 外形 | 40–80 mm square mount |
+| Assembly / 装配 | Bolt-through flange / 翻边螺栓安装 |
+| **Verdict / 评价** | **○ Overkill for this application. Good if outdoor cement/pavement use is primary concern.** / **○ 对本应用略显过度。若以室外水泥/人行道为主要工况则适用。** |
+
+---
+
+### 12.6 Recommendation — Next Stage Design / 推荐方案——下阶段设计
+
+#### 12.6.1 Recommended configuration / 推荐配置
+
+**Use rubber anti-vibration grommets (Option A) at 4 corners, plus the silicon bumper pads retained as a secondary compliance/damping layer on top.**
+**在四角使用橡胶减振螺套（方案A），并在其上保留硅胶减振垫作为二级柔顺/阻尼层。**
+
+```
+Body structure panel / 机体结构底板
+        │  ← silicon stud pad (compliance + high-freq damping)
+        │     硅胶凸台垫（柔顺性 + 高频阻尼）
+    [Rubber grommet M6/M8]   ← primary isolator at each corner
+    [橡胶减振螺套 M6/M8]       每角一个，主隔振器
+        │
+Chassis top panel / 底盘顶板
+```
+
+Target specifications for grommet selection:
+螺套选型目标参数：
+
+| Parameter / 参数 | Target / 目标 |
+|---|---|
+| Body mass (arm + structure + electronics) / 机体质量（臂+结构+电子） | Weigh first / 先称重 |
+| k per grommet / 每个螺套刚度 | `m_body × (2π × 4.5)² / 4` N/m |
+| Example: m_body = 15 kg / 示例：机体15 kg | k ≈ **3,750 N/m** per grommet |
+| Example: m_body = 20 kg / 示例：机体20 kg | k ≈ **5,000 N/m** per grommet |
+| Target fn_sandwich / 目标夹层自振频率 | **4–5 Hz** |
+| Target ζ / 目标阻尼比 | **0.15–0.25** (grommet + silicon combined) |
+
+#### 12.6.2 Expected combined performance / 预期综合性能
+
+With suspension (fn=3 Hz, ζ=0.7) + properly sized sandwich grommets (fn=4.5 Hz, ζ=0.2):
+悬挂（fn=3 Hz，ζ=0.7）+ 合理选型夹层螺套（fn=4.5 Hz，ζ=0.2）的综合性能：
+
+| Speed / 速度 | Input RMS (g) | After suspension / 经悬挂 | After sandwich / 经夹层 | Reduction vs bare / 较裸底盘改善 |
+|---|---|---|---|---|
+| 0.2 m/s | 0.068 | 0.073 | ~0.076 | 1.1× (slight amplification — unavoidable) |
+| 0.4 m/s | 0.201 | 0.111 | ~0.055 | **3.7×** |
+| 0.6 m/s | 0.296 | 0.108 | ~0.030 | **10×** |
+| 1.0 m/s | 0.507 | 0.110 | ~0.015 | **34×** |
+| 1.5 m/s | 0.674 | 0.097 | ~0.007 | **96×** |
+
+*Note: 0.2 m/s slight amplification persists because both suspension and sandwich fn are ≈ 3–4.5 Hz, both above the 3.9 Hz excitation. This requires the suspension to be the primary control for low-speed operation (see Section 6).* /
+*注：0.2 m/s处轻微放大仍存在，因悬挂与夹层fn均约3–4.5 Hz，均高于3.9 Hz激励。低速工况需由悬挂（见第6节）负责控制。*
+
+#### 12.6.3 Next steps / 下阶段行动
+
+| Priority / 优先级 | Action / 行动 |
+|---|---|
+| 1 | **Weigh body structure + arm + electronics** to determine exact m_body. / **称量机体结构+机械臂+电子设备**，确定实际m_body。 |
+| 2 | **Calculate k per grommet** = m_body × (2π × 4.5)² / 4. Select catalogue rubber grommet matching this k. / **计算每螺套所需k** = m_body × (2π×4.5)²/4，按此k值选择标准橡胶减振螺套。 |
+| 3 | **Prototype with 4 grommets** at corners of a test sandwich panel. Measure resonance with impulse test. / **用4个螺套**在测试夹层面板四角进行原型验证，用冲击测试测量共振频率。 |
+| 4 | **Retain silicon pads** on top of grommets for high-frequency damping and wear protection. / **保留硅胶垫**置于螺套上方，用于高频阻尼和耐磨保护。 |
+| 5 | **Do not rely on silicon pads alone** — they will amplify vibration at 0.4–0.8 m/s with any realistic body mass. / **不可单独依赖硅胶垫**——对任何合理机体质量，其在0.4–0.8 m/s范围内均会放大振动。 |
 
 ---
 
