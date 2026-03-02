@@ -22,11 +22,11 @@
 6. [Mitigation Options for Low-Speed Resonance](#6-mitigation-options--低速共振缓解方案)
 7. [Suspension Design](#7-suspension-design--悬挂设计)
 8. [Wheel Swap: 6-inch N=9 vs Current 5-inch N=11](#8-wheel-comparison--车轮对比)
-9. [Conclusions & Recommendations](#9-conclusions--结论与建议)
+9. [Conclusions & Recommendations](#section-9)
 10. [Adding Mass to Shift Resonance](#10-adding-mass-to-shift-resonance--增加质量以移频)
 11. [Pneumatic Tyres vs Omni Wheels](#11-pneumatic-tyres-vs-omni-wheels--充气轮胎与全向轮对比)
-12. [Sandwich Layer — Four-Option Comparative Analysis](#12-sandwich-layer--four-option-comparative-analysis--机体结构夹层减振设计)
-13. [Additional Isolator Candidates — Extended Evaluation](#13-additional-isolator-candidates--extended-evaluation--新增隔振器候选方案扩展评估)
+12. [Sandwich Layer — Four-Option Comparative Analysis](#section-12)
+13. [Additional Isolator Candidates — Extended Evaluation](#section-13)
 
 ---
 
@@ -415,6 +415,8 @@ f_cogging = @(v) 10.2 * v/(sqrt(2)*wC_new) * 37.14;
 
 ---
 
+<a id="section-9"></a>
+
 ## 9. Conclusions & Recommendations / 结论与建议
 
 ### 9.1 Confirmed findings (high confidence) / 已确认结论（高置信度）
@@ -605,6 +607,8 @@ Pneumatic tyres solve essentially **all** vibration problems identified in this 
 - **If omnidirectionality is required**: keep omni wheels, redesign suspension to fn = 3 Hz + ζ = 0.7 as described in Section 6. / **若全向性不可或缺**：保留全向轮，按第6节将悬挂重设计为fn=3 Hz + ζ=0.7。
 
 ---
+
+<a id="section-12"></a>
 
 ## 12. Sandwich Layer — Four-Option Comparative Analysis / 机体结构夹层减振设计
 
@@ -1023,6 +1027,8 @@ Total column height:            66 mm
 | 6 | **If outdoor use planned**: replace silicon pads with ALJ 89B027 metal isolators (no spacers needed — direct bolt-on). fn=6.4 Hz, acceptable for outdoor where suspension compensates. / **若规划室外使用**：以ALJ 89B027金属减振器替换硅胶垫（无需隔板，直接螺栓安装）。fn=6.4 Hz，室外工况下悬挂可补偿。 |
 
 ---
+
+<a id="section-13"></a>
 
 ## 13. Additional Isolator Candidates — Extended Evaluation / 新增隔振器候选方案扩展评估
 
