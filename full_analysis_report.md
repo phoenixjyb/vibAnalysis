@@ -1997,18 +1997,37 @@ At high speeds (≥ 1.0 m/s), the end-effector Z-RMS **plateaus regardless of su
 | EE Z plateaus at high speed | Above ~0.8 m/s, improving chassis isolation gives diminishing returns for arm precision; structural damping of the arm itself becomes the next bottleneck |
 | Cement 0.2 m/s: EE total = 0.50 g | Any arm operation on cement at ≤ 0.2 m/s is unsuitable for precision tasks |
 
-#### Revised end-effector vibration budget / 末端执行器振动预算修订
+#### Revised end-effector vibration budget — indoor, after suspension + sandwich / 末端执行器振动预算修订（室内，加装悬挂+夹层后）
 
-With suspension (fn=4 Hz, ζ=0.4) + sandwich (fn=4.76 Hz, ζ=0.13) reducing chassis input, then arm attenuating at high speed:
+The budget must be evaluated in **three axes separately**, because the arm filters Z differently from X/Y.
 
-| Speed | Chassis Z after susp+sandwich (predicted) | Arm Z ratio | **Predicted EE Z** |
+**Z-axis** (vertical) — suspension + sandwich attenuate chassis Z, arm attenuates further:
+
+| Speed | Chassis Z (measured) | After susp+sandwich | Arm Z ratio | **Predicted EE Z** |
+|---|---|---|---|---|
+| 0.4 m/s | 0.180 g | ~0.010 g | 0.88 | **~0.009 g ✓** |
+| 0.8 m/s | 0.383 g | ~0.009 g | 0.40 | **~0.004 g ✓** |
+| 1.0 m/s | 0.508 g | ~0.009 g | 0.22 | **~0.002 g ✓** |
+
+**X/Y-axis** (horizontal) — suspension/sandwich provide negligible lateral attenuation; arm AMPLIFIES via structural resonances:
+
+| Speed | Chassis X/Y (measured, indoor) | Susp/sandwich lateral ratio | Arm X/Y ratio | **Predicted EE X or Y** |
+|---|---|---|---|---|
+| 0.4 m/s | ~0.070–0.071 g | ≈ 1.0 (no lateral isolation) | ~1.1–1.5× (resonance) | **~0.08–0.10 g** |
+| 0.8 m/s | ~0.132–0.160 g | ≈ 1.0 | ~1.1–1.7× | **~0.15–0.22 g** |
+| 1.0 m/s | ~0.187–0.252 g | ≈ 1.0 | ~1.0–1.4× | **~0.19–0.26 g** |
+
+**Total EE RMS** (dominant axis is X or Y, not Z, after suspension+sandwich):
+
+| Speed | Predicted EE Z | Predicted EE X/Y (dominant) | **Predicted EE total** |
 |---|---|---|---|
-| 0.4 m/s | ~0.10 g (T≈0.55 × T_sandwich≈0.49) | 0.88 | **~0.09 g ✓** |
-| 0.8 m/s | ~0.09 g (T≈0.22 × T_sandwich≈0.12) | 0.40 | **~0.04 g ✓** |
-| 1.0 m/s | ~0.09 g | 0.22 | **~0.02 g ✓** |
+| 0.4 m/s | ~0.009 g | ~0.08–0.10 g | **~0.08–0.10 g** |
+| 0.8 m/s | ~0.004 g | ~0.15–0.22 g | **~0.15–0.22 g** |
+| 1.0 m/s | ~0.002 g | ~0.19–0.26 g | **~0.19–0.26 g** |
 
-*Note: arm Z-ratio values from indoor white tile (best case). Horizontal EE vibration (X/Y) is NOT reduced by the suspension/sandwich — only arm structural stiffness helps there.*
-*注：机械臂Z轴比值取室内白砖（最优情况）。水平EE振动（X/Y轴）不受悬挂/夹层减振影响——仅机械臂自身结构刚度有效。*
+> **Key conclusion: after adding suspension + sandwich, EE Z drops to near-zero, but EE total RMS is still ~0.1–0.26 g due to arm horizontal (X/Y) resonances at 5.8 Hz and 9.1 Hz. Arm structural stiffening is the next required step for EE precision — the suspension/sandwich alone are insufficient.**
+>
+> **关键结论：加装悬挂+夹层后，EE Z向振动接近零，但因机械臂5.8 Hz和9.1 Hz水平（X/Y轴）共振，EE总RMS仍约0.1–0.26 g。机械臂结构加强是下一阶段必要步骤——仅凭悬挂/夹层不足以实现EE精度目标。**
 
 ---
 
@@ -2029,8 +2048,8 @@ For reference — what the arm tip currently experiences:
 > **Current state: no speed or surface is suitable for arm precision operation while driving.** The robot must be stopped (velocity = 0) for any precision task.
 > **当前状态：行驶中任何速度和路面均不适合机械臂精度操作。** 需完全停止后才能执行精度任务。
 
-> After adding suspension + sandwich (predicted): indoor ≥ 0.6 m/s should achieve EE Z < 0.05 g. **Define an arm-specific vibration tolerance (e.g. < 0.05 g total at tip) and verify on prototype.**
-> 加装悬挂+夹层后（预测）：室内≥0.6 m/s时EE Z向振动可低于0.05 g。**建议明确末端执行器振动容差（如末端总RMS<0.05 g）并在样机上验证。**
+> After adding suspension + sandwich (predicted): EE Z drops to < 0.01 g indoors (arm + isolation chain both filter Z). **However, EE total RMS will still be ~0.1–0.26 g due to arm X/Y resonances at 5.8 Hz and 9.1 Hz — which suspension/sandwich cannot reduce.** Define an arm-specific vibration tolerance in 3D total RMS (e.g. < 0.05 g total at tip) and verify on prototype after arm structural stiffening.
+> 加装悬挂+夹层后（预测）：室内EE Z向振动将低至<0.01 g（机械臂+隔振链共同衰减Z向）。**但因机械臂5.8 Hz和9.1 Hz X/Y向共振，EE总RMS仍约0.1–0.26 g——悬挂/夹层无法降低该值。** 建议以三维总RMS为末端执行器振动容差（如末端总RMS<0.05 g），并在机械臂结构加强后在样机上验证。
 
 ---
 
