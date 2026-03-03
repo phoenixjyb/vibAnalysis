@@ -1055,6 +1055,211 @@ Total column height:            66 mm
 
 ---
 
+### 12.8 Complete Sandwich Isolator — Structural Design / 完整夹层隔振器结构设计
+
+#### 12.8.1 Four-layer architecture / 四层架构
+
+The isolator is a self-contained unit that fits between the existing chassis plate and the robot body assembly. It can be swapped out by releasing 4 bolts below and 4 bolts above.
+该隔振器为可独立更换的整体单元，位于底盘板与机体组件之间，拆下上下各4颗螺栓即可整体抽出更换。
+
+```
+═══════════════════════════════════════════════════════════════════
+LAYER 0  Chassis plate (existing) — 6 mm Al octagon
+         底盘板（既有件）——6 mm 铝八边形
+         ↑ 4 × M6 socket bolts from above (accessible at chassis perimeter)
+═══════════════════════════════════════════════════════════════════
+LAYER 1  Bottom isolation plate — 5 mm Al octagon       ┐
+         底部隔振板——5 mm 铝八边形                       │
+         │       │       │       │                       │
+         ●col1   ●col2   ●col3   ●col4  (4 pad columns) │ SANDWICH
+         [pad+spacer stacks, 66 mm tall each]            │ ISOLATOR
+         │       │       │       │                       │ (swap unit)
+LAYER 2  Top isolation plate — 5 mm Al octagon          │
+         顶部隔振板——5 mm 铝八边形                       ┘
+         ↑ 4 × M6 socket bolts from above
+═══════════════════════════════════════════════════════════════════
+LAYER 3  Upper assembly plate — 6 mm Al              (NOT part of sandwich)
+         机体安装板——6 mm 铝                           (不属于夹层单元)
+         ├── 4 × arm column feet (M10 bolts)
+         ├── Battery mounting rails
+         └── Controller / electronics tray
+═══════════════════════════════════════════════════════════════════
+```
+
+#### 12.8.2 Chassis octagon geometry and pad column placement / 底盘八边形几何与垫柱位置
+
+```
+Chassis plate dimensions:
+  Flat-to-flat (N/S/E/W sides):  420 mm
+  Flat-to-flat (wheel sides, 45°): 460 mm
+  Vertex distance from centre:    240 mm
+
+Pad column positions (top view):
+  Located at ±130 mm from chassis centre in X and Y
+  → Centre-to-centre spacing: 260 × 260 mm
+  → Pad outer corner (130+25=155 mm diagonal): x+y = 310 mm < 325 mm ✓ (15 mm clearance)
+
+     ┌──────────────────────────────────┐
+     │        420 mm (N/S flat)         │
+  ┌──┤  ●─────────────────────●  ┠──   │← 460 mm wheel-side inscribed circle
+  │  │  │ ↕130mm              │  │     │
+  │  │  │         ✕ centre    │  │     │
+  │  │  │ ↕130mm              │  │     │
+  └──┤  ●─────────────────────●  ┠──   │
+     │    ←──── 260 mm ──────→         │
+     └──────────────────────────────────┘
+  ● = pad column (50×50 mm), 4 off at (±130, ±130) mm
+```
+
+#### 12.8.3 Layer specifications / 各层规格
+
+**Layer 1 — Bottom isolation plate / 底部隔振板**
+
+| Parameter | Value |
+|---|---|
+| Material | 6061-T6 aluminium / 6061-T6铝合金 |
+| Thickness | **5 mm** |
+| Shape | Octagon — same as chassis plate (420/460 mm) but inscribed at 400/440 mm to leave 10 mm ledge for bolt access / 与底盘板同形但各边内缩10 mm，留出螺栓操作空间 |
+| Pad seats | 4 × ø16 mm through-holes at (±130, ±130) mm — aligns with pad central void / 与垫片中心通孔对齐 |
+| Guide rod holes | 4 × M12 tapped holes (one per pad seat, concentric with ø16 mm hole) for rod anchor |
+| Mounting to chassis | 4 × M6 socket-head bolts + 4 × ø5 mm alignment dowels (press-fit in chassis, clearance in bottom plate) |
+
+**Pad columns × 4 (the mid layer) / 垫柱×4（中间层）**
+
+```
+Cross-section — one pad column / 单垫柱截面:
+
+Bottom plate ─────────────────  z = 0 (reference)
+[ Pad 1      ]  15 mm silicon   z = 0 → 15 mm
+  ━━ Spacer 1 ━━  2 mm Al       z = 15 → 17 mm
+[ Pad 2      ]  15 mm silicon   z = 17 → 32 mm
+  ━━ Spacer 2 ━━  2 mm Al       z = 32 → 34 mm
+[ Pad 3      ]  15 mm silicon   z = 34 → 49 mm
+  ━━ Spacer 3 ━━  2 mm Al       z = 49 → 51 mm
+[ Pad 4      ]  15 mm silicon   z = 51 → 66 mm
+Top plate ────────────────────  z = 66 mm → 71 mm (5 mm plate)
+
+Column footprint:  50 × 50 mm
+Column height:     66 mm (pads + spacers)
+Guide rod:         M12, through ø16 mm pad holes and ø16 mm spacer holes
+                   anchored in bottom plate; rubber grommet + lock nut at top
+```
+
+**Guide rod anti-topple system / 导向杆防倾系统**
+
+Without a lateral restraint, the 66 mm rubber pad stack would topple under any sustained horizontal force. One M12 rod per column (through the existing ø16 mm pad central holes) provides lateral guidance without creating a rigid vertical path:
+
+每个垫柱通过ø16 mm垫片中心孔穿入一根M12导向杆，提供横向约束而不产生刚性垂直传力路径：
+
+```
+Guide rod detail (side view):
+                                    ┌── M12 nylock nut
+                           [rubber grommet] ← soft travel limit (~5 mm clearance above)
+  ─────────────── Top plate (ø14 mm clearance hole + grommet seat)
+       │   │
+  [pad/spacer stack — ø16 mm holes, 2 mm lateral clearance each side]
+       │   │
+  ─────────────── Bottom plate (M12 threaded hole — rod anchored here)
+       │
+  [   M12 steel rod, 90 mm total length   ]
+
+Vertical float: lock nut set to allow 20 mm travel (static sag 15 mm + 5 mm dynamic headroom)
+Lateral clearance: (16−12)/2 = 2 mm per side inside pad holes — adequate for typical oscillation
+```
+
+**Layer 2 — Top isolation plate / 顶部隔振板**
+
+| Parameter | Value |
+|---|---|
+| Material | 6061-T6 aluminium |
+| Thickness | **5 mm** |
+| Shape | Same octagon as bottom plate |
+| Pad seats | 4 × ø16 mm through-holes + ø14 mm guide rod clearance hole (concentric) |
+| Mounting to upper assembly plate | 4 × M6 socket-head bolts (4 corners, tapped in top plate) |
+
+**Layer 3 — Upper assembly plate / 机体安装板** *(not part of swappable sandwich)*
+
+| Parameter | Value |
+|---|---|
+| Material | 6061-T6 aluminium |
+| Thickness | **6 mm** (heavier load from battery, columns) |
+| Size | Match top plate octagon, or smaller if body design allows |
+| Column feet | 4 × M10 tapped holes (arm support columns bolt directly here) |
+| Battery | Sliding rail system (DIN rail or custom extrusion) |
+| Electronics | Controller tray, M4 standoffs |
+
+**Total sandwich envelope / 夹层总包络:**
+
+```
+Layer 0  Chassis plate top surface         z = 0   (reference)
+Layer 1  Bottom plate top surface          z = 5 mm
+         Pad columns (pads + spacers)      z = 5 → 71 mm
+Layer 2  Top plate top surface             z = 76 mm
+Layer 3  Upper assy plate top surface      z = 82 mm  ← body components mount here
+────────────────────────────────────────────────────
+Total from chassis surface to body datum:  82 mm
+```
+
+#### 12.8.4 Assembly / swap procedure / 装配与更换流程
+
+**Installing / 安装:**
+1. Place sandwich unit (layers 1+2 pre-assembled with pads, spacers, guide rods) onto chassis plate, align with 4 dowel pins
+2. Insert 4 × M6 bolts from above through bottom plate into chassis plate — torque to 8 N·m
+3. Lower upper assembly plate (with battery/controller/column feet already fitted) onto sandwich top plate — 4 × M6 bolts from above into top plate tapped holes — torque to 8 N·m
+4. Route wiring harness through chassis perimeter cutout or ø30 mm central access hole in each plate
+
+**Swapping sandwich / 更换夹层:**
+1. Unplug wiring harness connector (one multi-pin connector recommended)
+2. Remove 4 × M6 top bolts (upper assy plate → sandwich top plate)
+3. Remove 4 × M6 bottom bolts (bottom plate → chassis plate)
+4. Lift sandwich unit straight up and out (~1.5 kg unit — one-person operation)
+5. Insert replacement sandwich; reverse steps 1–3
+
+#### 12.8.5 Tipping stability analysis / 倾覆稳定性分析
+
+![Sandwich structure design](results/sandwich_structure_design.png)
+
+Assumptions / 假设:
+- Wheel ground contact: ±141 mm from robot centre in X and Y (≈ ±200 mm diagonal / √2)
+- Support rectangle: 283 × 283 mm
+- Lateral acceleration scenario: 0.3 g (aggressive, robot braking hard or arm extending fast)
+
+| Scenario / 工况 | CoM height / 重心高度 | Tipping angle / 倾覆角 | SF @ 0.3g | Status |
+|---|---|---|---|---|
+| Before sandwich (ref) / 安装前（参考） | 220 mm | 32.7° | **2.14** | ✓ good |
+| After sandwich installed / 安装后 | **286 mm** (+66 mm) | 26.3° | **1.65** | ✓ acceptable |
+| SF = 1.5 limit / 最低限 | 314 mm | — | 1.50 | limit |
+
+**Keeping SF ≥ 1.5**: the body CoM (measured above the sandwich top plate, z = 76 mm) must remain below **169 mm** above the top plate surface. This is met as long as:
+**维持SF ≥ 1.5**：机体重心（以夹层顶板为基准）须低于顶板上方**169 mm**处，满足以下条件即可：
+- Battery stays in the chassis (below sandwich) — **do not mount battery above sandwich** / 电池留在底盘内（夹层以下），**勿将电池置于夹层之上**
+- Arm is in a tucked/lowered position during movement / 运动时机械臂收拢至低位
+- Heavy electronics (controller) sit as low as possible on upper assembly plate / 控制器尽量安装于机体安装板的低位
+
+#### 12.8.6 Rocking mode — important warning / 摇摆模态——重要提示
+
+The 4 pad columns also act as a rocking spring for the body. With columns at ±130 mm, the rocking mode frequency is:
+4个垫柱亦为机体提供摇摆弹簧。垫柱位于±130 mm处时，摇摆模态频率为：
+
+```
+k_rock = 4 × k_eff × d² = 4 × 3,948 × (0.130)² = 267 N·m/rad
+fn_rock ≈ 2–4 Hz  (depends on body moment of inertia; 4.14 Hz for simplified point mass)
+```
+
+**This places the rocking mode at nearly the same frequency as the vertical isolation mode (4.49 Hz) and the suspension bounce mode (4.0 Hz) — all three cluster near 4 Hz.**
+**摇摆模态频率与垂直隔振模态（4.49 Hz）及悬挂弹跳模态（4.0 Hz）几乎相同——三个模态均集中在4 Hz附近。**
+
+Consequence: any excitation near 4 Hz (low speed, N=11 at 0.2 m/s) simultaneously excites all three modes.
+影响：4 Hz附近的任何激励（低速0.2 m/s，N=11）将同时激发三个模态。
+
+Mitigations / 缓解措施:
+- **Keep battery in chassis** (lowers body I and CoM, raises fn_rock slightly) / 电池留于底盘（降低机体转动惯量和重心，略微提高fn_rock）
+- **Maximise pad column spacing** (we are near the octagon limit at 260 mm) / 最大化垫柱间距（260 mm已接近八边形约束上限）
+- **Avoid sustained operation ≤ 0.3 m/s** (pre-existing protocol, now covers rocking mode too) / 避免持续低于0.3 m/s运行（既有规程，现亦涵盖摇摆模态）
+- If rocking is measured to be excessive in prototype testing, add thin foam strips (ζ ≈ 0.3) between pad column outer faces and a lightweight guide frame / 若样机测试中摇摆超标，可在垫柱外侧与轻型导向框之间加贴薄泡棉条（ζ≈0.3）
+
+---
+
 <a id="section-13"></a>
 
 ## 13. Additional Isolator Candidates — Extended Evaluation / 新增隔振器候选方案扩展评估
