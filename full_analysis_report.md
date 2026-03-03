@@ -26,6 +26,7 @@
 10. [Adding Mass to Shift Resonance](#10-adding-mass-to-shift-resonance--增加质量以移频)
 11. [Pneumatic Tyres vs Omni Wheels](#11-pneumatic-tyres-vs-omni-wheels--充气轮胎与全向轮对比)
 12. [Sandwich Layer — Four-Option Comparative Analysis](#section-12)
+    - [§12.9 Mass Audit & Updated Suspension](#129-mass-audit--updated-suspension----with-sandwich-hardware--质量审计与悬挂更新含夹层硬件)
 13. [Additional Isolator Candidates — Extended Evaluation](#section-13)
 
 ---
@@ -298,17 +299,24 @@ fn = (1/2π) × √(k / m_sprung)
 | Sprung mass / 簧载质量 | **19.8 kg** |
 | Sprung mass per corner / 每角簧载质量 | **4.95 kg** |
 
-> ⚠ 25 kg excludes suspension hardware. Recompute k and c after hardware is weighed and added to total.
-> ⚠ 25 kg不含悬挂零件。称量零件后须重新计算k和c。
+> ⚠ **These values are superseded once sandwich hardware and second battery are added.**
+> See [§12.9.3](#129-mass-audit--updated-suspension----with-sandwich-hardware--质量审计与悬挂更新含夹层硬件) for updated values: **total 36.6 kg, sprung 31.4 kg (7.85 kg/corner)**.
+> ⚠ **加装夹层硬件和第二块电池后，以上数值已更新。**
+> 更新值见§12.9.3：**整机36.6 kg，簧载31.4 kg（每角7.85 kg）**。
 
 ### 7.3 Current design parameters (indoor use) / 当前设计参数（室内使用）
+
+> ⚠ **Parameters below are for the original 25 kg configuration (4.95 kg/corner).**
+> After adding sandwich hardware + second battery (7.85 kg/corner), see §12.9.3 for revised values: **k = 4,958 N/m, c = 157.8 N·s/m**.
+> ⚠ **以下参数适用于原始25 kg构型（每角4.95 kg）。**
+> 增加夹层硬件+第二块电池后（每角7.85 kg），更新值见§12.9.3：**k=4,958 N/m，c=157.8 N·s/m**。
 
 | Parameter / 参数 | Value / 数值 |
 |---|---|
 | Natural frequency / 自然频率 | **fn = 4.0 Hz** |
 | Damping ratio / 阻尼比 | **ζ = 0.4** |
-| Spring stiffness (per corner) / 弹簧刚度（每角） | **k = 3,127 N/m** |
-| Damping coefficient (per corner) / 阻尼系数（每角） | **c = 99.5 N·s/m** |
+| Spring stiffness (per corner) / 弹簧刚度（每角） | **k = 3,127 N/m** *(original 25 kg)* |
+| Damping coefficient (per corner) / 阻尼系数（每角） | **c = 99.5 N·s/m** *(original 25 kg)* |
 | Static sag / 静态下沉 | **15.5 mm** |
 | Minimum stroke / 最小行程 | **46 mm** |
 
@@ -1257,6 +1265,114 @@ Mitigations / 缓解措施:
 - **Maximise pad column spacing** (we are near the octagon limit at 260 mm) / 最大化垫柱间距（260 mm已接近八边形约束上限）
 - **Avoid sustained operation ≤ 0.3 m/s** (pre-existing protocol, now covers rocking mode too) / 避免持续低于0.3 m/s运行（既有规程，现亦涵盖摇摆模态）
 - If rocking is measured to be excessive in prototype testing, add thin foam strips (ζ ≈ 0.3) between pad column outer faces and a lightweight guide frame / 若样机测试中摇摆超标，可在垫柱外侧与轻型导向框之间加贴薄泡棉条（ζ≈0.3）
+
+---
+
+### 12.9 Mass Audit & Updated Suspension — With Sandwich Hardware / 质量审计与悬挂更新（含夹层硬件）
+
+**Adding the sandwich plates and a second battery changes both the sprung/unsprung split and the mass above/below the isolator. This section consolidates those effects and provides updated k, c values.**
+**增加夹层板和第二块电池，同时改变了簧载/非簧载质量分配及隔振器上下质量分布。本节汇总以上影响并给出更新后的k、c值。**
+
+#### 12.9.1 Sandwich hardware mass breakdown / 夹层硬件质量分解
+
+| Component / 部件 | Mass (kg) |
+|---|---|
+| Bottom plate (5 mm 6061-T6 Al, octagon 400/440 mm) / 底板 | 1.92 |
+| Pad columns × 4 (3 Si pads + 2 spacers each) / 垫柱（各3块硅胶垫+2块隔板） | 0.33 |
+| Guide rods M12 × 4 / 导向杆 M12 × 4 | 0.49 |
+| Top plate (5 mm 6061-T6 Al) / 顶板 | 1.92 |
+| Upper assembly plate (6 mm 6061-T6 Al) / 上组装板 | 2.31 |
+| Fasteners, grommets, nylock nuts / 紧固件、橡皮垫、自锁螺母 | 0.51 |
+| **Sandwich hardware total / 夹层硬件合计** | **7.48** |
+
+> **Previous total: 25 kg → New total: 36.6 kg** (25 kg chassis + 7.48 kg sandwich hardware + 4.1 kg second battery)
+> **原整机: 25 kg → 新整机: 36.6 kg**（25 kg底盘 + 7.48 kg夹层硬件 + 4.1 kg第二块电池）
+
+#### 12.9.2 Battery placement configurations / 电池布置方案对比
+
+Two 4.1 kg batteries must each be placed above or below the sandwich isolator. The choice determines fn_pad — the natural frequency of the body-on-pads system — which must stay in the 4–5 Hz window.
+两块4.1 kg电池须各自安置于夹层隔振器上方或下方。该选择决定fn_pad（机体在垫片上的自然频率），须保持在4–5 Hz窗口内。
+
+| Config / 方案 | Battery 1 / 电池1 | Battery 2 / 电池2 | Mass above pads (kg) / 垫片上方质量 | fn_pad (Hz) | Verdict / 判断 |
+|---|---|---|---|---|---|
+| A — Both above / 均在上 | Above | Above | 10.51 | 3.95 | ✓ but marginal at 0.3 m/s |
+| B — Both below / 均在下 | Below | Below | 2.31 | 4.79 | ✓ slightly stiff |
+| **C — Split / 分置 ✓** | **Above / 上** | **Below / 下** | **6.41** | **4.31** | **✓ Recommended / 推荐** |
+
+**Config C is recommended:** fn_pad = 4.31 Hz sits squarely in the 4–5 Hz target window, matching the Si 4-series rated fn of 4.49 Hz within 4%.
+**推荐C方案：** fn_pad = 4.31 Hz位于4–5 Hz目标窗口中心，与硅胶4串联额定fn（4.49 Hz）误差仅4%。
+
+> *fn_pad derived from: k_eff = 15,791/4 = 3,948 N/m (Si 4-series, 4 columns in parallel); fn = (1/2π)√(k_total / m_above)*
+
+**What goes above vs below the sandwich / 夹层上下各放什么:**
+
+| Location / 位置 | Items / 内容 | Mass (kg) |
+|---|---|---|
+| **Above sandwich** / 夹层上方 | Upper assembly plate + Battery 1 + robotic arm + arm electronics | 6.4 + arm payload |
+| **Below sandwich** / 夹层下方 | Chassis + motors + wheels + Battery 2 + main electronics | ~30 |
+
+> Keep Battery 2 in the chassis. Do **not** place both batteries above (Config A) — fn_pad drops to 3.95 Hz, which risks amplification at 0.3 m/s through the suspension near-resonance.
+> 电池2须留于底盘内。**切勿**将两块电池均置于夹层上方（A方案）——fn_pad降至3.95 Hz，在0.3 m/s接近悬挂共振时存在放大风险。
+
+#### 12.9.3 Updated sprung mass and suspension parameters / 更新后簧载质量与悬挂参数
+
+The suspension (wheels → chassis → body) carries all mass except the 4 motor+wheel assemblies. All sandwich hardware is sprung.
+悬挂（车轮→底盘→机体）承载除4组电机+轮组之外的全部质量。所有夹层硬件均属簧载质量。
+
+| Mass component / 质量构成 | Value (kg) |
+|---|---|
+| Chassis + original content (excl. motors/wheels) | 19.8 |
+| Sandwich hardware / 夹层硬件 | 7.48 |
+| Second battery / 第二块电池 | 4.1 |
+| Unsprung (4 × motor + wheel) / 非簧载（4×电机+轮） | 5.2 |
+| **New total robot / 新整机总质量** | **36.6** |
+| **New sprung mass / 新簧载质量** | **31.4** |
+| **Sprung per corner / 每角簧载质量** | **7.85 kg** |
+
+**Updated suspension parameters (fn = 4 Hz, ζ = 0.4, per corner) / 更新后悬挂参数（fn=4 Hz，ζ=0.4，每角）:**
+
+| Surface / 地面 | fn (Hz) | k (N/m) | c (N·s/m) | Static sag (mm) / 静态下沉 | Min stroke (mm) / 最小行程 |
+|---|---|---|---|---|---|
+| Indoor / 室内 | 4.0 | **4,958** | **157.8** | 15.5 | 46 |
+| Pavement / 人行道 | 3.0 | **2,789** | **118.4** | 27.6 | 83 |
+| Cement / 水泥路 | 2.0 | **1,240** | **78.9** | 62.1 | 186 |
+
+> **Previous indoor values (25 kg total): k = 3,127 N/m, c = 99.5 N·s/m** — these are superseded by the values above.
+> Static sag at indoor fn remains unchanged at 15.5 mm (sag = m·g/k is independent of mass when fn is held constant).
+> **原室内值（整机25 kg）：k=3,127 N/m，c=99.5 N·s/m** ——已由上表新值替代。
+> 室内fn不变时，静态下沉仍为15.5 mm（下沉量=m·g/k，fn固定时与质量无关）。
+
+#### 12.9.4 Double resonance at 0.2 m/s — critical warning / 0.2 m/s双重共振——关键警告
+
+At 0.2 m/s the N=11 roller excitation reaches **3.90 Hz** — nearly coincident with **both** the suspension fn (4.0 Hz) and the pad stack fn (4.31 Hz). Both isolation stages amplify simultaneously:
+0.2 m/s时N=11滚子激励频率为 **3.90 Hz**——几乎同时接近悬挂fn（4.0 Hz）和垫叠fn（4.31 Hz）。两级隔振同步放大：
+
+| Speed / 速度 | f_N11 (Hz) | T_suspension | T_pad stack (ζ=0.15) | **T_total** | Risk / 风险 |
+|---|---|---|---|---|---|
+| 0.2 m/s | 3.90 | 1.62 | 3.17 | **5.15** | **HIGH / 高** |
+| 0.3 m/s | 5.85 | 0.94 | 1.16 | 1.09 | Moderate |
+| 0.4 m/s | 7.80 | 0.58 | 0.49 | **0.28** | ✓ Good |
+
+At 0.2 m/s the payload experiences ~5× the chassis vibration input — the worst-case condition for arm stability.
+0.2 m/s时载荷承受约5倍底盘振动输入——机械臂稳定性最差工况。
+
+**The pre-existing protocol (avoid sustained operation ≤ 0.3 m/s) remains mandatory and is now reinforced by both isolation stages.**
+**既有规程（避免持续低速≤0.3 m/s运行）仍为强制要求，现已由两级隔振共同验证。**
+
+#### 12.9.5 Tipping stability (Config C) / 倾覆稳定性（C方案）
+
+With Config C mass distribution, the overall system CoM is approximately **125 mm above ground** — lower than the pre-sandwich configuration because the heavier chassis contents dominate.
+C方案质量分布下，整机重心约在 **距地125 mm** 处——比无夹层构型更低，因较重的底盘内容物占主导。
+
+| Lateral acceleration / 侧向加速度 | Tipping safety factor / 倾覆安全系数 |
+|---|---|
+| 0.1 g | 18.4 |
+| 0.2 g | 9.2 |
+| 0.3 g | 6.1 |
+| 0.5 g | 3.7 |
+
+**All values >> 1.5 minimum: no tipping concern.** Wide wheelbase (230 mm lateral half-track) and low CoM provide excellent stability.
+**所有值均远大于1.5最小安全系数：无倾覆风险。** 宽轮距（横向半距230 mm）与低重心提供优良稳定性。
 
 ---
 
