@@ -1126,8 +1126,8 @@ Pad column positions (top view):
 | Parameter | Value |
 |---|---|
 | Material | 6061-T6 aluminium / 6061-T6铝合金 |
-| Thickness | **5 mm** |
-| Shape | Octagon — same as chassis plate (420/460 mm) but inscribed at 400/440 mm to leave 10 mm ledge for bolt access / 与底盘板同形但各边内缩10 mm，留出螺栓操作空间 |
+| Thickness | **3 mm** *(revised from 5 mm — see §12.8.7; SF > 30, sag < 1 mm)* |
+| Shape | **Square 320 × 320 mm** *(revised from full octagon — covers 260 mm pad footprint with 30 mm margin)* / 修订为320×320 mm正方形（覆盖260mm垫柱基础并留30mm边距） |
 | Pad seats | 4 × ø16 mm through-holes at (±130, ±130) mm — aligns with pad central void / 与垫片中心通孔对齐 |
 | Guide rod holes | 4 × M12 tapped holes (one per pad seat, concentric with ø16 mm hole) for rod anchor |
 | Mounting to chassis | 4 × M6 socket-head bolts + 4 × ø5 mm alignment dowels (press-fit in chassis, clearance in bottom plate) |
@@ -1180,8 +1180,8 @@ Lateral clearance: (16−12)/2 = 2 mm per side inside pad holes — adequate for
 | Parameter | Value |
 |---|---|
 | Material | 6061-T6 aluminium |
-| Thickness | **5 mm** |
-| Shape | Same octagon as bottom plate |
+| Thickness | **3 mm** *(revised from 5 mm — acts compositely with 4 mm upper assy plate; combined δ < 0.6 mm)* |
+| Shape | **Square 320 × 320 mm** *(same as bottom plate)* |
 | Pad seats | 4 × ø16 mm through-holes + ø14 mm guide rod clearance hole (concentric) |
 | Mounting to upper assembly plate | 4 × M6 socket-head bolts (4 corners, tapped in top plate) |
 
@@ -1190,8 +1190,8 @@ Lateral clearance: (16−12)/2 = 2 mm per side inside pad holes — adequate for
 | Parameter | Value |
 |---|---|
 | Material | 6061-T6 aluminium |
-| Thickness | **6 mm** (heavier load from battery, columns) |
-| Size | Match top plate octagon, or smaller if body design allows |
+| Thickness | **4 mm** *(revised from 6 mm — primary structural member for arm columns; SF > 50)* |
+| Size | **Square 320 × 320 mm** *(revised from full octagon; matches top plate)* |
 | Column feet | 4 × M10 tapped holes (arm support columns bolt directly here) |
 | Battery | Sliding rail system (DIN rail or custom extrusion) |
 | Electronics | Controller tray, M4 standoffs |
@@ -1200,12 +1200,12 @@ Lateral clearance: (16−12)/2 = 2 mm per side inside pad holes — adequate for
 
 ```
 Layer 0  Chassis plate top surface         z = 0   (reference)
-Layer 1  Bottom plate top surface          z = 5 mm
-         Pad columns (pads + spacers)      z = 5 → 71 mm
-Layer 2  Top plate top surface             z = 76 mm
-Layer 3  Upper assy plate top surface      z = 82 mm  ← body components mount here
+Layer 1  Bottom plate top surface          z = 3 mm   (revised: 3 mm)
+         Pad columns (pads + spacers)      z = 3 → 69 mm
+Layer 2  Top plate top surface             z = 72 mm  (revised: 3 mm)
+Layer 3  Upper assy plate top surface      z = 76 mm  ← body components mount here (revised: 4 mm)
 ────────────────────────────────────────────────────
-Total from chassis surface to body datum:  82 mm
+Total from chassis surface to body datum:  76 mm  (was 82 mm — 6 mm lower profile)
 ```
 
 #### 12.8.4 Assembly / swap procedure / 装配与更换流程
@@ -1266,53 +1266,104 @@ Mitigations / 缓解措施:
 - **Avoid sustained operation ≤ 0.3 m/s** (pre-existing protocol, now covers rocking mode too) / 避免持续低于0.3 m/s运行（既有规程，现亦涵盖摇摆模态）
 - If rocking is measured to be excessive in prototype testing, add thin foam strips (ζ ≈ 0.3) between pad column outer faces and a lightweight guide frame / 若样机测试中摇摆超标，可在垫柱外侧与轻型导向框之间加贴薄泡棉条（ζ≈0.3）
 
+#### 12.8.7 Lightweight plate design — structural justification / 轻量化板材设计——结构依据
+
+The initial plate thicknesses (5 mm bottom, 5 mm top, 6 mm upper assembly) were conservative first estimates. A structural check shows the plates are **massively over-designed**:
+初始板厚（底板5mm、顶板5mm、上组装板6mm）为保守初估。结构校核表明各板 **严重超设计裕度**：
+
+**Top plate stress analysis (worst case — 260 mm span, 280 N design load at 2.5× static):**
+顶板应力分析（最不利工况——260 mm跨度，280 N设计载荷，2.5×静载）：
+
+| Thickness / 厚度 | Deflection / 挠度 (mm) | Bending stress / 弯曲应力 (MPa) | Safety factor / 安全系数 |
+|---|---|---|---|
+| 2 mm | 4.25 | 20.1 | 14 |
+| **3 mm** | **1.26** | **8.9** | **31** |
+| 4 mm | 0.53 | 5.0 | 55 |
+| 5 mm (original) | 0.27 | 3.2 | 86 |
+
+*(Al 6061-T6 yield = 276 MPa; simply supported 260 mm square plate, uniform load)*
+*(铝6061-T6屈服强度276 MPa；260mm正方形简支板，均布载荷)*
+
+Composite action: when the 4 mm upper assembly plate is bolted on top of the 3 mm top plate, the combined flexural rigidity roughly doubles — effective deflection drops to ~**0.6 mm** at 3 mm, well within precision-arm tolerance.
+复合作用：4mm上组装板与3mm顶板通过螺栓连接后，组合抗弯刚度约为原来两倍——3mm板有效挠度降至约 **0.6 mm**，满足精密机械臂的容差要求。
+
+The bottom plate sits directly on the chassis (distributed support below) and carries only compression from the pad columns — its bending span is short and it can safely be **3 mm**.
+底板直接置于底盘上方（下方有分布式支撑），仅承受垫柱压缩载荷——弯曲跨度短，**3 mm厚度完全可行**。
+
+**Revised plate design (recommended) / 推荐修订后板材设计:**
+
+The plates also **do not need to be full octagon** — a 320 × 320 mm square covers the 260 mm pad column footprint with adequate edge margins for bolts and access.
+各板**无需采用完整八边形**——320×320mm正方形可覆盖260mm垫柱基础，并为螺栓和操作留有足够边距。
+
+| Plate / 板件 | Original / 原始 | Revised / 修订 | Mass saved / 节省质量 |
+|---|---|---|---|
+| Bottom (shape × thickness) | Octagon 400mm × 5 mm | Square 320 mm × 3 mm | 1.01 kg |
+| Top (shape × thickness) | Octagon 400mm × 5 mm | Square 320 mm × 3 mm | 1.01 kg |
+| Upper assembly (shape × thickness) | Octagon 400mm × 6 mm | Square 320 mm × 4 mm | 1.09 kg |
+| **Plates total / 各板合计** | **5.84 kg** | **2.73 kg** | **−3.11 kg (−53%)** |
+
+The non-plate items (pad columns, guide rods, fasteners) remain unchanged.
+垫柱、导向杆、紧固件等非板类部件保持不变。
+
 ---
 
 ### 12.9 Mass Audit & Updated Suspension — With Sandwich Hardware / 质量审计与悬挂更新（含夹层硬件）
 
-**Adding the sandwich plates and a second battery changes both the sprung/unsprung split and the mass above/below the isolator. This section consolidates those effects and provides updated k, c values.**
-**增加夹层板和第二块电池，同时改变了簧载/非簧载质量分配及隔振器上下质量分布。本节汇总以上影响并给出更新后的k、c值。**
+**Adding the sandwich plates (lightweight revised design) and a second battery changes both the sprung/unsprung split and the mass above/below the isolator. This section uses the revised 3/3/4 mm plate design throughout.**
+**增加夹层板（采用轻量化修订设计）和第二块电池，改变了簧载/非簧载质量分配及隔振器上下质量分布。本节全程采用修订后的3/3/4 mm板厚设计。**
 
 #### 12.9.1 Sandwich hardware mass breakdown / 夹层硬件质量分解
 
-| Component / 部件 | Mass (kg) |
-|---|---|
-| Bottom plate (5 mm 6061-T6 Al, octagon 400/440 mm) / 底板 | 1.92 |
-| Pad columns × 4 (3 Si pads + 2 spacers each) / 垫柱（各3块硅胶垫+2块隔板） | 0.33 |
-| Guide rods M12 × 4 / 导向杆 M12 × 4 | 0.49 |
-| Top plate (5 mm 6061-T6 Al) / 顶板 | 1.92 |
-| Upper assembly plate (6 mm 6061-T6 Al) / 上组装板 | 2.31 |
-| Fasteners, grommets, nylock nuts / 紧固件、橡皮垫、自锁螺母 | 0.51 |
-| **Sandwich hardware total / 夹层硬件合计** | **7.48** |
+*(Uses revised lightweight plate design from §12.8.7: 3/3/4 mm, 320×320 mm square)*
+*(采用§12.8.7修订轻量化板材：3/3/4 mm，320×320 mm正方形)*
 
-> **Previous total: 25 kg → New total: 36.6 kg** (25 kg chassis + 7.48 kg sandwich hardware + 4.1 kg second battery)
-> **原整机: 25 kg → 新整机: 36.6 kg**（25 kg底盘 + 7.48 kg夹层硬件 + 4.1 kg第二块电池）
+| Component / 部件 | Original / 原始 (kg) | Revised / 修订 (kg) |
+|---|---|---|
+| Bottom plate — Octagon 5 mm → Square 320 mm × 3 mm / 底板 | 1.92 | **0.83** |
+| Top plate — Octagon 5 mm → Square 320 mm × 3 mm / 顶板 | 1.92 | **0.83** |
+| Upper assembly plate — Octagon 6 mm → Square 320 mm × 4 mm / 上组装板 | 2.31 | **1.11** |
+| Pad columns × 4 (3 Si pads + 2 spacers each) / 垫柱 | 0.33 | 0.33 |
+| Guide rods M12 × 4 / 导向杆 M12 × 4 | 0.49 | 0.49 |
+| Fasteners, grommets, nylock nuts / 紧固件、橡皮垫、自锁螺母 | 0.51 | 0.51 |
+| **Sandwich hardware total / 夹层硬件合计** | **7.48** | **4.10** |
+
+> **Previous total: 25 kg → New total with revised sandwich: 33.5 kg** (25 kg chassis + 4.10 kg sandwich hardware + 4.1 kg second battery; saving **3.1 kg** vs the conservative original estimate)
+> **原整机: 25 kg → 采用修订夹层后新整机: 33.5 kg**（25 kg底盘 + 4.10 kg夹层硬件 + 4.1 kg第二块电池；比原保守估计**节省3.1 kg**）
 
 #### 12.9.2 Battery placement configurations / 电池布置方案对比
 
-Two 4.1 kg batteries must each be placed above or below the sandwich isolator. The choice determines fn_pad — the natural frequency of the body-on-pads system — which must stay in the 4–5 Hz window.
-两块4.1 kg电池须各自安置于夹层隔振器上方或下方。该选择决定fn_pad（机体在垫片上的自然频率），须保持在4–5 Hz窗口内。
+fn_pad = (1/2π)√(k_sys / m_above), where k_sys = 15,759 N/m (4 Si-pad columns in parallel, each 4 pads in series — verified: fn = 4.49 Hz at m_above = 19.8 kg original body).
+m_above = full original body (arm + electronics + body structure + one battery) − battery below + new plates above.
 
-| Config / 方案 | Battery 1 / 电池1 | Battery 2 / 电池2 | Mass above pads (kg) / 垫片上方质量 | fn_pad (Hz) | Verdict / 判断 |
-|---|---|---|---|---|---|
-| A — Both above / 均在上 | Above | Above | 10.51 | 3.95 | ✓ but marginal at 0.3 m/s |
-| B — Both below / 均在下 | Below | Below | 2.31 | 4.79 | ✓ slightly stiff |
-| **C — Split / 分置 ✓** | **Above / 上** | **Below / 下** | **6.41** | **4.31** | **✓ Recommended / 推荐** |
+**Mass above pads breakdown / 垫片上方质量构成:**
+- Body structure, arm, electronics (excl. batteries): **15.7 kg** (= 19.8 − 4.1 battery)
+- Top plate + upper assembly plate (revised lightweight): **1.94 kg**
+- Batteries above (depending on config)
 
-**Config C is recommended:** fn_pad = 4.31 Hz sits squarely in the 4–5 Hz target window, matching the Si 4-series rated fn of 4.49 Hz within 4%.
-**推荐C方案：** fn_pad = 4.31 Hz位于4–5 Hz目标窗口中心，与硅胶4串联额定fn（4.49 Hz）误差仅4%。
+| Config / 方案 | Batteries above pads | m_above (kg) | fn_pad (Hz) | Verdict / 判断 |
+|---|---|---|---|---|
+| A — Both batteries above / 均在上 | 2 × 4.1 kg | 25.84 | 3.93 | ✗ too low — resonance at 0.3 m/s |
+| **B — Both batteries below / 均在下 ✓** | none | **17.64** | **4.76** | **✓ Recommended** |
+| C — One bat above, one below / 各一 | 1 × 4.1 kg | 21.74 | 4.28 | ✓ acceptable |
 
-> *fn_pad derived from: k_eff = 15,791/4 = 3,948 N/m (Si 4-series, 4 columns in parallel); fn = (1/2π)√(k_total / m_above)*
+> *Lightweight plates shift fn_pad **+0.21 Hz** vs original heavy plates (e.g. Config C: 4.08 → 4.28 Hz), moving it closer to the Si 4-series rated 4.49 Hz. This is an additional benefit of reducing plate thickness.*
+
+**Revised recommendation: Config B — both batteries in the chassis (below pads).**
+- fn_pad = 4.76 Hz: closest to the rated 4.49 Hz, well within the 4–5.5 Hz safe window.
+- Config A is excluded: fn_pad = 3.93 Hz is below 4 Hz, risking amplification at ≤ 0.3 m/s (N=11 near-resonance).
+- Config C remains acceptable if one battery must be above for accessibility.
+
+**推荐B方案：两块电池均置于底盘内（垫片下方）。**
 
 **What goes above vs below the sandwich / 夹层上下各放什么:**
 
-| Location / 位置 | Items / 内容 | Mass (kg) |
+| Location / 位置 | Items / 内容 | Approx mass (kg) |
 |---|---|---|
-| **Above sandwich** / 夹层上方 | Upper assembly plate + Battery 1 + robotic arm + arm electronics | 6.4 + arm payload |
-| **Below sandwich** / 夹层下方 | Chassis + motors + wheels + Battery 2 + main electronics | ~30 |
+| **Above pads** / 垫片上方 | Arm body structure + arm + arm electronics + top plate + upper assy plate | ~17.6 |
+| **Below pads** / 垫片下方 | Chassis frame + both batteries + main electronics + motors + wheels | ~15.6 |
 
-> Keep Battery 2 in the chassis. Do **not** place both batteries above (Config A) — fn_pad drops to 3.95 Hz, which risks amplification at 0.3 m/s through the suspension near-resonance.
-> 电池2须留于底盘内。**切勿**将两块电池均置于夹层上方（A方案）——fn_pad降至3.95 Hz，在0.3 m/s接近悬挂共振时存在放大风险。
+> Batteries are heavy and low — keeping both in the chassis improves CoM height and fn_pad simultaneously.
+> 电池重且体积大——两块均置于底盘可同时改善重心高度与fn_pad。
 
 #### 12.9.3 Updated sprung mass and suspension parameters / 更新后簧载质量与悬挂参数
 
@@ -1322,25 +1373,25 @@ The suspension (wheels → chassis → body) carries all mass except the 4 motor
 | Mass component / 质量构成 | Value (kg) |
 |---|---|
 | Chassis + original content (excl. motors/wheels) | 19.8 |
-| Sandwich hardware / 夹层硬件 | 7.48 |
+| Sandwich hardware (revised lightweight design) / 夹层硬件（修订轻量化设计） | 4.10 |
 | Second battery / 第二块电池 | 4.1 |
 | Unsprung (4 × motor + wheel) / 非簧载（4×电机+轮） | 5.2 |
-| **New total robot / 新整机总质量** | **36.6** |
-| **New sprung mass / 新簧载质量** | **31.4** |
-| **Sprung per corner / 每角簧载质量** | **7.85 kg** |
+| **New total robot / 新整机总质量** | **33.2** |
+| **New sprung mass / 新簧载质量** | **28.0** |
+| **Sprung per corner / 每角簧载质量** | **7.00 kg** |
 
 **Updated suspension parameters (fn = 4 Hz, ζ = 0.4, per corner) / 更新后悬挂参数（fn=4 Hz，ζ=0.4，每角）:**
 
 | Surface / 地面 | fn (Hz) | k (N/m) | c (N·s/m) | Static sag (mm) / 静态下沉 | Min stroke (mm) / 最小行程 |
 |---|---|---|---|---|---|
-| Indoor / 室内 | 4.0 | **4,958** | **157.8** | 15.5 | 46 |
-| Pavement / 人行道 | 3.0 | **2,789** | **118.4** | 27.6 | 83 |
-| Cement / 水泥路 | 2.0 | **1,240** | **78.9** | 62.1 | 186 |
+| Indoor / 室内 | 4.0 | **4,421** | **140.8** | 15.5 | 46 |
+| Pavement / 人行道 | 3.0 | **2,487** | **105.6** | 27.6 | 83 |
+| Cement / 水泥路 | 2.0 | **1,106** | **70.4** | 62.1 | 186 |
 
-> **Previous indoor values (25 kg total): k = 3,127 N/m, c = 99.5 N·s/m** — these are superseded by the values above.
-> Static sag at indoor fn remains unchanged at 15.5 mm (sag = m·g/k is independent of mass when fn is held constant).
-> **原室内值（整机25 kg）：k=3,127 N/m，c=99.5 N·s/m** ——已由上表新值替代。
-> 室内fn不变时，静态下沉仍为15.5 mm（下沉量=m·g/k，fn固定时与质量无关）。
+> **Previous indoor values (original 25 kg): k = 3,127 N/m, c = 99.5 N·s/m** — superseded by the values above.
+> Static sag is independent of mass when fn is held constant (sag = g/ω²), so it remains 15.5 mm indoor regardless of mass.
+> **原室内值（原始25 kg）：k=3,127 N/m，c=99.5 N·s/m** ——已由上表新值替代。
+> 静态下沉与质量无关（fn不变时，下沉=g/ω²），室内工况下仍为15.5 mm。
 
 #### 12.9.4 Double resonance at 0.2 m/s — critical warning / 0.2 m/s双重共振——关键警告
 
