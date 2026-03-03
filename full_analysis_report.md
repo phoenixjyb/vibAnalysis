@@ -905,8 +905,8 @@ Suspension: fn = 4.0 Hz, ζ = 0.4 (indoor) / 悬挂：fn=4.0 Hz，ζ=0.4
 ```
 Configuration / 配置:
 Body structure panel / 机体面板
-        ↕  4 × silicon pads + 3 × spacer blocks (50×50×105 mm column total)
-           4块硅胶垫 + 3块隔板（总高105 mm）
+        ↕  4 × silicon pads + 3 × spacer plates (50×50×66 mm column total)
+           4块硅胶垫 + 3块隔板（总高66 mm）
 Chassis top panel / 底盘顶板
 ```
 
@@ -914,7 +914,7 @@ Chassis top panel / 底盘顶板
 |---|---|
 | Pads per corner / 每角垫块数 | **4 (stacked in series / 串联叠放)** |
 | Total pads / 总垫块数 | **16** (4 corners × 4) |
-| Stack height per corner / 每角叠高 | **60 mm** (pads) + **45 mm** (3 × 15 mm spacers) = **105 mm total** |
+| Stack height per corner / 每角叠高 | **60 mm** (pads) + **6 mm** (3 × 2 mm spacers) = **66 mm total** |
 | k_eff per corner / 每角等效刚度 | **3,948 N/m** |
 | fn at 19.8 kg body / 机体19.8 kg时fn | **4.49 Hz** |
 | Damping ratio ζ / 阻尼比 | **0.13** |
@@ -942,116 +942,114 @@ All viable options (fn=4–5 Hz) share the same low-speed problem: at 0.2 m/s, N
 - Avoid sustained operation below 0.3 m/s (already required for suspension resonance avoidance) / 避免持续低于0.3 m/s运行（悬挂共振规避已有此要求）
 - Traverse through 0.1–0.3 m/s quickly during acceleration/deceleration / 加减速时快速通过0.1–0.3 m/s区间
 
-#### 12.7.4 Why rigid spacer plates are required between pads / 为何每块垫之间需要刚性隔板
+#### 12.7.4 Pad geometry (from CAD spec) and spacer rationale / 垫片几何（基于CAD规格）与隔板依据
 
-**Each silicon pad has a stud on both faces** (top and bottom, ø6–8.5 mm each). If pads are stacked directly without spacers, the bottom stud of the upper pad meets the top stud of the lower pad — **metal tip to metal tip**. This creates a rigid metal bridge that completely bypasses the rubber:
-**每块硅胶垫两面均有凸台**（上下各一，ø6–8.5 mm）。若不加隔板直接叠放，上方垫的底部凸台与下方垫的顶部凸台**金属尖对金属尖**接触，形成刚性金属通路，完全绕过橡胶弹性层：
+**Confirmed pad geometry / 确认垫片几何:**
+
+| Feature / 特征 | Dimension / 尺寸 |
+|---|---|
+| Overall size / 整体尺寸 | 50 × 50 × 15 mm |
+| Rubber base (between bump roots) / 橡胶基体（凸台根部间） | **7 mm** |
+| Central through-hole / 中心通孔 | **ø16 mm** |
+| Bumps — variant A / 凸台A型 | ø6 mm × 4 mm high, both faces / 两面均有 |
+| Bumps — variant B / 凸台B型 | ø7.5 mm × 3.5 mm high, both faces |
+| Bumps — variant C / 凸台C型 | ø8.5 mm × ≈3 mm high, both faces |
+| Material / 材质 | 100% silicone rubber — **no metal components** / 纯硅胶，**无金属件** |
+
+The "studs" visible on both faces are **rubber bumps**, not metal. There is no rigid metal element in the pad. A ø16 mm void runs through the centre.
+两面可见的"凸台"为**橡胶凸起**，非金属。垫片内无刚性金属件，中心贯通ø16 mm通孔。
+
+**Effect of direct stacking without spacers / 不加隔板直接叠放的效果:**
+
+Rubber bumps of pad N+1 (bottom face) press against rubber bumps of pad N (top face). Because both surfaces are rubber, there is **no rigid metal bypass** — the rubber springs remain active in the load path. However:
+上方垫（底面）橡胶凸台与下方垫（顶面）橡胶凸台相接触。由于两者均为橡胶，**不存在刚性金属旁路**，橡胶弹簧仍处于受力路径中。但：
+
+- The rated k was measured with bumps pressing on a **flat rigid plate** (test standard condition) / 额定k值在凸台压紧**刚性平面**（测试标准工况）下测定
+- Bump-on-bump (rubber–rubber) is a **softer interface** than bump-on-metal → effective k slightly lower than k_single/N → fn slightly below 4.49 Hz (still within acceptable range, possibly beneficial) / 凸台对凸台（橡–橡）比凸台对金属更软→等效k略低于k_single/N→fn略低于4.49 Hz（仍在可接受范围，甚至略有好处）
+- Lateral stability of a rubber-on-rubber stack is lower (bumps can shear sideways under dynamic horizontal loads) / 橡胶叠摞的横向稳定性较低（动态水平载荷下凸台易侧向剪切）
+- Long-term rubber-to-rubber adhesion may make the stack difficult to disassemble / 长期橡胶接触可能导致粘连，拆卸困难
+
+**Spacer plates are therefore recommended (not strictly mandatory for isolation, but strongly preferred for repeatable k, lateral stability, and serviceability).**
+**因此推荐使用隔板（从隔振物理角度非强制，但对刚度可重复性、横向稳定性和可维护性强烈建议使用）。**
 
 ```
-WITHOUT spacers / 无隔板:                    WITH spacers / 有隔板:
-─────────────────────────────────           ─────────────────────────────────
-  ↓ bottom stud of pad N+1 (metal)            rubber face of pad N+1
-  ↑ top stud of pad N (metal)                 presses on spacer top face
-  → metal-to-metal rigid contact              stud captured in ø7 hole
-  → rubber is BYPASSED ENTIRELY               spacer bottom face presses on
-  → k → ∞, zero isolation                    rubber face of pad N below
-                                              k = k_single/4 = 3,948 N/m ✓
-─────────────────────────────────           ─────────────────────────────────
+WITHOUT spacers / 无隔板:              WITH spacers / 有隔板:
+─────────────────────────────          ─────────────────────────────
+  rubber bumps of pad N+1 ↓             rubber bumps of pad N+1 ↓
+  rubber bumps of pad N ↑               flat face of spacer plate
+  → rubber–rubber interface             → rigid flat surface
+  → k slightly lower than rated         → k = k_single (rated condition)
+  → fn slightly below 4.49 Hz ✓        → fn = 4.49 Hz as designed ✓
+  → lateral stability reduced ✗         → bumps grip spacer flat face ✓
+─────────────────────────────          ─────────────────────────────
 ```
-
-**Effect of direct stacking without spacers / 直接叠放（无隔板）的后果:**
-- Metal-to-metal contact between studs creates a rigid load path — **rubber spring is short-circuited** / 凸台间金属接触形成刚性传力路径——**橡胶弹簧被短路**
-- Effective stiffness → ∞, fn → ∞, transmissibility T → 1 at all frequencies (no isolation at all) / 等效刚度→∞，fn→∞，全频段T≈1（完全无隔振）
-- Studs may cold-weld or seize at the contact point under sustained load / 持续载荷下凸台可能发生冷焊或咬死
-
-> **Note on scope:** Discovering that studs are on both faces does not change the recommended option (Si 4-series, fn=4.49 Hz) or any of the transmissibility calculations — the spring stiffness k is a property of the rubber body, not the studs. However, it does change the spacer plate design significantly (see §12.7.5).
-> **注：** 确认两面均有凸台不改变推荐方案（硅胶4串联，fn=4.49 Hz）或任何传递率计算——弹簧刚度k由橡胶体决定，与凸台无关。但隔板设计需相应调整（见§12.7.5）。
-
-**Spacer plates ensure each pad deforms as a uniform elastic layer — the only way to achieve the designed series-spring behaviour.**
-**隔板确保每块垫作为均匀弹性层变形——这是实现设计串联弹簧特性的唯一途径。**
 
 #### 12.7.5 Spacer plate specification / 隔板规格
 
 3 spacer plates per corner × 4 corners = **12 plates total** / 每角3块 × 4角 = **共12块**
 
-Because each pad has studs on **both** faces, each spacer must receive one stud from the pad below and one stud from the pad above — both entering the same clearance through-hole from opposite ends. The spacer must be thick enough that the two studs do not touch inside the hole.
+The spacer is a thin rigid plate that sits between adjacent pads. The rubber bumps of each pad press against the **flat metal face** of the spacer — replicating the rated test condition (bumps on rigid flat plate). The centre hole must clear the pad's own ø16 mm central void.
 
-每块垫两面均有凸台，因此每块隔板需从两面分别接收上下各一个凸台，两者从同一通孔两端插入而不相接触。隔板厚度须大于上下两凸台伸入长度之和。
-
-```
-Key constraint / 关键约束:
-  spacer thickness  >  stud_bottom_length + stud_top_length + 2 mm clearance
-  If each stud is ≈ 5 mm long: minimum thickness > 5 + 5 + 2 = 12 mm → use 15 mm
-  若每个凸台≈5 mm长：最小厚度 > 12 mm → 选用15 mm
-```
-
-> **Measure stud length before ordering** — confirm actual protrusion length on your pads
-> (typically 4–8 mm depending on variant). Spacer must exceed 2× stud length by ≥ 2 mm.
-> **订货前实测凸台伸出长度**（视型号通常4–8 mm），确认隔板厚度充足。
+隔板为置于相邻垫片间的薄刚性板。每块垫片的橡胶凸台压紧隔板**平整金属面**——复现额定测试工况（凸台压紧刚性平面）。中心孔须与垫片自身ø16 mm中心通孔对齐。
 
 ```
 Assembly diagram — one corner / 单角装配图:
 
-Body panel  ─── ø7 hole or boss to receive pad 4 top stud
-                机体面板（ø7孔或台阶接收第4垫顶部凸台）
-  [  Pad 4  ]   top stud ↑ into body panel
-                bottom stud ↓ into top of spacer 3 hole
+Body panel  ─── flat contact; ø16 mm clearance hole aligns with pad void
+                机体面板（平面接触，ø16孔与垫片通孔对齐）
+  [  Pad 4  ]   rubber bumps ↓ press on flat top face of spacer 3
   ──────────────────────────────────────────────────────
-  [ Spacer 3 ]  50×50×15 mm Al block, ø7 through-hole
-                  ↑ pad 3 top stud enters from below (≈5 mm in)
-                  ↓ pad 4 bottom stud enters from above (≈5 mm in)
-                  ← ≥5 mm gap between stud tips inside hole
+  [ Spacer 3 ]  50×50×2 mm Al plate, ø16 mm centre hole
+                rubber bumps of pad 4 grip top face ✓
+                rubber bumps of pad 3 grip bottom face ✓
   ──────────────────────────────────────────────────────
-  [  Pad 3  ]   top stud ↑ into spacer 3 bottom
-                bottom stud ↓ into top of spacer 2 hole
+  [  Pad 3  ]   rubber bumps ↑ pressed by spacer 3 bottom face
+                rubber bumps ↓ press on flat top face of spacer 2
   ──────────────────────────────────────────────────────
-  [ Spacer 2 ]  50×50×15 mm Al block, ø7 through-hole
+  [ Spacer 2 ]  50×50×2 mm Al plate, ø16 mm centre hole
   ──────────────────────────────────────────────────────
-  [  Pad 2  ]   top stud ↑ into spacer 2 bottom
-                bottom stud ↓ into top of spacer 1 hole
+  [  Pad 2  ]   rubber bumps ↑↓ between spacer 2 and spacer 1
   ──────────────────────────────────────────────────────
-  [ Spacer 1 ]  50×50×15 mm Al block, ø7 through-hole
+  [ Spacer 1 ]  50×50×2 mm Al plate, ø16 mm centre hole
   ──────────────────────────────────────────────────────
-  [  Pad 1  ]   top stud ↑ into spacer 1 bottom
-                bottom stud ↓ into chassis panel hole
+  [  Pad 1  ]   rubber bumps ↑ press on spacer 1 bottom face
 
-Chassis panel ─── ø7 hole or boss for pad 1 bottom stud
-                  底盘面板（ø7孔或台阶接收第1垫底部凸台）
+Chassis panel ─── flat contact; ø16 mm clearance hole
+                  底盘面板（平面接触，ø16孔对齐）
 ```
 
 | Parameter / 参数 | Value / 数值 |
 |---|---|
 | Material / 材质 | Aluminium alloy 5052 or mild steel / 铝合金5052或低碳钢 |
 | Size / 尺寸 | **50 × 50 mm** (matches pad footprint / 与垫片等尺寸) |
-| Thickness / 厚度 | **15 mm** (must exceed 2× stud protrusion length; verify stud length before cutting / 须超过两倍凸台伸出量，切割前实测) |
-| Centre hole / 中心孔 | **ø7 mm through-hole** (clears ø6 stud with 0.5 mm per side; both studs enter from opposite ends / 两端凸台各自插入，互不接触) |
-| Surface finish / 表面处理 | Flat; no sharp edges (deburr after cutting) / 去毛刺 |
-| Mass per plate / 每块质量 | ~105 g (Al, 15 mm thick) — 3 plates per corner = **315 g** (≈ 6% of 4.95 kg sprung mass — acceptable) / 每角315 g，约占簧载质量6%，可接受 |
+| Thickness / 厚度 | **2 mm** (rigid in bending; bumps are rubber so no stud-accommodation needed / 橡胶凸台无需深孔容纳，2 mm足够刚性) |
+| Centre hole / 中心孔 | **ø16 mm** (matches pad's central through-void / 与垫片中心ø16通孔对齐) |
+| Surface finish / 表面处理 | Flat both faces; no sharp edges (deburr after cutting) / 两面平整，去毛刺 |
+| Mass per plate / 每块质量 | ~14 g (Al, 2 mm thick) — 3 plates per corner = **42 g** (negligible) / 可忽略 |
 | Total plates / 总数量 | **12** (3 per corner × 4 corners) |
-| Fabrication / 制作方式 | Cut from 15 mm Al bar stock or plate; single ø7 drill pass through full depth / 从15 mm铝棒或板材切割，ø7通孔一次钻削 |
-| Cost estimate / 成本估算 | < ¥120 total material for 12 plates / 12块总材料成本<¥120 |
+| Fabrication / 制作方式 | Laser cut or waterjet from 2 mm Al sheet; ø16 mm hole included in cut path / 2 mm铝板激光切割或水刀，ø16孔随轮廓一并切出 |
+| Cost estimate / 成本估算 | < ¥50 total material for 12 plates / 12块总材料成本<¥50 |
 
 **Stack height summary per corner / 每角叠高汇总:**
 
 ```
 4 × silicon pad:     4 × 15 mm = 60 mm
-3 × spacer block:    3 × 15 mm = 45 mm
+3 × spacer plate:    3 ×  2 mm =  6 mm
 ─────────────────────────────────────────
-Total column height:            105 mm
-(was 66 mm with 2 mm spacers — now 105 mm due to double-sided studs)
+Total column height:            66 mm
 ```
 
-> The 105 mm column height is the main packaging consequence of double-sided studs. Verify that the body-to-chassis gap in the design accommodates this clearance.
-> 105 mm叠柱高度是两面凸台设计的主要封装影响。请确认机体与底盘间隙满足此要求。
+> Bump variant choice (A/B/C) affects bump height (4 / 3.5 / ~3 mm) but not the total pad height (always 15 mm) or the spacer design. Any variant works with the same 2 mm spacer.
+> 凸台型号（A/B/C）影响凸台高度（4/3.5/≈3 mm）但不改变垫片总高（均为15 mm）或隔板设计，三种型号均适用同一2 mm隔板。
 
 #### 12.7.6 Next steps / 下阶段行动
 
 | Priority | Action / 行动 |
 |---|---|
-| 1 | **Source 16 silicon bumper pads** (50×50×15 mm). Confirm stud variant (A/B/C) matches ø7 mm hole in spacer plates. / **备货16块硅胶减振垫**（50×50×15 mm）。确认凸台型号（A/B/C）与隔板ø7孔匹配。 |
-| 2 | **Fabricate 12 spacer blocks**: 50×50×15 mm aluminium (or thick enough to exceed 2× actual stud length by ≥ 2 mm), ø7 through-hole centre. Cut from 15 mm bar/plate stock; deburr all edges. / **制作12块隔板**：50×50×15 mm铝块（厚度须超过两倍实测凸台伸出量+2 mm），ø7通孔。从15 mm板材切割，去毛刺。 |
+| 1 | **Source 16 silicon bumper pads** (50×50×15 mm, variant A/B/C — any works). Pad has ø16 mm central void and rubber bumps on both faces; no metal components. / **备货16块硅胶减振垫**（50×50×15 mm，A/B/C型均可）。垫片含ø16 mm中心通孔及两面橡胶凸台，无金属件。 |
+| 2 | **Fabricate 12 spacer plates**: 50×50×2 mm aluminium, **ø16 mm centre hole** (matches pad void). Laser-cut from 2 mm Al sheet; deburr all edges. / **制作12块隔板**：50×50×2 mm铝板，**ø16 mm中心孔**（与垫片通孔对齐）。2 mm铝板激光切割，去毛刺。 |
 | 3 | **Weigh body structure + arm + electronics** to confirm m_body. If m_body < 12 kg, switch to N=5 series + 4 spacers (fn=4.0 Hz, 81 mm total column height). / **称量机体+臂+电子设备**。若m_body<12 kg，改用N=5串联+4块隔板（fn=4.0 Hz，总高81 mm）。 |
-| 4 | **Fabricate sandwich panels**: drill/mill ø7 boss or clearance hole at 4 corner positions in both chassis top panel and body bottom panel. Column centres should be symmetric about the body CG. / **制作夹层面板**：在底盘顶板和机体底板四角各加工ø7定位孔或台阶。柱位关于机体重心对称布置。 |
+| 4 | **Fabricate sandwich panels**: mill ø16 mm clearance hole at 4 corner positions in both chassis top panel and body bottom panel (aligns with pad central void). Column centres should be symmetric about the body CG. / **制作夹层面板**：在底盘顶板和机体底板四角各加工ø16 mm通孔（与垫片中心孔对齐）。柱位关于机体重心对称布置。 |
 | 5 | **Prototype impulse test**: assemble one corner column (pad × 4 + spacer × 3), load with 4.95 kg mass, tap and measure response. Verify fn ≈ 4.5 Hz and ζ ≈ 0.13 before full assembly. / **原型冲击测试**：组装单角叠柱（4垫+3隔板），加载4.95 kg，敲击测量响应，验证fn≈4.5 Hz、ζ≈0.13后再全面装配。 |
 | 6 | **If outdoor use planned**: replace silicon pads with ALJ 89B027 metal isolators (no spacers needed — direct bolt-on). fn=6.4 Hz, acceptable for outdoor where suspension compensates. / **若规划室外使用**：以ALJ 89B027金属减振器替换硅胶垫（无需隔板，直接螺栓安装）。fn=6.4 Hz，室外工况下悬挂可补偿。 |
 
