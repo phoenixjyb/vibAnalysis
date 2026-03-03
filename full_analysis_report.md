@@ -30,6 +30,9 @@
     - [§12.10 Mating Interface & Assembly Specification](#1210-mating-interface--assembly-specification--安装接口与装配规范)
 13. [Additional Isolator Candidates — Extended Evaluation](#section-13)
 14. [Dual-Accelerometer Results — Chassis vs End-Effector](#14-dual-accelerometer-results----chassis-vs-end-effector--双加速度计对比底盘与末端执行器)
+    - [§14.7 Per-axis (X/Y/Z) RMS — 3D dual-sensor breakdown](#147-per-axis-xyz-rms----chassis-vs-end-effector--各轴xyz-rms底盘与末端执行器)
+    - [§14.8 Arm structural resonance frequencies](#148-arm-structural-resonance-frequencies-identified--机械臂结构共振频率识别)
+    - [§14.9 Three-axis summary & engineering implications](#149-three-axis-summary-and-engineering-implications--三轴分析总结与工程建议)
 
 ---
 
@@ -1891,7 +1894,7 @@ SANDWICH SWAP (field service, < 5 min)
 
 ## 14. Dual-Accelerometer Results — Chassis vs End-Effector / 双加速度计对比：底盘与末端执行器
 
-**Test date:** 2026-03-03 | **Script:** `dual_accelero_analysis.m`
+**Test date:** 2026-03-03 | **Scripts:** `dual_accelero_analysis.m` (Z+total), `dual_3d_analysis.m` (full X/Y/Z)
 **Sensor a:** chassis (same position as all previous tests)
 **Sensor b:** end-effector (X-axis mounted backwards → X_corrected = −X_raw; Y and Z unaffected)
 **Coverage:** 4 surfaces × 7 speeds = 28 matched pairs (56 files total)
@@ -2031,6 +2034,113 @@ For reference — what the arm tip currently experiences:
 
 ---
 
+### 14.7 Per-axis (X/Y/Z) RMS — chassis vs end-effector / 各轴（X/Y/Z）RMS：底盘与末端执行器
+
+**Script:** `dual_3d_analysis.m` | *Figures: `results/dual3d_fig1–6_*.png`*
+
+Full three-axis breakdown reveals that the arm's filtering is highly **axis-dependent**. Z-axis (vertical) is strongly attenuated at high speed; X/Y axes (horizontal) are amplified by arm structural resonances at nearly all speeds.
+
+完整三轴拆解表明机械臂的过滤效应具有强烈的**轴向依赖性**：Z轴（竖向）在高速下被强烈衰减；X/Y轴（水平）几乎在所有速度下均受机械臂结构共振放大。
+
+#### Indoor White Tile — per-axis RMS (g) / 室内白砖各轴RMS
+
+| Speed | Ch_X | Ch_Y | Ch_Z | EE_X | EE_Y | EE_Z | Ch_tot | EE_tot | Ratio |
+|---|---|---|---|---|---|---|---|---|---|
+| 0.2 m/s | 0.029 | 0.039 | 0.062 | 0.048 | 0.057 | 0.052 | 0.079 | 0.091 | 1.15 |
+| 0.4 m/s | 0.070 | 0.071 | 0.180 | 0.077 | 0.103 | 0.158 | 0.205 | 0.204 | 0.99 |
+| 0.6 m/s | 0.102 | 0.100 | 0.316 | 0.157 | 0.158 | 0.162 | 0.347 | 0.276 | 0.80 |
+| 0.8 m/s | 0.132 | 0.160 | 0.383 | 0.219 | 0.168 | 0.153 | 0.436 | 0.316 | 0.72 |
+| 1.0 m/s | 0.187 | 0.252 | 0.508 | 0.224 | 0.256 | 0.112 | 0.597 | 0.358 | 0.60 |
+| 1.2 m/s | 0.235 | 0.251 | 0.554 | 0.197 | 0.357 | 0.145 | 0.652 | 0.433 | 0.66 |
+| 1.5 m/s | 0.280 | 0.290 | 0.668 | 0.286 | 0.331 | 0.143 | 0.780 | 0.460 | 0.59 |
+
+#### Cement — per-axis RMS (g) / 水泥路各轴RMS
+
+| Speed | Ch_X | Ch_Y | Ch_Z | EE_X | EE_Y | EE_Z | Ch_tot | EE_tot | Ratio |
+|---|---|---|---|---|---|---|---|---|---|
+| 0.2 m/s | 0.101 | 0.121 | 0.189 | 0.302 | 0.328 | 0.235 | 0.246 | 0.504 | **2.05** |
+| 0.4 m/s | 0.176 | 0.209 | 0.588 | 0.380 | 0.474 | 0.284 | 0.649 | 0.670 | 1.03 |
+| 0.6 m/s | 0.256 | 0.289 | 1.075 | 0.422 | 0.568 | 0.267 | 1.142 | 0.756 | 0.66 |
+| 0.8 m/s | 0.390 | 0.415 | 1.681 | 0.470 | 0.600 | 0.289 | 1.775 | 0.815 | 0.46 |
+| 1.0 m/s | 0.522 | 0.543 | 2.307 | 0.355 | 0.587 | 0.219 | 2.427 | 0.720 | **0.30** |
+| 1.2 m/s | 0.669 | 0.655 | 2.911 | 0.359 | 0.637 | 0.249 | 3.058 | 0.772 | **0.25** |
+| 1.5 m/s | 0.762 | 0.751 | 3.114 | 0.400 | 0.627 | 0.257 | 3.292 | 0.786 | **0.24** |
+
+**Key observation:** At cement 1.5 m/s, the arm reduces total vibration by **76%** (3.29 g → 0.79 g). However, EE horizontal axes (X: 0.40 g, Y: 0.63 g) are **not** reduced — they remain at similar magnitude across all speeds, suggesting the EE horizontal vibration is dominated by the arm's own structural dynamics, not chassis transmission.
+
+**关键观察：** 水泥路1.5 m/s时，机械臂总振动降低**76%**（3.29 g→0.79 g）。但EE水平轴（X：0.40 g，Y：0.63 g）**未被衰减**——在各速度下保持相近量级，说明EE水平振动主要由机械臂自身结构动态主导，而非底盘传入。
+
+---
+
+### 14.8 Arm structural resonance frequencies identified / 机械臂结构共振频率识别
+
+**Method:** Per-axis structural transmissibility T(f) = √(PSD_EE(f)/PSD_chassis(f)) computed for all surface/speed combinations; `findpeaks` applied in 2–20 Hz range with thresholds T > 1.5 and prominence > 0.3.
+
+**方法：** 计算各轴结构传递率T(f) = √(PSD_EE(f)/PSD_chassis(f))，对所有地面/速度组合在2–20 Hz范围内进行`findpeaks`搜索，阈值T > 1.5，显著性 > 0.3。
+
+#### Confirmed arm resonance peaks / 机械臂共振峰（已确认）
+
+| Axis | Primary resonance | Secondary resonance | Peak T | Confirmed on |
+|---|---|---|---|---|
+| **X (fore-aft)** | **~5.8 Hz** | **~11.5 Hz** | up to **7.4×** | all 4 surfaces |
+| **Y (lateral)** | **~9.1 Hz** | — | up to **7.5×** | indoor (2 surfaces) |
+| **Y (lateral)** | **~9.9 Hz** | — | up to **5.4×** | pavement, cement |
+| Z (vertical) | < 3 Hz (below analysis range) | — | < 1.0 beyond 6 Hz | all surfaces |
+
+**Repeatability:** The X-axis resonances at **5.8 Hz** and **11.5 Hz** appear consistently at 0.4, 0.8, and 1.0 m/s across all four surfaces. The Y-axis resonance near **9 Hz** is equally consistent. These are therefore **structural modes of the arm/linkage assembly**, not speed-dependent kinematic excitations.
+
+**可重复性：** X轴共振峰（**5.8 Hz**和**11.5 Hz**）在0.4、0.8、1.0 m/s的四种地面上均稳定出现。Y轴共振峰（**约9 Hz**）同样稳定出现。因此这些是**机械臂/连杆组件的结构模态**，而非速度相关的运动激励。
+
+#### Physical interpretation / 物理解释
+
+- **X ~5.8 Hz** — likely the first horizontal bending mode of the arm in the fore-aft direction (chassis travel direction). Close to the suspension design frequency (4 Hz); chassis pitching excites the arm tip.
+- **X ~11.5 Hz** — likely the second bending mode or a coupled rotation/bending mode in the fore-aft plane.
+- **Y ~9 Hz** — first lateral bending mode (perpendicular to travel). Excited by chassis roll and lateral wheel forces.
+- **Z isolation above ~6 Hz** — once excitation frequency exceeds arm's lowest bending mode, the arm mass inertia blocks force transmission (classic vibration isolation above √2 × fn).
+
+- **X轴~5.8 Hz** — 机械臂前后方向（底盘行进方向）一阶水平弯曲模态。接近悬挂设计频率（4 Hz）；底盘俯仰激励机械臂末端。
+- **X轴~11.5 Hz** — 前后平面内的二阶弯曲模态或弯曲-扭转耦合模态。
+- **Y轴~9 Hz** — 侧向（垂直于行进方向）一阶弯曲模态。受底盘横滚和侧向轮力激励。
+- **Z轴在~6 Hz以上隔振** — 激励频率超过机械臂最低弯曲模态后，臂质量惯性阻断力传递（经典：激励频率 > √2 × fn 时实现隔振）。
+
+---
+
+### 14.9 Three-axis summary and engineering implications / 三轴分析总结与工程建议
+
+#### Axis-by-axis filtering summary / 各轴过滤效果汇总
+
+| Axis | Arm behaviour | Dominant mechanism | Mitigation |
+|---|---|---|---|
+| **Z (vertical)** | Attenuates at ≥ 0.6 m/s | Mass inertia above arm's Z-stiffness | Suspension + sandwich already effective |
+| **X (fore-aft)** | Amplifies 4–7× near 5.8 & 11.5 Hz | Structural resonance, 1st & 2nd bending | Arm joint stiffening in fore-aft direction |
+| **Y (lateral)** | Amplifies 5–8× near 9 Hz | Structural resonance, 1st lateral bending | Arm joint stiffening in lateral direction |
+
+#### Quantified EE horizontal amplification (worst cases) / EE水平放大量化（最恶劣工况）
+
+| Condition | Chassis X/Y RMS (g) | EE X/Y RMS (g) | Amplification |
+|---|---|---|---|
+| Indoor White, 0.8 m/s | X: 0.132, Y: 0.160 | X: 0.219, Y: 0.168 | X: **1.7×**, Y: 1.1× |
+| Pavement, 0.8 m/s | X: 0.184, Y: 0.212 | X: 0.436, Y: 0.431 | X: **2.4×**, Y: **2.0×** |
+| Cement, 0.2 m/s | X: 0.101, Y: 0.121 | X: 0.302, Y: 0.328 | X: **3.0×**, Y: **2.7×** |
+
+#### Recommendations for next design phase / 下阶段设计建议
+
+1. **Arm horizontal stiffness is the critical bottleneck** — not chassis Z isolation. Adding suspension/sandwich reduces Z but does nothing for X/Y arm modes. A stiffer arm structure (or active joint damping) is needed for horizontal EE precision.
+   **机械臂水平刚度是关键瓶颈** — 而非底盘Z向隔振。悬挂/夹层可减少Z向振动，但对X/Y臂模态无效。需要更刚性的臂结构（或主动关节阻尼）以实现水平方向EE精度。
+
+2. **Measure arm natural frequencies directly** — attach a single accelerometer to the EE tip, tap-test (impulse hammer test) to extract mode shapes and frequencies. Verify 5.8 Hz, 9 Hz, 11.5 Hz by free-vibration ring-down.
+   **直接测量机械臂固有频率** — 在末端安装加速度计，进行锤击激励测试，提取振型和频率，通过自由振动衰减验证5.8 Hz、9 Hz、11.5 Hz。
+
+3. **Low-speed horizontal amplification on rough surfaces is severe** — pavement at 0.2 m/s: EE total = 0.27 g (2.36× chassis). This rules out any precision arm task while driving slowly on outdoor surfaces.
+   **粗糙路面低速水平放大严重** — 人行道0.2 m/s：EE总振动0.27 g（底盘2.36倍）。在室外路面低速行驶时不能进行任何精度机械臂任务。
+
+4. **EE Z floor is ~0.14–0.39 g at high speed** regardless of chassis vibration level — this represents arm self-vibration (gravity compliance, joint dynamics). Reducing chassis vibration further will not lower EE Z below this floor.
+   **高速时EE Z向振动下限为~0.14–0.39 g**，与底盘振动水平无关——代表机械臂自身振动（重力柔顺、关节动态）。进一步降低底盘振动不会使EE Z低于此下限。
+
+5. **Figures** — `dual3d_fig1`: per-axis RMS bars; `dual3d_fig3`: per-axis T(f) grid; `dual3d_fig5`: chassis↔EE coherence; `dual3d_fig6`: 0–30 Hz zoom with N=11 and fn markers.
+
+---
+
 ## Appendix: Script Reference / 附录：脚本索引
 
 | Script / 脚本 | Purpose / 用途 |
@@ -2041,8 +2151,9 @@ For reference — what the arm tip currently experiences:
 | `suspension_verify.m` | Independent verification (tf, lsim, cwt, spa) / 独立验证（tf、lsim、cwt、spa） |
 | `multiaxis_analysis.m` | 3-axis (X/Y/Z) PSD, RMS, cross-coherence / 三轴（X/Y/Z）PSD、RMS、互相干分析 |
 | `dual_accelero_analysis.m` | Dual-sensor: chassis vs end-effector PSD, RMS, structural transmissibility / 双传感器：底盘与末端执行器PSD、RMS、结构传递率 |
+| `dual_3d_analysis.m` | Full 3-axis (X/Y/Z) dual-sensor analysis: per-axis RMS, variance fraction, per-axis T(f), PSD overlay, coherence, arm resonance identification / 全三轴双传感器分析：各轴RMS、方差占比、各轴传递率、PSD叠图、相干性、机械臂共振识别 |
 
-Output figures / 输出图表: `results/` — prefixes `fig*`, `surf_fig*`, `susp_fig*`, `verify_*`, `multi_fig*`, `dual_fig*`
+Output figures / 输出图表: `results/` — prefixes `fig*`, `surf_fig*`, `susp_fig*`, `verify_*`, `multi_fig*`, `dual_fig*`, `dual3d_fig*`
 
 ---
 
