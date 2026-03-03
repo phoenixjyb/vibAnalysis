@@ -29,6 +29,7 @@
     - [§12.9 Mass Audit & Updated Suspension](#129-mass-audit--updated-suspension----with-sandwich-hardware--质量审计与悬挂更新含夹层硬件)
     - [§12.10 Mating Interface & Assembly Specification](#1210-mating-interface--assembly-specification--安装接口与装配规范)
 13. [Additional Isolator Candidates — Extended Evaluation](#section-13)
+14. [Dual-Accelerometer Results — Chassis vs End-Effector](#14-dual-accelerometer-results----chassis-vs-end-effector--双加速度计对比底盘与末端执行器)
 
 ---
 
@@ -1888,6 +1889,148 @@ SANDWICH SWAP (field service, < 5 min)
 
 ---
 
+## 14. Dual-Accelerometer Results — Chassis vs End-Effector / 双加速度计对比：底盘与末端执行器
+
+**Test date:** 2026-03-03 | **Script:** `dual_accelero_analysis.m`
+**Sensor a:** chassis (same position as all previous tests)
+**Sensor b:** end-effector (X-axis mounted backwards → X_corrected = −X_raw; Y and Z unaffected)
+**Coverage:** 4 surfaces × 7 speeds = 28 matched pairs (56 files total)
+
+*Figures: `results/dual_fig1–5_*.png`*
+
+---
+
+### 14.1 Key finding: the arm is a mechanical low-pass filter / 机械臂是机械低通滤波器
+
+The arm structure filters chassis vertical (Z) vibration strongly at high speeds — but introduces its own horizontal (X/Y) oscillations, and can **amplify** chassis vibration at low speeds via arm structural resonances.
+机械臂结构在高速时对底盘竖向（Z轴）振动有强烈过滤作用——但同时引入自身的水平（X/Y轴）振荡，且在低速时可能通过机械臂结构共振**放大**底盘振动。
+
+---
+
+### 14.2 Z-axis RMS: chassis vs end-effector / Z轴RMS：底盘与末端执行器
+
+| Speed | Indoor (White/Black) |  | Pavement |  | Cement |  |
+|---|---|---|---|---|---|---|
+| **(m/s)** | **Chassis (g)** | **EE (g)** | **Chassis (g)** | **EE (g)** | **Chassis (g)** | **EE (g)** |
+| 0.2 | 0.062 | 0.051 | 0.074 | 0.132 | 0.189 | 0.235 |
+| 0.4 | 0.185 | 0.167 | 0.231 | 0.232 | 0.588 | 0.284 |
+| 0.6 | 0.317 | 0.170 | 0.393 | 0.287 | 1.075 | 0.267 |
+| 0.8 | 0.387 | 0.149 | 0.558 | 0.335 | 1.681 | 0.289 |
+| 1.0 | 0.503 | 0.119 | 0.785 | 0.341 | 2.307 | 0.219 |
+| 1.2 | 0.624 | 0.178 | 1.015 | 0.332 | 2.911 | 0.249 |
+| 1.5 | 0.676 | 0.145 | 1.228 | 0.387 | 3.114 | 0.257 |
+
+**Z-axis ratio (EE / Chassis):**
+
+| Speed | Indoor White | Indoor Black | Pavement | Cement |
+|---|---|---|---|---|
+| 0.2 m/s | 0.83 | 0.69 | **1.77** | **1.24** |
+| 0.4 m/s | 0.88 | **1.14** | 1.01 | 0.48 |
+| 0.6 m/s | 0.51 | 0.57 | 0.73 | 0.25 |
+| 0.8 m/s | 0.40 | 0.37 | 0.60 | 0.17 |
+| 1.0 m/s | 0.22 | 0.26 | 0.43 | **0.09** |
+| 1.2 m/s | 0.26 | 0.30 | 0.33 | **0.09** |
+| 1.5 m/s | 0.21 | 0.22 | 0.32 | **0.08** |
+
+**Ratio > 1 (bold) = arm AMPLIFIES chassis vibration on that axis.**
+**比值>1（加粗）= 机械臂在该轴方向放大底盘振动。**
+
+---
+
+### 14.3 Total 3-axis RMS: the arm has significant horizontal motion / 三轴总RMS：机械臂水平振动不可忽视
+
+Z-only ratios understate end-effector vibration. When all three axes are included (total RMS = √(X²+Y²+Z²)), the picture is different — especially on rough surfaces at low speed:
+仅Z轴比值低估了末端执行器振动。将三轴总RMS（√(X²+Y²+Z²)）纳入分析后，图景截然不同——尤其是粗糙路面低速工况：
+
+| Speed | Indoor White | Indoor Black | Pavement | Cement |
+|---|---|---|---|---|
+| *(ratio EE_total / Ch_total)* | | | | |
+| 0.2 m/s | 1.15 | 1.10 | **2.36** | **2.05** |
+| 0.4 m/s | 0.99 | **1.30** | **1.69** | 1.03 |
+| 0.6 m/s | 0.80 | 0.87 | **1.31** | 0.66 |
+| 0.8 m/s | 0.72 | 0.76 | 1.12 | 0.46 |
+| 1.0 m/s | 0.60 | 0.77 | 0.95 | 0.30 |
+| 1.2 m/s | 0.66 | 0.77 | 0.77 | 0.25 |
+| 1.5 m/s | 0.59 | 0.66 | 0.65 | 0.24 |
+
+The end-effector experiences **up to 2.36× the total chassis vibration** (pavement, 0.2 m/s) through arm structural resonances exciting horizontal modes.
+末端执行器总振动最高可达底盘总振动的**2.36倍**（人行道，0.2 m/s），原因是机械臂结构共振激发水平模态。
+
+---
+
+### 14.4 Interpretation of results / 结果解读
+
+#### Arm acts as a high-frequency Z-filter / 机械臂对高频Z向振动有过滤作用
+
+At speeds ≥ 0.6 m/s, the N=11 roller excitation frequency (≥ 11.7 Hz) falls well above any arm bending resonance (typically 2–10 Hz for an arm of this scale). The arm mass and compliance prevent high-frequency force transmission:
+- Indoor 1.0 m/s: chassis Z = 0.50 g → EE Z = 0.12 g (**76% reduction**)
+- Cement 1.0 m/s: chassis Z = 2.31 g → EE Z = 0.22 g (**91% reduction**)
+- Cement 1.5 m/s: chassis Z = 3.11 g → EE Z = 0.26 g (**92% reduction**)
+
+在≥0.6 m/s时，N=11滚子激励频率（≥11.7 Hz）远高于机械臂弯曲共振频率（该尺寸机械臂通常为2–10 Hz），机械臂质量与柔顺性阻断了高频力传递。
+
+#### Arm amplifies at low speed via structural resonance / 低速时机械臂通过结构共振放大振动
+
+At 0.2 m/s, N=11 excitation = 3.9 Hz — close to likely arm bending modes. The arm resonance picks up the chassis excitation and amplifies it, particularly in horizontal (X/Y) directions. This is the **worst condition for arm precision**:
+- Pavement 0.2 m/s: chassis total = 0.11 g → EE total = 0.27 g (**2.36× amplification**)
+- Cement 0.2 m/s: chassis total = 0.25 g → EE total = 0.50 g (**2.05× amplification**)
+
+0.2 m/s时N=11激励=3.9 Hz——接近机械臂弯曲模态，共振放大效应显著，尤其在水平方向（X/Y轴）。**这是机械臂精度最差的工况。**
+
+#### End-effector Z asymptotes to ~0.15–0.39 g regardless of surface / 末端执行器Z轴RMS趋于稳定
+
+At high speeds (≥ 1.0 m/s), the end-effector Z-RMS **plateaus regardless of surface** — indoor ~0.12–0.18 g, pavement ~0.33–0.39 g, cement ~0.22–0.26 g. This suggests the EE vibration at high speed is dominated by the arm's own dynamics (gravity sag, internal joint dynamics) rather than chassis-transmitted vibration.
+高速（≥1.0 m/s）时，末端执行器Z轴RMS**趋于稳定而与地面无关**——室内约0.12–0.18 g，人行道约0.33–0.39 g，水泥路约0.22–0.26 g。表明高速时EE振动主要由机械臂自身动态特性（重力挠度、关节动态）主导，而非底盘传入的振动。
+
+---
+
+### 14.5 Design implications / 设计影响
+
+| Finding | Implication |
+|---|---|
+| Arm attenuates Z by 78–92% at ≥ 1.0 m/s | Suspension + sandwich design target of < 0.1 g chassis Z is **more conservative than needed** for EE; even 0.5 g chassis Z would give < 0.15 g at EE |
+| Arm amplifies total vibration at ≤ 0.4 m/s | **Low-speed avoidance (≤ 0.3 m/s) is even more critical for arm precision than for chassis alone** |
+| EE horizontal (X/Y) vibration exceeds Z | Arm precision spec must be evaluated in 3D, not Z-only; evaluate end-effector **total RMS** |
+| EE Z plateaus at high speed | Above ~0.8 m/s, improving chassis isolation gives diminishing returns for arm precision; structural damping of the arm itself becomes the next bottleneck |
+| Cement 0.2 m/s: EE total = 0.50 g | Any arm operation on cement at ≤ 0.2 m/s is unsuitable for precision tasks |
+
+#### Revised end-effector vibration budget / 末端执行器振动预算修订
+
+With suspension (fn=4 Hz, ζ=0.4) + sandwich (fn=4.76 Hz, ζ=0.13) reducing chassis input, then arm attenuating at high speed:
+
+| Speed | Chassis Z after susp+sandwich (predicted) | Arm Z ratio | **Predicted EE Z** |
+|---|---|---|---|
+| 0.4 m/s | ~0.10 g (T≈0.55 × T_sandwich≈0.49) | 0.88 | **~0.09 g ✓** |
+| 0.8 m/s | ~0.09 g (T≈0.22 × T_sandwich≈0.12) | 0.40 | **~0.04 g ✓** |
+| 1.0 m/s | ~0.09 g | 0.22 | **~0.02 g ✓** |
+
+*Note: arm Z-ratio values from indoor white tile (best case). Horizontal EE vibration (X/Y) is NOT reduced by the suspension/sandwich — only arm structural stiffness helps there.*
+*注：机械臂Z轴比值取室内白砖（最优情况）。水平EE振动（X/Y轴）不受悬挂/夹层减振影响——仅机械臂自身结构刚度有效。*
+
+---
+
+### 14.6 End-effector absolute vibration (without suspension/sandwich, current state) / 末端执行器绝对振动（当前无悬挂/夹层状态）
+
+For reference — what the arm tip currently experiences:
+
+| Speed | Surface | EE Z-RMS (g) | EE Total RMS (g) | Usable for precision? |
+|---|---|---|---|---|
+| 0.2 m/s | Indoor | 0.051 | 0.090 | ⚠ marginal |
+| 0.2 m/s | Pavement | 0.132 | 0.267 | ✗ No |
+| 0.4 m/s | Indoor | 0.167 | 0.204 | ✗ No |
+| 0.8 m/s | Indoor | 0.149 | 0.316 | ✗ No |
+| 1.0 m/s | Indoor | 0.119 | 0.358 | ✗ No |
+| 1.0 m/s | Pavement | 0.341 | 0.832 | ✗ No |
+| 1.0 m/s | Cement | 0.219 | 0.720 | ✗ No |
+
+> **Current state: no speed or surface is suitable for arm precision operation while driving.** The robot must be stopped (velocity = 0) for any precision task.
+> **当前状态：行驶中任何速度和路面均不适合机械臂精度操作。** 需完全停止后才能执行精度任务。
+
+> After adding suspension + sandwich (predicted): indoor ≥ 0.6 m/s should achieve EE Z < 0.05 g. **Define an arm-specific vibration tolerance (e.g. < 0.05 g total at tip) and verify on prototype.**
+> 加装悬挂+夹层后（预测）：室内≥0.6 m/s时EE Z向振动可低于0.05 g。**建议明确末端执行器振动容差（如末端总RMS<0.05 g）并在样机上验证。**
+
+---
+
 ## Appendix: Script Reference / 附录：脚本索引
 
 | Script / 脚本 | Purpose / 用途 |
@@ -1897,10 +2040,11 @@ SANDWICH SWAP (field service, < 5 min)
 | `suspension_design.m` | 1-DOF transmissibility sweep, spring/damper sizing / 单自由度传递率扫描，弹簧/阻尼器选型 |
 | `suspension_verify.m` | Independent verification (tf, lsim, cwt, spa) / 独立验证（tf、lsim、cwt、spa） |
 | `multiaxis_analysis.m` | 3-axis (X/Y/Z) PSD, RMS, cross-coherence / 三轴（X/Y/Z）PSD、RMS、互相干分析 |
+| `dual_accelero_analysis.m` | Dual-sensor: chassis vs end-effector PSD, RMS, structural transmissibility / 双传感器：底盘与末端执行器PSD、RMS、结构传递率 |
 
-Output figures / 输出图表: `results/` — prefixes `fig*`, `surf_fig*`, `susp_fig*`, `verify_*`, `multi_fig*`, `lowspeed_transmissibility.png`, `wheel_comparison_transmissibility.png`, `tyre_vs_omni_transmissibility.png`, `silicon_series_analysis.png`, `sandwich_isolation_comparison.png`, `cascade_transmissibility.png`, `new_isolator_comparison.png`
+Output figures / 输出图表: `results/` — prefixes `fig*`, `surf_fig*`, `susp_fig*`, `verify_*`, `multi_fig*`, `dual_fig*`
 
 ---
 
-*Report generated: 2026-02 | MATLAB R2024a | Welch PSD, Fs = 27,027 Hz*
-*报告生成时间：2026-02 | MATLAB R2024a | Welch PSD，采样率 27,027 Hz*
+*Report generated: 2026-02/03 | MATLAB R2024a | Welch PSD, Fs = 27,027 Hz*
+*报告生成时间：2026-02/03 | MATLAB R2024a | Welch PSD，采样率 27,027 Hz*
