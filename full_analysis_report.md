@@ -27,6 +27,7 @@
 11. [Pneumatic Tyres vs Omni Wheels](#11-pneumatic-tyres-vs-omni-wheels--充气轮胎与全向轮对比)
 12. [Sandwich Layer — Four-Option Comparative Analysis](#section-12)
     - [§12.9 Mass Audit & Updated Suspension](#129-mass-audit--updated-suspension----with-sandwich-hardware--质量审计与悬挂更新含夹层硬件)
+    - [§12.10 Mating Interface & Assembly Specification](#1210-mating-interface--assembly-specification--安装接口与装配规范)
 13. [Additional Isolator Candidates — Extended Evaluation](#section-13)
 
 ---
@@ -1629,6 +1630,261 @@ At N=3 (fn=5.3 Hz), T@0.4 m/s = 0.87 — still marginally amplifying at the prim
 
 > **Conclusion: Silicon 4-series stacking is the correct answer for the current 19.8 kg body.** No new option changes this finding. If the body mass grows to ≥ 60 kg in future (heavier arm, payload, or batteries), ZT-25 becomes the preferred industrial-grade upgrade path.
 > **结论：硅胶4串联是当前19.8 kg机体的正确答案。** 无任何新方案改变这一结论。若未来机体≥60 kg（更重机械臂、载荷或电池），ZT-25将成为首选工业级升级路径。
+
+---
+
+## 12.10 Mating Interface & Assembly Specification / 安装接口与装配规范
+
+*This section provides sufficient detail for a mechanical engineer to design the mating parts without further vibration analysis input.*
+*本节提供足够的细节，供机械工程师设计配合零件，无需进一步振动分析输入。*
+
+---
+
+### 12.10.1 Upper assembly plate — thickness and thread engagement / 上组装板——厚度与螺纹结合
+
+**Structural stiffness is not the constraint** — even a 3 mm plate deflects only 0.27 mm under the arm column design load (208 N per column, 2.5× dynamic, arm columns ~50 mm inboard of pad column supports). **Thread engagement is the constraint.**
+
+**结构刚度不是约束条件** ——即使3 mm板在机械臂柱设计载荷下挠度仅0.27 mm。**螺纹接合长度才是约束。**
+
+| Bolt | Min engagement in Al 6061-T6 | Bare plate thickness needed | Solution for 4 mm plate |
+|---|---|---|---|
+| M10 arm column | 10 mm (1×D) | 10 mm (too thick) | M10 press-in threaded insert (PEM/Keensert), 15 mm long — protrudes 11 mm below plate |
+| M6 sandwich interface | 6 mm (1×D) | 6 mm (too thick) | M6 press-in threaded insert, 8 mm long — protrudes 4 mm below plate |
+
+**Recommended: 4 mm plate, 320 × 320 mm, Al 6061-T6, with press-in threaded inserts at all tapped positions.**
+推荐：4 mm板，320×320 mm，铝6061-T6，所有螺纹位置压入螺纹嵌件。
+
+```
+Upper assembly plate — top view (320×320 mm)
+机体安装板——俯视图
+
+   ┌──────────────────────────────────┐
+   │   ●  ●  ●  ●                    │ ← arm column positions (M10 × 4, ±80 mm)
+   │   ●  ●  ●  ●                    │   机械臂柱位（M10×4，±80 mm）
+   │                                  │
+   │   ○ ─────────────── ○           │ ← M6 sandwich interface bolts (×4 at ±130 mm)
+   │   │    electronics   │           │   M6夹层接口螺栓（×4，±130 mm）
+   │   │       tray       │           │
+   │   ○ ─────────────── ○           │
+   │                                  │
+   └──────────────────────────────────┘
+```
+
+> **Why not a thicker plate?** 4 mm + 15 mm insert protrusion = 19 mm total bolt engagement zone — more than adequate. Going to 6 mm saves only 0.55 kg vs 4 mm. Going to 10 mm saves no weight vs inserts and adds 1.67 kg. 4 mm + inserts is the lightest structurally valid solution.
+> **为何不用更厚的板？** 4 mm + 15 mm嵌件凸出 = 19 mm有效接合，完全足够。改用6 mm仅节省0.55 kg，不如嵌件方案轻。
+
+---
+
+### 12.10.2 Both batteries in the chassis — layout / 两块电池均在底盘内的布置
+
+**Battery dimensions (each): 200 × 200 × 100 mm** (L × W × H assumed, ~4.1 kg)
+**每块电池尺寸：** 200×200×100 mm，约4.1 kg
+
+Two batteries side by side fit inside the 420 mm chassis with 10 mm margin each side:
+两块电池并排恰好容纳于420 mm底盘内，两侧各留10 mm间隙：
+
+```
+Chassis interior — top view (looking down, batteries below chassis top plate)
+底盘内部——俯视图（向下看，电池位于底盘顶板下方）
+
+   ┌─────────────────────────────────────┐
+   │         420 mm chassis              │
+   │  ┌──────────────┬──────────────┐    │
+   │10│              │              │10  │
+   │  │  Battery 1   │  Battery 2   │    │
+   │  │  200×200×100 │  200×200×100 │    │
+   │  │              │              │    │
+   │  └──────────────┴──────────────┘    │
+   │         ←── 400 mm ──→              │
+   └─────────────────────────────────────┘
+
+Height: batteries 100 mm tall, mounted on chassis floor.
+Chassis frame height (wheel axle to chassis top plate) ≈ 80–110 mm.
+→ Confirm chassis interior clear height ≥ 105 mm (100 mm battery + 5 mm bracket).
+高度：电池100 mm高，安装于底盘底板。底盘框架净高（轮轴至底盘顶板）≈80–110 mm。
+→ 确认底盘内净高≥105 mm（100 mm电池 + 5 mm支架）。
+```
+
+**Battery retention / 电池固定:**
+- Each battery sits in a 3 mm Al sheet tray (U-channel), bolted to chassis floor / 每块电池置于3 mm铝板U形托架内，螺栓固定于底盘底板
+- Tray retains battery laterally; a single M5 clamping bar over the top retains vertically / 托架横向限位；顶部M5夹紧横条垂直限位
+- Quick-release: remove the M5 bar → slide battery out toward chassis opening / 快拆：取下M5横条后可向底盘开口方向抽出电池
+
+**CoM benefit:** Both batteries at ~50 mm above chassis floor = ~130 mm above ground → combined CoM ~130 mm above ground. Adding both batteries to upper assembly would raise CoM by ~80 mm and increase tipping risk. This confirms Config B (both below) as optimal.
+**重心优势：** 两块电池均置于底盘底板上方约50 mm处（距地约130 mm），重心低。如移至上方组装板，整机重心将升高约80 mm，增加倾覆风险，再次确认B方案（均在下方）为最优选择。
+
+---
+
+### 12.10.3 Sandwich-to-chassis mating interface / 夹层与底盘的连接接口
+
+```
+MATING FACE: sandwich bottom plate (3 mm Al) onto chassis top plate (6 mm Al)
+配合面：夹层底板（3 mm铝）安装于底盘顶板（6 mm铝）上
+
+INTERFACE DRAWING (section view, one side shown)
+接口图（剖面图，示一侧）
+
+Upper assembly plate ══════════════════════════════
+     M6 SHCS ↓   ↓ M6 SHCS
+     (4 off) ┆   ┆
+Sandwich top plate  ══════════════════════════════
+                [pad col 1] ... [pad col 4]
+Sandwich bot plate  ══════════════════════════════
+     M6 SHCS ↓   ↓     ↓5mm dowel (alignment)
+     (4 off) ┆   ┆
+Chassis top plate   ══════════════════════════════ (existing 6 mm Al)
+```
+
+**Bottom interface — sandwich bottom plate to chassis plate:**
+**下部接口——夹层底板与底盘顶板：**
+
+| Feature / 特征 | Specification / 规格 |
+|---|---|
+| Locating dowels / 定位销 | 2 × ø5 mm Al 6061 dowel, press-fit (H7/p6) into chassis plate, clearance (H7/g6) in bottom plate — at diagonally opposite pad-column positions / 2个ø5 mm铝销，压入底盘顶板（H7/p6配合），底板间隙配合（H7/g6）|
+| Clamping bolts / 紧固螺栓 | 4 × M6 SHCS (socket head), torque to 8 N·m; tapped directly into chassis top plate (6 mm Al, M6 = 6 mm engagement — minimum adequate; add M6 Keensert if long-term reliability needed) / 4×M6内六角螺栓，拧紧扭矩8 N·m |
+| Bolt positions / 螺栓位置 | At 4 pad column centres (±130 mm), accessed from above through ø7 mm clearance holes in bottom plate |
+| Seating surface / 接触面 | Chassis plate top face (existing). Ensure clean, flat (≤ 0.2 mm across 320 mm). No sealant. |
+| Wiring access / 走线孔 | 1 × ø25 mm hole at bottom plate centre for harness passthrough (concentric with guide rod holes) |
+
+**Top interface — sandwich top plate to upper assembly plate:**
+**上部接口——夹层顶板与上组装板：**
+
+| Feature / 特征 | Specification / 规格 |
+|---|---|
+| Locating dowels / 定位销 | 2 × ø4 mm steel dowel, press-fit into top plate (H7/p6), clearance in upper assy plate (H7/g6) — at diagonally opposite positions |
+| Clamping bolts / 紧固螺栓 | 4 × M6 SHCS, tapped into upper assembly plate via M6 press-in inserts (8 mm long); torque 8 N·m |
+| Bolt access / 螺栓操作 | Bolts pass upward through ø7 mm clearance holes in top plate, thread into upper assy plate from below |
+| Guide rod top interface | ø14 mm clearance hole in top plate; rubber grommet (silicone, Shore A40, ø14/ø12/h=8 mm) seats in counterbore — soft travel limit only, not structural |
+
+---
+
+### 12.10.4 Silicon pad stack — assembly sequence & no pre-load required / 硅胶垫叠装配顺序及无需预压
+
+**No pre-loading is required.** Contact pressure under static load:
+**无需预压。** 静载下接触应力：
+
+| Parameter | Value |
+|---|---|
+| Static load per column / 每列静载 | 17.64 kg ÷ 4 = 43.3 N |
+| Effective pad face area (50×50 − ø16 hole) / 有效接触面积 | 2,299 mm² |
+| Contact stress / 接触应力 | **0.019 MPa = 1.88 N/cm²** |
+| Silicone rubber allowable / 允许应力 | 0.5 – 2 MPa |
+| Static compression per pad / 每块垫静态压缩 | **2.7 mm** (from 15 mm → 12.3 mm = 18%) |
+
+The 2.7 mm static compression is sufficient to seat the rubber bumps and engage the rated stiffness. No pre-load clip, spring washer, or axial precompression is needed.
+2.7 mm静态压缩已足以将橡胶凸台压实并达到额定刚度，无需预压夹具、弹簧垫圈或轴向预压缩。
+
+**Pad stack assembly sequence per column / 每列垫叠装配顺序:**
+
+```
+Step 1  Thread M12 guide rod into bottom plate (bottom plate already bolted to chassis)
+        将M12导向杆拧入底板（底板已螺栓固定于底盘）
+
+Step 2  Slide Pad 1 over rod — bumps face up and down (symmetric, either orientation)
+        将垫1套入导向杆——凸台朝上朝下均可（对称设计，方向任意）
+
+Step 3  Slide Spacer 1 (50×50×2 mm Al, ø16 centre hole) over rod
+        套入隔板1（50×50×2 mm铝，ø16中心孔）
+
+        Repeat for Pad 2, Spacer 2, Pad 3, Spacer 3, Pad 4
+        依次重复：垫2-隔板2-垫3-隔板3-垫4
+
+Step 4  Lower top plate over all 4 rods simultaneously
+        (4 rods at ±130 mm — align ø14 clearance holes before lowering)
+        将顶板同时套入4根导向杆（4根杆位于±130 mm——下降前对准ø14间隙孔）
+
+Step 5  Seat rubber grommet in top plate counterbore, then slide nylock nut onto rod
+        将橡胶垫圈嵌入顶板沉孔，然后将自锁螺母套入导向杆
+
+Step 6  Torque nylock nut to LIGHTLY snug (do NOT pre-compress pads)
+        Set float = 25 mm: with top plate resting on pad stack (no nut load),
+        measure rod protrusion above top plate face. Mark 25 mm above face.
+        Back nut off to that mark — then lock.
+        将自锁螺母轻轻拧紧（切勿预压垫片）
+        设定浮动量=25 mm：顶板放在垫叠上（螺母不受力），
+        测量杆在顶板面上的凸出量。在顶板面以上25 mm处做标记，
+        将螺母退回至该位置后锁定。
+
+Step 7  Check: push top plate up by hand — it should lift freely ≥ 25 mm before nut engages
+        检查：用手向上推顶板——应能自由提升≥25 mm后螺母才接触
+```
+
+**Guide rod float rationale:**
+**导向杆浮动量依据：**
+
+| Parameter | Value |
+|---|---|
+| Static sag / 静态下沉 | 11.0 mm |
+| Peak dynamic displacement (worst case, 0.2 m/s) | 7.3 mm |
+| Required clearance (sag + dynamic + 7 mm margin) | 25 mm |
+| **Specified float / 规定浮动量** | **25 mm** |
+
+The nut engages only if the body bounces upward past 25 mm — i.e., during a severe obstacle strike. It acts as a hard over-travel stop, not a normal contact surface.
+螺母仅在机体向上反弹超过25 mm时才接触——即撞击严重障碍物时。其作用为硬式行程止挡，非正常接触面。
+
+---
+
+### 12.10.5 Complete assembly sequence / 完整装配顺序
+
+```
+① CHASSIS PREPARATION (one-time)
+  - Drill and tap/dowel chassis top plate:
+    4 × M6 tapped holes + 2 × ø5H7 dowel holes at pad column positions (±130 mm)
+  - Drill 4 × ø16 mm holes at pad column positions (wiring passthrough / guide rod clearance)
+  - Drill 1 × ø25 mm centre wiring hole
+
+② BUILD SANDWICH UNIT (bench operation, no robot)
+  - Bolt 4 × M12 guide rods into bottom plate (Loctite 243 thread-lock)
+  - Build 4 × pad stacks per §12.10.4 Steps 2–6
+  - Lower top plate, set 25 mm float on all 4 nuts
+  - Sandwich unit is now a self-contained swappable module (~2.5 kg)
+
+③ MOUNT SANDWICH TO CHASSIS
+  - Align 2 dowel pins (chassis) into bottom plate clearance holes
+  - Insert 4 × M6 SHCS from above through bottom plate into chassis top plate
+  - Torque to 8 N·m in cross pattern
+
+④ PREPARE UPPER ASSEMBLY PLATE (bench operation)
+  - Press M10 inserts into arm column positions (hydraulic or arbour press, 5 kN)
+  - Press M6 inserts into sandwich interface positions
+  - Mount arm columns, electronics tray, any above-pads cabling
+
+⑤ LOWER UPPER ASSEMBLY PLATE ONTO SANDWICH
+  - Align 2 dowel pins (top plate) into upper assy clearance holes
+  - Insert 4 × M6 SHCS upward through top plate into upper assy plate inserts
+  - Torque to 8 N·m in cross pattern
+
+⑥ CONNECT WIRING
+  - Route harness through ø25 mm chassis centre hole
+  - Use single multi-pin connector (recommend: Amphenol PT or TE Deutsch DTP series)
+    at chassis plate level — one connect/disconnect point for complete body swap
+
+⑦ INSTALL BATTERIES (both in chassis)
+  - Slide Battery 1 into left tray, engage M5 retention bar
+  - Slide Battery 2 into right tray, engage M5 retention bar
+  - Route battery cables through chassis side access port to BMS
+
+SANDWICH SWAP (field service, < 5 min)
+  - Disconnect wiring harness (1 connector)
+  - Remove 4 × M6 SHCS upper assy → top plate
+  - Remove 4 × M6 SHCS bottom plate → chassis
+  - Lift sandwich unit straight up (~2.5 kg — one person)
+  - Insert replacement unit, re-bolt, reconnect
+```
+
+---
+
+### 12.10.6 Manufacturing notes for the mechanical engineer / 机械工程师制造备注
+
+| Item | Note |
+|---|---|
+| Bottom and top plates (3 mm) | Water-jet or laser cut from 3 mm 6061-T6 sheet. No milling needed. Deburr ø16 mm holes. Anodise or alodine for corrosion resistance. |
+| Upper assembly plate (4 mm) | Same sheet stock. Drill/ream ø5 mm dowel holes. Press inserts after drilling. Do not tap directly — wall too thin. |
+| Spacer plates (50 × 50 × 2 mm, ø16 hole) | CNC from 2 mm Al sheet or punch-die. 16 off total. No surface treatment needed — enclosed. |
+| Guide rods (M12, 90 mm long) | Standard M12 × 90 threaded rod (304 stainless preferred — no corrosion, compatible with Al via nylon spacer if needed). One end threaded into bottom plate; other end free with nylock nut. |
+| Silicon pads | Use as-is. Do not bond, do not lubricate, do not compress for storage. Keep dust-free. |
+| Alignment dowels (chassis) | ø5 × 15 mm, 304 stainless. H7/p6 press into 6061-T6 chassis plate — requires ~3–5 kN press load. Verify flush after pressing. |
+| PEM threaded inserts | M10: Type BS-M10-2 (or equivalent Keensert KE-M10-2). M6: Type BS-M6-2. Minimum 1.5 kN installation load in 4 mm Al — standard shop arbour press sufficient. |
 
 ---
 
