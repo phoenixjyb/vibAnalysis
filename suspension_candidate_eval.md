@@ -76,6 +76,16 @@ fn = **3.91 Hz** at 4.95 kg — essentially the 4 Hz target. Stroke passes at 4.
 
 **候选C（10有效圈，d=2.0 mm）：推进测试——无夹层硬件（4.95 kg/角）备选方案。** fn = **3.91 Hz**，接近4 Hz目标。4.95 kg时行程通过。**不可与夹层硬件配合使用**（7.00 kg时行程不足）。若暂不安装夹层硬件，C为首选。
 
+> **Why C cannot be used with sandwich hardware / C不能与夹层硬件配合的物理原因**
+>
+> The sandwich adds ~2.05 kg/corner (4.95 → 7.00 kg). This is a desirable isolation layer; the incompatibility is a **geometric constraint of the 33 mm stroke body**, not a design preference.
+>
+> With a 33 mm stroke, both bump and rebound can be simultaneously ≥ 15 mm only when static sag is in the **15–21 mm window**. C's sag at 7.00 kg = 23 mm — outside the upper limit. The preload collar cannot rescue: each +1 mm preload gains +1 mm bump but costs −2 mm rebound, so reaching bump = 15 mm leaves rebound = 13 mm — both cannot be satisfied.
+>
+> **If sandwich + C is essential:** source a longer shock body with ≥ 50 mm stroke. C's spring is fine; only the body length is wrong. At 50 mm stroke the sag window becomes 15–35 mm and 23 mm fits comfortably (bump 27 mm ✓, rebound 23 mm ✓).
+>
+> 夹层增加约2.05 kg/角，本应配装；C的限制来自33 mm行程筒体的几何约束，而非设计取舍。若必须同时使用C与夹层，换用≥50 mm行程筒体即可。
+
 ---
 
 ## Overview / 概述

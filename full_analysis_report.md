@@ -33,6 +33,7 @@
     - [§14.7 Per-axis (X/Y/Z) RMS — 3D dual-sensor breakdown](#147-per-axis-xyz-rms----chassis-vs-end-effector--各轴xyz-rms底盘与末端执行器)
     - [§14.8 Arm structural resonance frequencies](#148-arm-structural-resonance-frequencies-identified--机械臂结构共振频率识别)
     - [§14.9 Three-axis summary & engineering implications](#149-three-axis-summary-and-engineering-implications--三轴分析总结与工程建议)
+15. [RC Coil-Over Shock — Candidate Evaluation & Action Items](#15-rc-coil-over-shock----candidate-evaluation--action-items--rc同轴减震器候选评估与待办事项)
 
 ---
 
@@ -2157,6 +2158,67 @@ Full three-axis breakdown reveals that the arm's filtering is highly **axis-depe
    **高速时EE Z向振动下限为~0.14–0.39 g**，与底盘振动水平无关——代表机械臂自身振动（重力柔顺、关节动态）。进一步降低底盘振动不会使EE Z低于此下限。
 
 5. **Figures** — `dual3d_fig1`: per-axis RMS bars; `dual3d_fig3`: per-axis T(f) grid; `dual3d_fig5`: chassis↔EE coherence; `dual3d_fig6`: 0–30 Hz zoom with N=11 and fn markers.
+
+---
+
+## 15. RC Coil-Over Shock — Candidate Evaluation & Action Items / RC同轴减震器候选评估与待办事项
+
+*Full evaluation guide and printable test sheets: `suspension_candidate_eval.md`*
+
+Four RC coil-over shock candidates (same 115 mm body, 33 mm stroke) pre-screened against chassis requirements (fn = 4 Hz indoor, ζ ≥ 0.3, 33 mm stroke).
+
+### 15.1 Candidate specifications / 候选方案规格
+
+Spring formula: `k = G × d⁴ / (8 × D_mean³ × n)`, D_mean = OD − d, G = 80,000 N/mm²
+
+| Candidate | d | OD | D_mean | n_active | **k (N/m)** | fn @4.95 kg | fn @7.00 kg | Verdict |
+|---|---|---|---|---|---|---|---|---|
+| **A** | 2.0 mm | 20.0 mm | 18.0 mm | 7 | **3,919** | 4.48 Hz | **3.77 Hz** ✓ | ✓ Proceed at 7.00 kg (with sandwich) |
+| **B** | 1.5 mm | 18.4 mm | 16.9 mm | 15 | **699** | 1.89 Hz | 1.59 Hz | ✗ Rejected — k 6× too soft, bottoms out |
+| **C** | 2.0 mm | 19.5 mm | 17.5 mm | 10 | **2,985** | **3.91 Hz** ✓ | 3.29 Hz | ✓ Proceed at 4.95 kg (no sandwich only) |
+| **D** | 1.8 mm | 19.0 mm | 17.2 mm | 13 | **1,587** | 2.85 Hz | 2.40 Hz | ✗ Rejected — bottoms out at 7.00 kg, only 2.4 mm bump at 4.95 kg |
+
+### 15.2 Why Candidate C cannot be used with sandwich hardware / 为何C不能与夹层硬件配合
+
+The sandwich hardware adds ~2.05 kg/corner (4.95 → 7.00 kg). This is a desirable isolation layer — **the incompatibility is a geometric constraint of the 33 mm stroke body, not a design preference.**
+
+With a 33 mm stroke, both bump and rebound can only be ≥ 15 mm simultaneously if static sag is in the **15–21 mm window**:
+
+| Spring | sag @ 4.95 kg | sag @ 7.00 kg | In 15–21 mm window? | Stroke verdict |
+|---|---|---|---|---|
+| A (k = 3,919 N/m) | 12.4 mm | **17.5 mm ✓** | Yes at 7.00 kg | ✓ Passes with sandwich |
+| C (k = 2,985 N/m) | **16.3 mm ✓** | 23.0 mm ✗ | Yes at 4.95 kg only | ✗ Fails with sandwich |
+
+At 7.00 kg with spring C: sag = 23 mm → bump = 10 mm only. The preload collar cannot rescue this — each +1 mm preload gains 1 mm bump but loses 2 mm rebound, so reaching bump = 15 mm drops rebound to 13 mm. Both ≥ 15 mm is geometrically impossible with this spring in a 33 mm body at 7.00 kg.
+
+**Resolution options if C passes tests but sandwich is desired:**
+- Option 1: Use **Candidate A** instead (designed for the with-sandwich mass)
+- Option 2: Source a **longer shock body (≥ 50 mm stroke)** with the same spring — this brings sag back into the valid window at 7.00 kg
+
+### 15.3 Pending action items / 待办事项
+
+Physical tests required before ordering 4 units. Both A and C should be tested in parallel.
+
+| # | Action | Candidate | Expected result | Status |
+|---|---|---|---|---|
+| **T1** | **Measure spring rate k** — hanging weight method, 4 deflection points | A @ 7.00 kg | ~3,900 N/m; fn ~3.77 Hz | ⬜ Pending |
+| **T1** | Same, spring C | C @ 4.95 kg | ~2,985 N/m; fn ~3.91 Hz | ⬜ Pending |
+| **T2** | **Ring-down damping ζ** — 10 mm displacement, 240 fps slow-mo, log-decrement | A @ 7.00 kg | Need ζ ≥ 0.3 (~1 visible cycle) | ⬜ Pending |
+| **T2** | Same, spring C | C @ 4.95 kg | Need ζ ≥ 0.3 | ⬜ Pending |
+| **T3** | **Stroke verification** — measure L_min, L_max; confirm bump ≥ 15 mm, rebound ≥ 15 mm | A @ 7.00 kg | Bump ~15.5 mm, rebound ~17.5 mm | ⬜ Pending |
+| **T3** | Same, spring C | C @ 4.95 kg | Bump ~16.7 mm, rebound ~16.3 mm | ⬜ Pending |
+| **D1** | **Decision: select A or C** based on test results | — | Prefer A (with sandwich); use C only if A's ζ fails and C passes | ⬜ After T1–T3 |
+| **D2** | **If A selected**: order 4 units, build sandwich hardware per §12.10 | — | 4 shocks + sandwich assembly | ⬜ After D1 |
+| **D3** | **If C selected (no sandwich)**: assess whether to omit sandwich permanently or source ≥50 mm stroke body | — | Update k/c targets if body mass changes | ⬜ After D1 |
+| **D4** | **Recompute k, c** after suspension hardware is weighed (currently estimated at 25 kg excl. hardware) | — | k, c scale with actual sprung mass | ⬜ After hardware weighed |
+
+**Longer-horizon actions (arm vibration):**
+
+| # | Action | Notes |
+|---|---|---|
+| A1 | **Arm tap test** — accelerometer at EE tip, impulse hammer, extract mode shapes | Verify 5.8 Hz, 9 Hz, 11.5 Hz identified in §14.8 |
+| A2 | **Assess arm stiffening options** — arm horizontal X/Y amplification (up to 7.5×) limits EE precision more than chassis Z | See §14.9 |
+| A3 | **Low-speed operating protocol** — avoid sustained ≤ 0.3 m/s while arm is extended (N=11 resonance near fn) | See §5 |
 
 ---
 
