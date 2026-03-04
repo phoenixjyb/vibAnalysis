@@ -1,77 +1,98 @@
 # Suspension Candidate Evaluation Guide
 # 候选减震器评估指南
 
-**Units under evaluation / 待评估型号:** Two RC coil-over shock candidates (same body: 115 mm total, 33 mm stroke, 3 mm shaft)
+**Units under evaluation / 待评估型号:** Four RC coil-over shock candidates (same body: 115 mm total, 33 mm stroke, 3 mm shaft) — A, B, C, D
 **Tools needed / 所需工具:** Ruler, digital scale, known weights (~100–500 g), phone camera (slow-mo), string or clamp
 **Time required / 预计耗时:** ~30 minutes for all tests / 全部测试约30分钟
 
 ---
 
-## Candidate Spring Profiles / 候选弹簧参数（已测量）
+## Candidate Spring Profiles / 候选弹簧参数
 
-Two springs have been physically measured and compared. Spring formula:
-两根弹簧已经实物测量并对比。弹簧公式：
+> **Rated load correction / 额定载荷更正:** The 2–12 kg and 5–15 kg labels belong to **Candidates C and D** respectively. A and B rated loads were previously mis-assigned and should be ignored.
+>
+> 2–12 kg 和 5–15 kg 额定载荷属于**候选C和D**，此前A和B的标签有误，请忽略。
+
+Spring stiffness formula / 弹簧刚度公式 (D_mean = OD − d):
 
 ```
 k = G × d⁴ / (8 × D_mean³ × n_active)     G = 80,000 N/mm² (steel)
 ```
 
-| Parameter / 参数 | Candidate A — "stiff" / 候选A（硬） | Candidate B — "soft" / 候选B（软） |
-|---|---|---|
-| Wire diameter d / 线径 | **2.0 mm** | **1.5 mm** |
-| Spring OD / 弹簧外径 | 20 mm | 18.4 mm |
-| D_mean = OD − d | 18.0 mm | 16.9 mm |
-| Total coils / 总圈数 | ~9 (2 flat end coils) | ~17 (2 flat end coils) |
-| **Active coils n / 有效圈数** | **7** | **15** |
-| Coil gap / 圈间隙 | 9.5 mm | 2.7 mm |
-| Pitch = gap + d | 11.5 mm | 4.2 mm |
-| Free length (estimated) / 自由长（估算） | 7 × 11.5 + 4 = **84.5 mm** | 15 × 4.2 + 3 = **66 mm** |
-| Rated support load / 额定支撑载荷 | 2–12 kg | 5–15 kg |
-| **Calculated k / 计算刚度** | **4,265 N/m** | **699 N/m** |
+| Candidate | Wire d | OD | D_mean | n_active (total) | Coil gap | Rated load | **Calc k** |
+|---|---|---|---|---|---|---|---|
+| **A** | 2.0 mm | 20.0 mm | 18.0 mm | **7** (~9, 2 flat end) | 9.5 mm | — | **3,919 N/m** |
+| **B** | 1.5 mm | 18.4 mm | 16.9 mm | **15** (~17, 2 flat end) | 2.7 mm | — | **699 N/m** |
+| **C** | 2.0 mm | 19.5 mm | 17.5 mm | **10** (11 total) | — | 2–12 kg | **2,985 N/m** |
+| **D** | 1.8 mm | 19.0 mm | 17.2 mm | **13** (14 total) | — | 5–15 kg | **1,587 N/m** |
 
-### Calculated performance / 计算性能
+### Calculated fn and sag / 计算固有频率与静态下沉
 
-| Scenario / 工况 | **Candidate A** k = 4,265 N/m | **Candidate B** k = 699 N/m |
-|---|---|---|
-| fn at 4.95 kg/corner (no sandwich) | 4.67 Hz | 1.89 Hz |
-| fn at 7.00 kg/corner (with sandwich) | **3.93 Hz ✓** | 1.59 Hz |
-| Static sag at 4.95 kg | 11.4 mm | 69.5 mm — **exceeds 33 mm stroke** |
-| Static sag at 7.00 kg | 16.1 mm | 98.2 mm — **exceeds 33 mm stroke** |
-| Bump travel remaining (7.00 kg) | **16.9 mm ✓** (need ≥ 15 mm) | — bottoms out |
-| Rebound travel available (7.00 kg) | **16.1 mm ✓** (need ≥ 15 mm) | — bottoms out |
+| Candidate | k (N/m) | fn @4.95 kg | fn @7.00 kg | sag @4.95 kg | sag @7.00 kg |
+|---|---|---|---|---|---|
+| **A** | 3,919 | 4.48 Hz | **3.77 Hz** ✓ | 12.4 mm | **17.5 mm** |
+| **B** | 699 | 1.89 Hz | 1.59 Hz | 69.5 mm | 98.2 mm |
+| **C** | 2,985 | **3.91 Hz** ✓ | 3.29 Hz | **16.3 mm** | 23.0 mm |
+| **D** | 1,587 | 2.85 Hz | 2.40 Hz | 30.6 mm | 43.3 mm |
+
+Targets: fn = 4 Hz (indoor), 3 Hz (pavement), 2 Hz (cement). Mass: 4.95 kg/corner (no sandwich) / 7.00 kg/corner (with sandwich hardware).
+
+### Stroke check / 33 mm行程校验
+
+With 33 mm stroke: **bump = 33 − sag**, **rebound = sag** (no preload). Both must be ≥ 15 mm.
+Preload collar (x₀): shifts bump up by x₀ but rebound down by 2x₀. Simultaneous ≥15 mm requires **15 mm ≤ sag ≤ 21 mm** (with optimum preload).
+
+有效范围：15 mm ≤ 下沉量 ≤ 21 mm；否则无法同时满足压缩与回弹各≥15 mm。
+
+| Candidate | Scenario | Sag | Bump | Rebound | Verdict |
+|---|---|---|---|---|---|
+| **A** | **7.00 kg — with sandwich (primary)** | **17.5 mm** | **15.5 mm ✓** | **17.5 mm ✓** | **✓ PASS** |
+| **A** | 4.95 kg — no sandwich | 12.4 mm | 20.6 mm ✓ | 12.4 mm ⚠ | Rebound marginal; acceptable for flat indoor floor |
+| **B** | any | >33 mm | — | — | ✗ REJECTED |
+| **C** | **4.95 kg — no sandwich (primary)** | **16.3 mm** | **16.7 mm ✓** | **16.3 mm ✓** | **✓ PASS** |
+| **C** | 7.00 kg — with sandwich | 23.0 mm | 10.0 mm ✗ | — | ✗ FAIL — preload cannot rescue: each mm of preload adds 1 mm bump but removes 2 mm rebound |
+| **D** | 4.95 kg | 30.6 mm | 2.4 mm ✗ | — | ✗ FAIL even with maximum preload |
+| **D** | 7.00 kg | 43.3 mm > 33 mm | — | — | ✗ BOTTOMS OUT |
 
 ### Pre-screening verdict / 预筛选结论
 
 **Candidate B (15-active-coil, d=1.5 mm): REJECTED.**
-k = 699 N/m is ~6× too soft. Static sag (70–98 mm) far exceeds the 33 mm stroke on every mass scenario. No modification can fix this — the spring is fundamentally wrong for this body. Candidate B would need to go into a shock body with ≥ 120 mm stroke to be usable, which is not practical for this chassis.
+k = 699 N/m is ~6× too soft. Static sag (70–98 mm) far exceeds the 33 mm stroke. Would require ≥ 120 mm stroke body.
 
-**候选B（15有效圈，d=1.5 mm）：拒绝。**
-k = 699 N/m过软约6倍，静态下沉（70–98 mm）远超33 mm行程，任何改造均无法修复——弹簧与筒体根本不匹配。
+**候选B（15有效圈，d=1.5 mm）：拒绝。** k过软约6倍，下沉量（70–98 mm）远超33 mm行程，需≥120 mm行程筒体。
 
-**Candidate A (7-active-coil, d=2.0 mm): PROCEED to Tests 1–3.**
-At 7.00 kg/corner (chassis + sandwich hardware fitted), fn = **3.93 Hz** — essentially the 4 Hz target. Stroke check passes on both bump and rebound. The only remaining unknown is damping (ζ). All further testing applies to Candidate A only.
+**Candidate D (13-active-coil, d=1.8 mm): REJECTED.**
+k = 1,587 N/m is too soft for the 33 mm stroke body. At 4.95 kg sag = 30.6 mm leaves only 2.4 mm bump travel; at 7.00 kg it bottoms out entirely. Would require ≥ 80 mm stroke body to be viable.
 
-**候选A（7有效圈，d=2.0 mm）：进入测试1–3。**
-在7.00 kg/角质量（底盘+夹层硬件）时，fn = **3.93 Hz**——几乎正好达到4 Hz目标。压缩和回弹行程均通过。唯一待确认项为阻尼（ζ）。以下所有测试仅针对候选A。
+**候选D（13有效圈，d=1.8 mm）：拒绝。** k对33 mm行程筒体过软。4.95 kg时仅剩2.4 mm压缩余量；7.00 kg时直接触底。需≥80 mm行程筒体。
+
+**Candidate A (7-active-coil, d=2.0 mm): PROCEED — primary candidate, with-sandwich scenario (7.00 kg/corner).**
+fn = **3.77 Hz** at 7.00 kg — near the 4 Hz indoor target. Both bump and rebound pass. Only unknown: damping ζ.
+
+**候选A（7有效圈，d=2.0 mm）：推进测试——配合夹层硬件（7.00 kg/角）首选方案。** fn = **3.77 Hz**，接近4 Hz目标。行程通过。唯一待测项：阻尼ζ。
+
+**Candidate C (10-active-coil, d=2.0 mm): PROCEED — backup candidate, no-sandwich scenario (4.95 kg/corner).**
+fn = **3.91 Hz** at 4.95 kg — essentially the 4 Hz target. Stroke passes at 4.95 kg. **Do not use with sandwich hardware** (stroke fails at 7.00 kg). C is preferred if sandwich hardware is omitted or not yet ready.
+
+**候选C（10有效圈，d=2.0 mm）：推进测试——无夹层硬件（4.95 kg/角）备选方案。** fn = **3.91 Hz**，接近4 Hz目标。4.95 kg时行程通过。**不可与夹层硬件配合使用**（7.00 kg时行程不足）。若暂不安装夹层硬件，C为首选。
 
 ---
 
 ## Overview / 概述
 
-We need to confirm three things before accepting Candidate A as the suspension unit.
-在接受候选A作为悬挂单元之前，需要确认三件事：
+Three tests apply to both Candidate A and Candidate C, with different target masses.
+候选A和候选C均需完成以下三项测试，但目标质量不同。
 
-| Test # | What we measure | What we need | Pass criterion |
+| Test # | What we measure | Candidate A (7.00 kg) | Candidate C (4.95 kg) |
 |---|---|---|---|
-| 1 | Spring rate k (N/m) — verify against formula | k ≈ 4,265 N/m | 3,500–5,000 N/m |
-| 2 | Damping ratio ζ — **the critical unknown** | ζ = 0.4 | ζ > 0.3 |
-| 3 | Stroke — measure actual rebound travel | bump ≥ 15 mm, rebound ≥ 15 mm | Both ≥ 15 mm at 7.00 kg |
+| 1 | Spring rate k (N/m) | expected ~3,900 N/m; pass 3,500–5,000 | expected ~3,000 N/m; pass 2,500–3,500 |
+| 2 | Damping ratio ζ — **the critical unknown** | ζ ≥ 0.3 | ζ ≥ 0.3 |
+| 3 | Stroke verification | bump ≥ 15 mm, rebound ≥ 15 mm @ 7.00 kg | bump ≥ 15 mm, rebound ≥ 15 mm @ 4.95 kg |
 
 If all three pass → order 4 units and proceed to prototype.
 If Test 2 fails → change oil, re-test.
 
-三项均通过 → 订购4个并进入样机阶段。
-测试2不通过 → 换油重测。
+三项均通过 → 订购4个并进入样机阶段。测试2不通过 → 换油重测。
 
 ---
 
@@ -95,18 +116,32 @@ The coil count is needed to cross-check the k measurement and understand the spr
 **For Candidate A:** 7 active coils confirmed (2 flat ground end coils, ~9 total).
 **候选A：** 已确认7有效圈（两端各1个磨平密封圈，共约9圈）。
 
-**Quick formula cross-check for Candidate A / 候选A公式校验:**
-d = 2.0 mm, D_mean = 18.0 mm, G = 80,000 N/mm²
+**For Candidate C:** 10 active coils (11 total, 1 flat end coil equivalent).
+**候选C：** 10有效圈（共11圈，1个端部磨平圈）。
+
+**Quick formula cross-check / 公式快速校验:**
+
+Candidate A — d = 2.0 mm, D_mean = 18.0 mm:
 ```
-k = (80,000 × 2.0⁴) / (8 × 18.0³ × n)
-  = 1,280,000 / (46,656 × n)
-  = 27,435 / n   [N/m]
+k = (80,000 × 2.0⁴) / (8 × 18.0³ × n) = 27,435 / n   [N/m]
 ```
 | n active | k (N/m) | fn at 7.00 kg |
 |---|---|---|
 | 6 | 4,572 | 4.07 Hz |
 | **7** | **3,919** | **3.76 Hz** ← Candidate A |
 | 8 | 3,429 | 3.52 Hz |
+
+Candidate C — d = 2.0 mm, D_mean = 17.5 mm:
+```
+k = (80,000 × 2.0⁴) / (8 × 17.5³ × n)
+  = 1,280,000 / (42,875 × n)
+  = 29,854 / n   [N/m]
+```
+| n active | k (N/m) | fn at 4.95 kg |
+|---|---|---|
+| 9 | 3,317 | 4.12 Hz |
+| **10** | **2,985** | **3.91 Hz** ← Candidate C |
+| 11 | 2,714 | 3.73 Hz |
 
 > **Note on D_mean:** Using D_mean = OD − d = 20 − 2.0 = 18.0 mm (correct for a spring wound to 20 mm OD with 2.0 mm wire). Earlier estimates used 17.5 mm (OD/2 + ID/2) from image dimensions; 18.0 mm from direct wire/OD measurement is more accurate.
 >
@@ -423,13 +458,30 @@ Option B is the simplest: look for a RC shock with **压缩行程 ≥ 50 mm** (t
 ### Candidate B — Pre-screening / 候选B预筛选
 
 ```
-Unit B: 15-active-coil, d=1.5 mm, OD=18.4 mm, rated 5–15 kg
+Unit B: 15-active-coil, d=1.5 mm, OD=18.4 mm
 
 ☒ Step 0 — Active coils: n = 15  (17 total, 2 flat end coils)
 ☒ Pre-screen k formula: k = 699 N/m  →  static sag at 7.00 kg = 98 mm
 ☒ RESULT: REJECTED — k too soft by 6×, bottoms out in 33 mm stroke body.
           Do not proceed to physical tests.
           候选B：拒绝。刚度过软6倍，在33 mm行程筒体内立即触底。
+```
+
+---
+
+### Candidate D — Pre-screening / 候选D预筛选
+
+```
+Unit D: 13-active-coil, d=1.8 mm, OD=19.0 mm, rated 5–15 kg
+
+☒ Step 0 — Active coils: n = 13  (14 total, 1 effective flat end coil)
+☒ Pre-screen k formula: k = 1,587 N/m  →  static sag at 4.95 kg = 30.6 mm
+☒ Stroke check: bump = 33 − 30.6 = 2.4 mm  (need ≥ 15 mm)
+☒ RESULT: REJECTED — sag = 30.6 mm at 4.95 kg leaves only 2.4 mm bump travel.
+          At 7.00 kg sag = 43.3 mm > 33 mm stroke (bottoms out completely).
+          Do not proceed to physical tests.
+          候选D：拒绝。4.95 kg时下沉30.6 mm，仅剩2.4 mm压缩余量；
+          7.00 kg时下沉43.3 mm，超出行程直接触底。
 ```
 
 ---
@@ -492,15 +544,79 @@ Unit A: 7-active-coil, d=2.0 mm, OD=20 mm, rated 2–12 kg
 
 ---
 
+### Candidate C — Full test sheet / 候选C完整测试表
+
+Print and fill in as you test (use **4.95 kg** as test mass — no sandwich hardware):
+打印后测试时逐项填写（测试质量 **4.95 kg**——不含夹层硬件）：
+
+```
+Unit C: 10-active-coil, d=2.0 mm, OD=19.5 mm, rated 2–12 kg
+        RC coil-over 115 mm total / 33 mm compression stroke / 3 mm shaft
+        PRIMARY SCENARIO: no sandwich hardware, 4.95 kg/corner
+        DO NOT test at 7.00 kg — stroke fails at that mass.
+
+□ Step 0 — Coil count (verify):
+    Active coils n = _______ (expected: 10)
+    Total coils  = _______ (expected: ~11, 1 flat end coil equivalent)
+    CONFIRMED?  [ ] YES  [ ] NO — recount if not 10 active
+
+□ Test 1 — Spring rate (test mass: 4.95 kg):
+    Test mass used: _______ kg  (use 4.95 kg or nearest available)
+    Reference position L₀: _______ mm
+    ┌─────────┬──────────────┬───────────────┐
+    │ Weight  │ Deflection δ │ k = F/δ       │
+    ├─────────┼──────────────┼───────────────┤
+    │ 200 g   │ _______ mm  │ _______ N/m   │
+    │ 500 g   │ _______ mm  │ _______ N/m   │
+    │ 1000 g  │ _______ mm  │ _______ N/m   │
+    │ 2000 g  │ _______ mm  │ _______ N/m   │
+    └─────────┴──────────────┴───────────────┘
+    k_average = _______ N/m  (expected: ~2,985 N/m; pass range: 2,500–3,500 N/m)
+    fn = √(k/4.95)/(2π) = _______ Hz  (expected: ~3.91 Hz)
+    PASS (2,500–3,500 N/m)?  [ ] YES  [ ] NO
+
+□ Test 2 — Damping (CRITICAL):
+    Test mass: 4.95 kg  |  Initial displacement: 10 mm
+    Ring-down visible cycles: _______
+    Amplitude at peak 1: x₁ = _______ mm
+    Amplitude at peak n: xₙ = _______ mm   n = _______
+    δ = (1/n) × ln(x₁/xₙ) = _______
+    ζ = δ / √(4π² + δ²)  = _______
+    PASS (ζ ≥ 0.3)?  [ ] YES  [ ] NO
+    If NO: change to 100–200 wt silicone oil, retest → new ζ = _______
+
+□ Test 3 — Stroke verification (at 4.95 kg with k from Test 1):
+    L_min (full bump, eye-to-eye):   _______ mm
+    L_max (full droop, eye-to-eye):  _______ mm
+    Total stroke = L_max − L_min:    _______ mm
+    Static sag δ = 4.95×9.81/k:     _______ mm  (expected: ~16.3 mm)
+    Bump travel = compression − δ:   _______ mm  (need ≥ 15, expected ~16.7 mm)
+    Rebound travel = δ:              _______ mm  (need ≥ 15, expected ~16.3 mm)
+    PASS?  [ ] YES  [ ] NO
+
+□ Overall verdict (Candidate C):
+    [ ] ALL 3 PASS → order 4 units for no-sandwich configuration
+    [ ] Test 1 fail (k wrong) → recount active coils; remeasure OD
+    [ ] Test 2 fail (ζ low)   → change oil (100–200 wt), retest
+    [ ] Test 3 fail (stroke)  → unexpected; verify coil count and mass
+
+NOTE: If both A and C pass Tests 1–3, prefer A (with sandwich, 7.00 kg) for better
+      vibration performance. Use C only if sandwich hardware is omitted.
+注意：若A和C均通过测试，优先选A（配合夹层硬件，7.00 kg）——隔振效果更好。
+      仅在省略夹层硬件时选C。
+```
+
+---
+
 ## Target Values Reference / 目标参数参考
 
-| Parameter | Indoor target | Acceptable range | This unit's constraint |
-|---|---|---|---|
-| k per corner | 3,127 N/m | 2,500–4,500 N/m | Estimated 4,400–5,500 N/m (measure!) |
-| ζ | 0.4 | 0.3–0.6 | Unknown — **Test 2 required** |
-| Stroke | ≥ 46 mm | ≥ 38 mm (if k > 3,500 N/m) | **33 mm — tight, verify rebound** |
-| fn (resulting) | 4 Hz | 3.5–5 Hz | ~4.5–5.3 Hz (if k as estimated) |
-| Static sag | 15.5 mm | 10–25 mm | ~11–12 mm (if k ~4,000–4,500 N/m) |
+| Parameter | Indoor target | Acceptable range | Candidate A (7.00 kg) | Candidate C (4.95 kg) |
+|---|---|---|---|---|
+| k per corner | 4,421 N/m (7 kg) / 3,127 N/m (4.95 kg) | 2,500–5,000 N/m | 3,919 N/m → **3,500–5,000** | 2,985 N/m → **2,500–3,500** |
+| ζ | 0.4 | 0.3–0.6 | Unknown — **Test 2** | Unknown — **Test 2** |
+| Stroke | ≥ 30 mm dynamic range | bump ≥ 15, rebound ≥ 15 | bump 15.5 mm ✓, rebound 17.5 mm ✓ | bump 16.7 mm ✓, rebound 16.3 mm ✓ |
+| fn (calc) | 4 Hz | 3.5–5 Hz | **3.77 Hz** ✓ | **3.91 Hz** ✓ |
+| Static sag | 15–18 mm | 12–21 mm | **17.5 mm** ✓ | **16.3 mm** ✓ |
 
 ---
 
