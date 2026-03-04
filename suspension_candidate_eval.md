@@ -66,10 +66,13 @@ k = 1,587 N/m is too soft for the 33 mm stroke body. At 4.95 kg sag = 30.6 mm le
 
 **候选D（13有效圈，d=1.8 mm）：拒绝。** k对33 mm行程筒体过软。4.95 kg时仅剩2.4 mm压缩余量；7.00 kg时直接触底。需≥80 mm行程筒体。
 
-**Candidate A (7-active-coil, d=2.0 mm): PROCEED — primary candidate, with-sandwich scenario (7.00 kg/corner).**
-fn = **3.77 Hz** at 7.00 kg — near the 4 Hz indoor target. Both bump and rebound pass. Only unknown: damping ζ.
+**Candidate A (7-active-coil, d=2.0 mm): REJECTED — no damping fluid confirmed.**
+Spring k is otherwise suitable (fn = 3.77 Hz at 7.00 kg ✓). However, the shock body contains **no oil**, giving ζ ≈ 0 (structural friction only, typically < 0.05). This fails the ζ ≥ 0.3 requirement by a large margin and cannot be improved by oil change if the body has no fill port or bladder. Do not proceed to physical tests.
 
-**候选A（7有效圈，d=2.0 mm）：推进测试——配合夹层硬件（7.00 kg/角）首选方案。** fn = **3.77 Hz**，接近4 Hz目标。行程通过。唯一待测项：阻尼ζ。
+> Note: if the body does have a fill port (can be disassembled), filling with 200–500 wt silicone oil may rescue A. Inspect the piston before discarding — see §"If Damping is Too Low".
+
+**候选A（7有效圈，d=2.0 mm）：拒绝——已确认无阻尼油液。**
+弹簧刚度本身合适（fn=3.77 Hz ✓），但筒体内无油，ζ≈0，远低于ζ≥0.3要求。若筒体有注油口可拆卸，可尝试注入200–500号硅油；否则放弃。
 
 **Candidate C (10-active-coil, d=2.0 mm): PROCEED — backup candidate, no-sandwich scenario (4.95 kg/corner).**
 fn = **3.91 Hz** at 4.95 kg — essentially the 4 Hz target. Stroke passes at 4.95 kg. **Do not use with sandwich hardware** (stroke fails at 7.00 kg). C is preferred if sandwich hardware is omitted or not yet ready.
@@ -496,10 +499,28 @@ Unit D: 13-active-coil, d=1.8 mm, OD=19.0 mm, rated 5–15 kg
 
 ---
 
-### Candidate A — Full test sheet / 候选A完整测试表
+### Candidate A — REJECTED / 候选A——已拒绝
 
-Print and fill in as you test:
-打印后测试时逐项填写：
+```
+Unit A: 7-active-coil, d=2.0 mm, OD=20 mm
+        RC coil-over 115 mm total / 33 mm compression stroke / 3 mm shaft
+
+☒ Confirmed: NO damping fluid inside body → ζ ≈ 0 → FAILS Test 2 requirement (ζ ≥ 0.3)
+☒ RESULT: REJECTED. Spring k is suitable but body provides no damping.
+   If body has a fill port (can be disassembled): try filling with 200–500 wt silicone oil
+   and re-evaluate — otherwise do not order.
+   候选A：拒绝。弹簧合适但筒体无油液，ζ≈0。若可拆卸注油则可重新评估。
+```
+
+*(Full test sheet below is retained for reference — only proceed if fill port is found.)*
+*（以下完整测试表保留备用——仅在发现注油口后才需继续。）*
+
+---
+
+### Candidate A — Full test sheet (conditional) / 候选A完整测试表（条件性）
+
+*Only complete if body can be filled with oil. Otherwise skip to Candidate C.*
+*仅在筒体可注油时填写，否则直接跳至候选C。*
 
 ```
 Unit A: 7-active-coil, d=2.0 mm, OD=20 mm, rated 2–12 kg

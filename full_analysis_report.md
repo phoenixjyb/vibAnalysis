@@ -2173,9 +2173,9 @@ Spring formula: `k = G × d⁴ / (8 × D_mean³ × n)`, D_mean = OD − d, G = 8
 
 | Candidate | d | OD | D_mean | n_active | **k (N/m)** | fn @4.95 kg | fn @7.00 kg | Verdict |
 |---|---|---|---|---|---|---|---|---|
-| **A** | 2.0 mm | 20.0 mm | 18.0 mm | 7 | **3,919** | 4.48 Hz | **3.77 Hz** ✓ | ✓ Proceed at 7.00 kg (with sandwich) |
+| **A** | 2.0 mm | 20.0 mm | 18.0 mm | 7 | **3,919** | 4.48 Hz | **3.77 Hz** | ✗ Rejected — **no damping fluid**, ζ ≈ 0 |
 | **B** | 1.5 mm | 18.4 mm | 16.9 mm | 15 | **699** | 1.89 Hz | 1.59 Hz | ✗ Rejected — k 6× too soft, bottoms out |
-| **C** | 2.0 mm | 19.5 mm | 17.5 mm | 10 | **2,985** | **3.91 Hz** ✓ | 3.29 Hz | ✓ Proceed at 4.95 kg (no sandwich only) |
+| **C** | 2.0 mm | 19.5 mm | 17.5 mm | 10 | **2,985** | **3.91 Hz** ✓ | 3.29 Hz | ✓ **Sole remaining candidate** — proceed at 4.95 kg |
 | **D** | 1.8 mm | 19.0 mm | 17.2 mm | 13 | **1,587** | 2.85 Hz | 2.40 Hz | ✗ Rejected — bottoms out at 7.00 kg, only 2.4 mm bump at 4.95 kg |
 
 ### 15.2 Why Candidate C cannot be used with sandwich hardware / 为何C不能与夹层硬件配合
@@ -2195,22 +2195,21 @@ At 7.00 kg with spring C: sag = 23 mm → bump = 10 mm only. The preload collar 
 - Option 1: Use **Candidate A** instead (designed for the with-sandwich mass)
 - Option 2: Source a **longer shock body (≥ 50 mm stroke)** with the same spring — this brings sag back into the valid window at 7.00 kg
 
-### 15.3 Pending action items / 待办事项
+### 15.3 Updated status and action items / 更新状态与待办事项
 
-Physical tests required before ordering 4 units. Both A and C should be tested in parallel.
+**A confirmed no damping fluid → ζ ≈ 0 → rejected for damping. Candidate C is now the sole remaining candidate.**
+Design basis going forward: **4.95 kg/corner, no sandwich layer**.
 
-| # | Action | Candidate | Expected result | Status |
-|---|---|---|---|---|
-| **T1** | **Measure spring rate k** — hanging weight method, 4 deflection points | A @ 7.00 kg | ~3,900 N/m; fn ~3.77 Hz | ⬜ Pending |
-| **T1** | Same, spring C | C @ 4.95 kg | ~2,985 N/m; fn ~3.91 Hz | ⬜ Pending |
-| **T2** | **Ring-down damping ζ** — 10 mm displacement, 240 fps slow-mo, log-decrement | A @ 7.00 kg | Need ζ ≥ 0.3 (~1 visible cycle) | ⬜ Pending |
-| **T2** | Same, spring C | C @ 4.95 kg | Need ζ ≥ 0.3 | ⬜ Pending |
-| **T3** | **Stroke verification** — measure L_min, L_max; confirm bump ≥ 15 mm, rebound ≥ 15 mm | A @ 7.00 kg | Bump ~15.5 mm, rebound ~17.5 mm | ⬜ Pending |
-| **T3** | Same, spring C | C @ 4.95 kg | Bump ~16.7 mm, rebound ~16.3 mm | ⬜ Pending |
-| **D1** | **Decision: select A or C** based on test results | — | Prefer A (with sandwich); use C only if A's ζ fails and C passes | ⬜ After T1–T3 |
-| **D2** | **If A selected**: order 4 units, build sandwich hardware per §12.10 | — | 4 shocks + sandwich assembly | ⬜ After D1 |
-| **D3** | **If C selected (no sandwich)**: assess whether to omit sandwich permanently or source ≥50 mm stroke body | — | Update k/c targets if body mass changes | ⬜ After D1 |
-| **D4** | **Recompute k, c** after suspension hardware is weighed (currently estimated at 25 kg excl. hardware) | — | k, c scale with actual sprung mass | ⬜ After hardware weighed |
+| # | Action | Details | Status |
+|---|---|---|---|
+| **T1** | **Measure spring rate k** — hanging weight, 4 loads | C @ 4.95 kg; expect ~2,985 N/m → fn ~3.91 Hz | ⬜ Pending |
+| **T2** | **Ring-down ζ** — 10 mm drop, 240 fps slow-mo | C @ 4.95 kg; need ζ ≥ 0.3; change to 100–200 wt oil if ζ < 0.3 | ⬜ Pending |
+| **T3** | **Stroke verification** — measure L_min, L_max | C @ 4.95 kg; expect bump ~16.7 mm ✓, rebound ~16.3 mm ✓ | ⬜ Pending |
+| **D1** | **Order 4 units** if T1–T3 pass | Candidate C × 4 | ⬜ After T1–T3 |
+| **D2** | **Recompute k, c** once suspension hardware is weighed | 4.95 kg/corner currently excludes hardware mass | ⬜ Before assembly |
+| **D3** | **Sandwich layer — reassess** | C + 33 mm body cannot use sandwich at 7.00 kg. Options: (a) omit permanently, (b) source ≥50 mm stroke body to re-enable | ⬜ After D1 |
+
+> **Design implication of no-sandwich:** EE Z isolation comes from suspension alone. Predicted EE Z performance (§14.5) assumed suspension + sandwich; without sandwich, N=11 roller excitation is still well-attenuated by fn = 3.91 Hz, but the additional ~4–6 dB mid-frequency attenuation from the sandwich layer is lost.
 
 **Longer-horizon actions (arm vibration):**
 

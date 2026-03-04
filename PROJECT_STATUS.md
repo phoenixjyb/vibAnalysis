@@ -6,20 +6,30 @@
 
 ---
 
-## Immediate: Physical Tests on Shock Candidates / 物理测试（订货前必做）
+## Candidate Status / 候选方案状态
 
-Run Tests 1–3 (from `suspension_candidate_eval.md`) on **both A and C in parallel**.
+| Candidate | k | Rejection reason | Status |
+|---|---|---|---|
+| A | 3,919 N/m | **No damping fluid confirmed → ζ ≈ 0** | ✗ Rejected |
+| B | 699 N/m | Spring too soft — bottoms out | ✗ Rejected |
+| **C** | **2,985 N/m** | — | **✓ Sole remaining candidate** |
+| D | 1,587 N/m | Spring too soft — bottoms out | ✗ Rejected |
 
-| ID | Test | Candidate | Mass | Expected | Done? |
-|---|---|---|---|---|---|
-| T1-A | Spring rate k — hanging weight (4 loads) | A | 7.00 kg | ~3,900 N/m → fn ~3.77 Hz | ☐ |
-| T1-C | Spring rate k — hanging weight (4 loads) | C | 4.95 kg | ~2,985 N/m → fn ~3.91 Hz | ☐ |
-| T2-A | **Ring-down ζ** — 10 mm drop, 240 fps video, log-decrement | A | 7.00 kg | ζ ≥ 0.3 (~1 visible cycle) | ☐ |
-| T2-C | Ring-down ζ | C | 4.95 kg | ζ ≥ 0.3 | ☐ |
-| T3-A | Stroke: measure L_min, L_max | A | 7.00 kg | bump ~15.5 mm ✓, rebound ~17.5 mm ✓ | ☐ |
-| T3-C | Stroke: measure L_min, L_max | C | 4.95 kg | bump ~16.7 mm ✓, rebound ~16.3 mm ✓ | ☐ |
+Design basis: **4.95 kg/corner, no sandwich layer** (C + 33 mm body cannot accommodate 7.00 kg sandwich mass).
 
-**If ζ fails (too many cycles):** fill with 100–200 wt silicone oil, retest. See §"If Damping is Too Low" in eval guide.
+---
+
+## Immediate: Physical Tests on Candidate C / 物理测试（订货前必做）
+
+Run Tests 1–3 (from `suspension_candidate_eval.md`) on **Candidate C at 4.95 kg**.
+
+| ID | Test | Mass | Expected | Done? |
+|---|---|---|---|---|
+| T1 | Spring rate k — hanging weight (4 loads, 200/500/1000/2000 g) | 4.95 kg | ~2,985 N/m → fn ~3.91 Hz | ☐ |
+| T2 | **Ring-down ζ** — 10 mm drop, 240 fps slow-mo, log-decrement | 4.95 kg | ζ ≥ 0.3 (~1 visible cycle) | ☐ |
+| T3 | Stroke: measure L_min, L_max eye-to-eye | 4.95 kg | bump ~16.7 mm ✓, rebound ~16.3 mm ✓ | ☐ |
+
+**If T2 fails (ζ < 0.3):** change to 100–200 wt silicone oil, retest. See §"If Damping is Too Low" in `suspension_candidate_eval.md`.
 
 ---
 
@@ -27,26 +37,20 @@ Run Tests 1–3 (from `suspension_candidate_eval.md`) on **both A and C in paral
 
 | ID | Decision | Condition | Action |
 |---|---|---|---|
-| D1 | **Select A or C** | After T1–T3 | Prefer A (with sandwich, better isolation). Use C only if A's ζ < 0.3 after oil change. |
-| D2 | **Order 4 units** | After D1 | Order the selected candidate × 4 |
-| D3 | **If A selected:** build sandwich hardware | After D2 | Fabricate per §12.10: 16 pads, 12 spacers, 2 sandwich plates |
-| D4 | **If C selected (no sandwich):** decide on body upgrade | After D2 | Option: source ≥50 mm stroke body to allow sandwich (see §15.2 in report) |
-| D5 | **Recompute k, c** after hardware is weighed | Before assembly | Current 25 kg estimate excludes suspension hardware weight |
+| D1 | **Order 4 units (Candidate C)** | T1–T3 all pass | Order C × 4 |
+| D2 | **Recompute k, c** | Before assembly | 4.95 kg/corner excludes suspension hardware weight — reweigh after hardware is made |
+| D3 | **Sandwich layer decision** | After D1 | (a) Omit permanently (simplest), or (b) source ≥50 mm stroke body for C's spring to re-enable sandwich at 7.00 kg |
 
 ---
 
-## Sandwich Hardware Fabrication (if A selected) / 夹层硬件制造（选A后）
+## Sandwich Hardware (deferred) / 夹层硬件（暂缓）
 
-From §12.10 of the main report:
+Sandwich cannot be used with C in the current 33 mm stroke body at 7.00 kg (sag = 23 mm, exceeds valid window).
+Options to re-enable sandwich:
+- Source a longer shock body (≥50 mm stroke, same spring OD 20 mm) → C's spring fits, sandwich mass accommodated
+- Find a different spring with k ≈ 4,421 N/m that has fluid damping → then use with sandwich at 7.00 kg
 
-| # | Item | Spec | Status |
-|---|---|---|---|
-| 1 | Silicon bumper pads × 16 | 50×50×15 mm, ø16 mm central void, rubber bumps both faces | ☐ Source |
-| 2 | Spacer plates × 12 | 50×50×2 mm Al, ø16 mm centre hole, laser-cut, deburr | ☐ Fabricate |
-| 3 | Bottom isolation plate | 3 mm Al, 320×320 mm square, 4× ø16 mm corner holes | ☐ Fabricate |
-| 4 | Top plate | 3 mm Al, 320×320 mm, 4× ø16 mm corner holes | ☐ Fabricate |
-| 5 | Upper assembly plate | 4 mm Al, 4× M6 tapped holes | ☐ Fabricate |
-| 6 | Prototype impulse test (1 corner) | Load 4.95 kg, tap, verify fn ≈ 4.5 Hz, ζ ≈ 0.13 | ☐ After parts ready |
+*Fabrication spec is documented in §12.10 of the main report — revisit after D3.*
 
 ---
 
