@@ -1,28 +1,77 @@
 # Suspension Candidate Evaluation Guide
 # 候选减震器评估指南
 
-**Unit under test / 待测型号:** RC coil-over shock, 115 mm total, 33 mm stroke, 3 mm shaft
+**Units under evaluation / 待评估型号:** Two RC coil-over shock candidates (same body: 115 mm total, 33 mm stroke, 3 mm shaft)
 **Tools needed / 所需工具:** Ruler, digital scale, known weights (~100–500 g), phone camera (slow-mo), string or clamp
 **Time required / 预计耗时:** ~30 minutes for all tests / 全部测试约30分钟
 
 ---
 
+## Candidate Spring Profiles / 候选弹簧参数（已测量）
+
+Two springs have been physically measured and compared. Spring formula:
+两根弹簧已经实物测量并对比。弹簧公式：
+
+```
+k = G × d⁴ / (8 × D_mean³ × n_active)     G = 80,000 N/mm² (steel)
+```
+
+| Parameter / 参数 | Candidate A — "stiff" / 候选A（硬） | Candidate B — "soft" / 候选B（软） |
+|---|---|---|
+| Wire diameter d / 线径 | **2.0 mm** | **1.5 mm** |
+| Spring OD / 弹簧外径 | 20 mm | 18.4 mm |
+| D_mean = OD − d | 18.0 mm | 16.9 mm |
+| Total coils / 总圈数 | ~9 (2 flat end coils) | ~17 (2 flat end coils) |
+| **Active coils n / 有效圈数** | **7** | **15** |
+| Coil gap / 圈间隙 | 9.5 mm | 2.7 mm |
+| Pitch = gap + d | 11.5 mm | 4.2 mm |
+| Free length (estimated) / 自由长（估算） | 7 × 11.5 + 4 = **84.5 mm** | 15 × 4.2 + 3 = **66 mm** |
+| Rated support load / 额定支撑载荷 | 2–12 kg | 5–15 kg |
+| **Calculated k / 计算刚度** | **4,265 N/m** | **699 N/m** |
+
+### Calculated performance / 计算性能
+
+| Scenario / 工况 | **Candidate A** k = 4,265 N/m | **Candidate B** k = 699 N/m |
+|---|---|---|
+| fn at 4.95 kg/corner (no sandwich) | 4.67 Hz | 1.89 Hz |
+| fn at 7.00 kg/corner (with sandwich) | **3.93 Hz ✓** | 1.59 Hz |
+| Static sag at 4.95 kg | 11.4 mm | 69.5 mm — **exceeds 33 mm stroke** |
+| Static sag at 7.00 kg | 16.1 mm | 98.2 mm — **exceeds 33 mm stroke** |
+| Bump travel remaining (7.00 kg) | **16.9 mm ✓** (need ≥ 15 mm) | — bottoms out |
+| Rebound travel available (7.00 kg) | **16.1 mm ✓** (need ≥ 15 mm) | — bottoms out |
+
+### Pre-screening verdict / 预筛选结论
+
+**Candidate B (15-active-coil, d=1.5 mm): REJECTED.**
+k = 699 N/m is ~6× too soft. Static sag (70–98 mm) far exceeds the 33 mm stroke on every mass scenario. No modification can fix this — the spring is fundamentally wrong for this body. Candidate B would need to go into a shock body with ≥ 120 mm stroke to be usable, which is not practical for this chassis.
+
+**候选B（15有效圈，d=1.5 mm）：拒绝。**
+k = 699 N/m过软约6倍，静态下沉（70–98 mm）远超33 mm行程，任何改造均无法修复——弹簧与筒体根本不匹配。
+
+**Candidate A (7-active-coil, d=2.0 mm): PROCEED to Tests 1–3.**
+At 7.00 kg/corner (chassis + sandwich hardware fitted), fn = **3.93 Hz** — essentially the 4 Hz target. Stroke check passes on both bump and rebound. The only remaining unknown is damping (ζ). All further testing applies to Candidate A only.
+
+**候选A（7有效圈，d=2.0 mm）：进入测试1–3。**
+在7.00 kg/角质量（底盘+夹层硬件）时，fn = **3.93 Hz**——几乎正好达到4 Hz目标。压缩和回弹行程均通过。唯一待确认项为阻尼（ζ）。以下所有测试仅针对候选A。
+
+---
+
 ## Overview / 概述
 
-We need to determine three things before accepting this shock as a suspension candidate.
-在接受此减震器作为悬挂候选件之前，我们需要确定三件事：
+We need to confirm three things before accepting Candidate A as the suspension unit.
+在接受候选A作为悬挂单元之前，需要确认三件事：
 
 | Test # | What we measure | What we need | Pass criterion |
 |---|---|---|---|
-| 1 | Spring rate k (N/m) | k = 3,127 N/m | 2,500–4,500 N/m |
-| 2 | Damping ratio ζ (or c) | ζ = 0.4 | ζ > 0.3 |
-| 3 | Stroke check | ≥ 46 mm total | ≥ 46 mm |
+| 1 | Spring rate k (N/m) — verify against formula | k ≈ 4,265 N/m | 3,500–5,000 N/m |
+| 2 | Damping ratio ζ — **the critical unknown** | ζ = 0.4 | ζ > 0.3 |
+| 3 | Stroke — measure actual rebound travel | bump ≥ 15 mm, rebound ≥ 15 mm | Both ≥ 15 mm at 7.00 kg |
 
-If all three pass → proceed to prototype.
-If any fail → see the Fix / Swap decision at the end.
+If all three pass → order 4 units and proceed to prototype.
+If Test 2 fails → change oil, re-test.
 
-三项均通过 → 进入样机阶段。
-任一不通过 → 见末尾的修复/更换决策。
+三项均通过 → 订购4个并进入样机阶段。
+测试2不通过 → 换油重测。
 
 ---
 
@@ -43,22 +92,28 @@ The coil count is needed to cross-check the k measurement and understand the spr
 4. Record: n = _____ active coils.
    记录：n = _____ 有效圈数。
 
-**Expected result / 预期结果:** 7–12 coils for a 72 mm spring with 2.2 mm wire.
-72 mm弹簧、2.2 mm线径，预期有效圈数约为7–12圈。
+**For Candidate A:** 7 active coils confirmed (2 flat ground end coils, ~9 total).
+**候选A：** 已确认7有效圈（两端各1个磨平密封圈，共约9圈）。
 
-**Quick formula cross-check / 快速公式校验:**
+**Quick formula cross-check for Candidate A / 候选A公式校验:**
+d = 2.0 mm, D_mean = 18.0 mm, G = 80,000 N/mm²
 ```
-k_formula = (80,000 × 2.2⁴) / (8 × 17.5³ × n)
-           = 43,700 / n   [N/m]
+k = (80,000 × 2.0⁴) / (8 × 18.0³ × n)
+  = 1,280,000 / (46,656 × n)
+  = 27,435 / n   [N/m]
 ```
-| n | k_formula |
-|---|---|
-| 7 | 6,243 N/m |
-| 8 | 5,462 N/m |
-| 9 | 4,856 N/m |
-| 10 | 4,370 N/m |
-| 12 | 3,642 N/m |
-| 14 | 3,121 N/m ← target |
+| n active | k (N/m) | fn at 7.00 kg |
+|---|---|---|
+| 6 | 4,572 | 4.07 Hz |
+| **7** | **3,919** | **3.76 Hz** ← Candidate A |
+| 8 | 3,429 | 3.52 Hz |
+
+> **Note on D_mean:** Using D_mean = OD − d = 20 − 2.0 = 18.0 mm (correct for a spring wound to 20 mm OD with 2.0 mm wire). Earlier estimates used 17.5 mm (OD/2 + ID/2) from image dimensions; 18.0 mm from direct wire/OD measurement is more accurate.
+>
+> **关于D_mean：** 使用D_mean = OD − d = 20 − 2.0 = 18.0 mm（适用于线径2.0 mm、绕至20 mm外径的弹簧）。此处数值比早期图纸估算（17.5 mm）更精确。
+
+> **Expected measured k / 预期实测k:** ~3,900–4,300 N/m. If measurement gives a significantly different result, re-check coil count and OD.
+> **预期实测k：** 约3,900–4,300 N/m。若实测值差异较大，请重新检查圈数和外径。
 
 ---
 
@@ -113,20 +168,25 @@ Hang each weight and wait 5 seconds for oscillations to settle, then read positi
 
 ### Pass criterion / 通过标准
 
-| k_measured | Result | fn at 4.95 kg/corner |
-|---|---|---|
-| < 2,500 N/m | ✗ Too soft — static sag > 19 mm, fn < 3.6 Hz | < 3.6 Hz |
-| 2,500–3,500 N/m | ✓ **Ideal range** — fn 3.6–4.2 Hz | 3.6–4.2 Hz |
-| 3,500–4,500 N/m | ⚠ Acceptable — fn 4.2–4.8 Hz, slightly stiff | 4.2–4.8 Hz |
-| > 4,500 N/m | ✗ Too stiff — fn > 4.8 Hz, reduced isolation | > 4.8 Hz |
+Candidate A is expected to measure ~3,900–4,300 N/m. Evaluate against both mass scenarios:
+候选A预期实测约3,900–4,300 N/m，按两种质量工况评估：
 
-**If k is too high:** You have two options —
-1. Source a softer spring (same OD/ID/free-length, thinner wire, e.g. 1.8 mm)
-2. Put two shocks in series on a rocker arm (halves effective k)
+| k_measured | fn at 4.95 kg (no sandwich) | fn at 7.00 kg (with sandwich) | Verdict |
+|---|---|---|---|
+| < 3,000 N/m | < 3.9 Hz | < 3.3 Hz | ✗ Too soft for indoor use |
+| 3,000–3,500 N/m | 3.9–4.2 Hz | 3.3–3.5 Hz | ⚠ Acceptable no-sandwich; soft with sandwich |
+| **3,500–4,500 N/m** | **4.2–4.8 Hz** | **3.5–4.0 Hz** | **✓ Target range — Candidate A expected here** |
+| 4,500–5,500 N/m | 4.8–5.3 Hz | 4.0–4.5 Hz | ⚠ Acceptable with sandwich; stiff without |
+| > 5,500 N/m | > 5.3 Hz | > 4.5 Hz | ✗ Too stiff — replace spring |
 
-**若k过高：** 有两个方案——
-1. 换一根更软的弹簧（相同外径/内径/自由长，更细线径，例如1.8 mm）
-2. 通过摇臂将两个减震器串联（等效k减半）
+**Primary operating scenario: with sandwich hardware (7.00 kg/corner).** The 3,500–4,500 N/m range gives fn = 3.5–4.0 Hz — right on target.
+**主要使用工况：配合夹层硬件（7.00 kg/角）。** 3,500–4,500 N/m范围对应fn = 3.5–4.0 Hz——正中目标。
+
+**If k is too high (> 5,500 N/m):** Replace spring with same geometry but d = 1.8 mm wire:
+k_1.8mm = (80,000 × 1.8⁴) / (8 × 18.0³ × 7) = 839,808 / 326,592 = **2,572 N/m** (fn ≈ 3.05 Hz — softer than needed)
+Try d = 1.9 mm: k = (80,000 × 1.9⁴) / 326,592 = **1,010,048 / 326,592 = 3,093 N/m** (fn ≈ 3.35 Hz — good)
+
+**若k过高（>5,500 N/m）：** 用相同几何参数但线径d = 1.9 mm的弹簧替换（k≈3,093 N/m，fn≈3.35 Hz）。
 
 ---
 
@@ -152,14 +212,17 @@ A practical rig:
         │
     [shock body] (vertical)
         │
-    [bottom eye]──── rigid plate (4.95 kg total including plate)
+    [bottom eye]──── rigid plate (7.00 kg total including plate)
 ```
 
-If you don't have a rig yet, use 500 g weight (close enough for a first indication):
-若暂无测试台架，可用500 g砝码（作为初步判断已足够）：
+**Target mass: 7.00 kg/corner** (chassis + sandwich hardware scenario — the primary use case for Candidate A).
+**目标质量：7.00 kg/角**（底盘+夹层硬件工况——候选A的主要使用场景）。
 
-1. Mount shock vertically, hang 500 g from bottom eye (or use actual 4.95 kg if rig available).
-   竖直安装减震器，底部吊耳悬挂500 g（如有测试台架可用实际4.95 kg）。
+If you don't have a rig yet, use 1.0 kg weight as a quick first indication:
+若暂无测试台架，可先用1.0 kg砝码作为初步判断：
+
+1. Mount shock vertically, hang 7.00 kg from bottom eye (or 1.0 kg for quick indication).
+   竖直安装减震器，底部吊耳悬挂7.00 kg（快速判断可用1.0 kg）。
 2. Displace the mass **10 mm downward** from static equilibrium and release.
    将质量从静平衡位置向下偏移**10 mm**后释放。
 3. **Record with phone in slow-motion (240 fps or higher).**
@@ -222,17 +285,22 @@ However, without piston geometry, this formula cannot be evaluated from the data
 ## Test 3 — Stroke Verification
 ## 测试3 — 行程验证
 
-### Required stroke for our design / 设计所需行程
+### Required stroke for Candidate A / 候选A所需行程
 
-| Scenario | Static sag δ | Dynamic allowance | **Total stroke needed** |
-|---|---|---|---|
-| Indoor, fn=4 Hz, k=3,127 N/m | 15.5 mm | ±15 mm | **≥ 45.5 mm** |
-| Indoor, fn=4.5 Hz, k=4,000 N/m | 12.1 mm | ±13 mm | **≥ 38 mm** |
-| Pavement, fn=3 Hz, k=1,758 N/m | 27.6 mm | ±20 mm | **≥ 68 mm** |
+| Scenario | k | Static sag δ | Bump needed | Rebound needed | **Total stroke needed** |
+|---|---|---|---|---|---|
+| **7.00 kg + sandwich (primary)** | **4,265 N/m** | **16.1 mm** | **≥ 15 mm** | **≥ 15 mm** | **≥ 46 mm** |
+| 4.95 kg no sandwich | 4,265 N/m | 11.4 mm | ≥ 15 mm | ≥ 15 mm | ≥ 38 mm |
+| Pavement (fn=3 Hz softer spring) | 1,758 N/m | 39.0 mm | — | — | ≥ 80 mm (different shock needed) |
 
-This shock provides **33 mm compression stroke** only. Measuring available rebound:
+At 7.00 kg, static sag = 16.1 mm. This shock has 33 mm **compression** stroke (from the datasheet).
+Calculated remaining travel from static equilibrium:
+- Bump: 33 − 16.1 = **16.9 mm ✓** (need ≥ 15 mm)
+- Rebound: depends on **measured** full-extension travel — measure below.
 
-此减震器提供**33 mm压缩行程**，还需测量可用回弹量：
+在7.00 kg工况下，静态下沉16.1 mm，减震器压缩行程33 mm（数据表）。从静平衡位置计算剩余行程：
+- 压缩侧：33 − 16.1 = **16.9 mm ✓**（需≥15 mm）
+- 回弹侧：取决于实测最大伸长量——见下方测量。
 
 ### Measure rebound travel / 测量回弹行程
 
@@ -240,13 +308,13 @@ This shock provides **33 mm compression stroke** only. Measuring available rebou
    用手将减震器压缩至底，测量吊耳间距：**L_min = _____ mm**
 2. Extend the shock fully (pull apart until it stops). Measure eye-to-eye: **L_max = _____ mm**
    将减震器完全拉伸（拉到底），测量吊耳间距：**L_max = _____ mm**
-3. Total stroke = L_max − L_min = _____ mm
-   总行程 = L_max − L_min = _____ mm
-4. At static sag (k and mass known from Tests 1):
-   在静态下沉量处（由测试1的k值和质量计算）：
-   - Static sag δ = m·g/k = 4.95 × 9.81 / k_measured = _____ mm
-   - Remaining bump travel = L_compression − δ = _____ mm  (need ≥ 15 mm)
-   - Available rebound travel = L_extension − δ = _____ mm  (need ≥ 15 mm, currently ~15.5 mm: **tight!**)
+3. Total stroke = L_max − L_min = _____ mm (expected: ~33 mm if compression-only body)
+   总行程 = L_max − L_min = _____ mm（若为纯压缩筒体，预期约33 mm）
+4. With k from Test 1 and m = 7.00 kg:
+   使用测试1的k值，m = 7.00 kg：
+   - Static sag δ = 7.00 × 9.81 / k_measured = _____ mm
+   - Remaining bump = 33 − δ = _____ mm  (need ≥ 15 mm — **expected 16.9 mm ✓**)
+   - Available rebound = L_extension_from_free − δ = _____ mm  (need ≥ 15 mm — **measure carefully**)
 
 ### Pass criterion / 通过标准
 
@@ -352,42 +420,74 @@ Option B is the simplest: look for a RC shock with **压缩行程 ≥ 50 mm** (t
 
 ## Summary Checklist / 汇总检查清单
 
+### Candidate B — Pre-screening / 候选B预筛选
+
+```
+Unit B: 15-active-coil, d=1.5 mm, OD=18.4 mm, rated 5–15 kg
+
+☒ Step 0 — Active coils: n = 15  (17 total, 2 flat end coils)
+☒ Pre-screen k formula: k = 699 N/m  →  static sag at 7.00 kg = 98 mm
+☒ RESULT: REJECTED — k too soft by 6×, bottoms out in 33 mm stroke body.
+          Do not proceed to physical tests.
+          候选B：拒绝。刚度过软6倍，在33 mm行程筒体内立即触底。
+```
+
+---
+
+### Candidate A — Full test sheet / 候选A完整测试表
+
 Print and fill in as you test:
 打印后测试时逐项填写：
 
 ```
-Unit: RC coil-over 115mm / 33mm stroke / 3mm shaft
+Unit A: 7-active-coil, d=2.0 mm, OD=20 mm, rated 2–12 kg
+        RC coil-over 115 mm total / 33 mm compression stroke / 3 mm shaft
 
-□ Step 0 — Active coil count:  n = _______ coils
+□ Step 0 — Coil count (verify):
+    Active coils n = _______ (expected: 7)
+    Total coils  = _______ (expected: ~9, 2 flat end coils each end)
+    CONFIRMED?  [ ] YES  [ ] NO — recount if not 7 active
 
-□ Test 1 — Spring rate:
-    100g deflection: _______ mm  → k = _______ N/m
-    200g deflection: _______ mm  → k = _______ N/m
-    300g deflection: _______ mm  → k = _______ N/m
-    k_average = _______ N/m      → fn = _______ Hz
-    PASS (2,500–4,500 N/m)?  [ ] YES  [ ] NO
+□ Test 1 — Spring rate (primary test mass: 7.00 kg):
+    Test mass used: _______ kg
+    Reference position L₀: _______ mm
+    ┌─────────┬──────────────┬───────────────┐
+    │ Weight  │ Deflection δ │ k = F/δ       │
+    ├─────────┼──────────────┼───────────────┤
+    │ 200 g   │ _______ mm  │ _______ N/m   │
+    │ 500 g   │ _______ mm  │ _______ N/m   │
+    │ 1000 g  │ _______ mm  │ _______ N/m   │
+    │ 2000 g  │ _______ mm  │ _______ N/m   │
+    └─────────┴──────────────┴───────────────┘
+    k_average = _______ N/m  (expected: ~3,900–4,300 N/m)
+    fn = √(k/7.00)/(2π) = _______ Hz  (expected: ~3.75–3.93 Hz)
+    PASS (3,500–5,000 N/m)?  [ ] YES  [ ] NO
 
-□ Test 2 — Damping:
+□ Test 2 — Damping (CRITICAL — most important test):
+    Test mass: 7.00 kg  |  Initial displacement: 10 mm
     Ring-down visible cycles: _______
-    x₁ = _______ mm   xₙ = _______ mm   n_peaks = _______
-    δ = _______        ζ = _______
-    PASS (ζ ≥ 0.3)?  [ ] YES  [ ] NO → if NO, change oil and retest
+    Amplitude at peak 1: x₁ = _______ mm
+    Amplitude at peak n: xₙ = _______ mm   n = _______
+    δ = (1/n) × ln(x₁/xₙ) = _______
+    ζ = δ / √(4π² + δ²)  = _______
+    PASS (ζ ≥ 0.3)?  [ ] YES  [ ] NO
+    If NO: change to 100–200 wt silicone oil, retest → new ζ = _______
 
-□ Test 3 — Stroke:
-    L_min (full bump):    _______ mm
-    L_max (full droop):   _______ mm
-    Total stroke:         _______ mm
-    Static sag (m·g/k):  _______ mm
-    Bump travel remaining: _______ mm  (need ≥ 15 mm)
-    Rebound available:    _______ mm  (need ≥ 15 mm)
-    PASS?  [ ] YES  [ ] NO → if NO, try preload or source longer unit
+□ Test 3 — Stroke verification (at 7.00 kg with k from Test 1):
+    L_min (full bump, eye-to-eye):   _______ mm
+    L_max (full droop, eye-to-eye):  _______ mm
+    Total stroke = L_max − L_min:    _______ mm
+    Static sag δ = 7.00×9.81/k:     _______ mm  (expected: ~16 mm)
+    Bump travel = compression − δ:   _______ mm  (need ≥ 15, expected ~17 mm)
+    Rebound travel available:        _______ mm  (need ≥ 15 mm)
+    PASS?  [ ] YES  [ ] NO → if NO, add 2–3 mm preload via collar
 
 □ Overall verdict:
-    [ ] ALL PASS — proceed to 4-unit prototype build
-    [ ] k fail only — source replacement spring
-    [ ] ζ fail only — change oil, retest
-    [ ] stroke fail — adjust preload or source longer unit
-    [ ] multiple fail — evaluate cost vs sourcing a different unit
+    [ ] ALL 3 PASS → order 4 units, proceed to prototype build
+    [ ] Test 1 fail (k wrong) → source d=1.9 mm replacement spring
+    [ ] Test 2 fail (ζ low)   → change oil (100–200 wt), retest
+    [ ] Test 3 fail (stroke)  → add preload via collar; if still fails, source longer shock
+    [ ] Multiple fail         → reassess unit before ordering
 ```
 
 ---
